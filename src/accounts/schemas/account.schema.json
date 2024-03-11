@@ -1,0 +1,30 @@
+{
+  "title": "account",
+  "version": 0,
+  "primaryKey": "id",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 100
+    },
+    "title": {
+      "type": "string"
+    },
+    "accountBankType": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "final": true
+    },
+    "updatedAt": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "title", "accountBankType", "currency", "createdAt", "updatedAt"]
+}

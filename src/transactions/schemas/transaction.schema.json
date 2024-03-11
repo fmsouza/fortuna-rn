@@ -1,0 +1,59 @@
+{
+  "title": "transaction",
+  "version": 0,
+  "primaryKey": "id",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 100
+    },
+    "accountId": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 100
+    },
+    "categoryId": {
+      "type": "string",
+      "format": "uuid",
+      "maxLength": 100
+    },
+    "externalId": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "origin": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string"
+    },
+    "registeredAt": {
+      "type": "string",
+      "final": true
+    },
+    "createdAt": {
+      "type": "string",
+      "final": true
+    },
+    "updatedAt": {
+      "type": "string",
+      "final": true
+    }
+  },
+  "required": ["id", "accountId", "categoryId", "externalId", "title", "type", "amount", "registeredAt", "createdAt", "updatedAt"],
+  "indexes": [
+    "accountId",
+    ["accountId", "externalId"]
+  ]
+}
