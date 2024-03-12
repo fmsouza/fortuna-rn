@@ -1,15 +1,15 @@
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 
 import { ID } from "~/modules/shared/types";
 
 import { getTransactionMonths } from "../repositories";
 
 export const useTransactionPeriods = (accountId?: ID) => {
-  const {data: periods, isLoading, ...others} = useQuery(['transaction-periods', accountId], () => getTransactionMonths(accountId));
+  const {data: periods, isPending, ...others} = useQuery(['transaction-periods', accountId], () => getTransactionMonths(accountId));
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     periods: periods ?? [],
   };
 };

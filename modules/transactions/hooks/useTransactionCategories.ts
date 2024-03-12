@@ -1,13 +1,13 @@
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 
 import { getTransactionCategories } from "../repositories";
 
 export const useTransactionCategories = () => {
-  const {data: categories, isLoading, ...others} = useQuery('transaction-categories', async () => getTransactionCategories());
+  const {data: categories, isPending, ...others} = useQuery('transaction-categories', async () => getTransactionCategories());
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     transactionCategories: categories ?? [],
   };
 };

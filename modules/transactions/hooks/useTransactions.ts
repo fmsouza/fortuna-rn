@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 
 import { ID, Maybe } from "~/modules/shared/types";
 
@@ -10,11 +10,11 @@ type UseTransactionsInput = {
 };
 
 export const useTransactions = (filters: UseTransactionsInput) => {
-  const {data: transactions, isLoading, ...others} = useQuery(['transactions', filters], () => getTransactions(filters));
+  const {data: transactions, isPending, ...others} = useQuery(['transactions', filters], () => getTransactions(filters));
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     transactions: transactions ?? [],
   };
 };

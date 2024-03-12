@@ -1,4 +1,4 @@
-import { useQueryClient } from "react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
 import { clearDatabase } from "~/modules/shared/db";
 

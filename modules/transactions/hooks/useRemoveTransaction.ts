@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { removeTransaction } from "../repositories";
 import { Transaction } from "../types";
 
 export const useRemoveTransaction = () => {
   const client = useQueryClient();
-  const {mutate, isLoading, ...others} = useMutation({
+  const {mutate, isPending, ...others} = useMutation({
     mutationFn: async (trx: Transaction) => {
       await removeTransaction(trx);
       await client.invalidateQueries({ queryKey: ['transaction-periods'] });
@@ -15,7 +15,7 @@ export const useRemoveTransaction = () => {
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     removeTransaction: mutate,
   };
 };

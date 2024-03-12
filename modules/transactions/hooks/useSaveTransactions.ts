@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { asyncFilter } from "~/modules/shared/utils";
 
@@ -7,7 +7,7 @@ import { TransactionInput } from "../types";
 
 export const useSaveTransactions = () => {
   const client = useQueryClient();
-  const {mutate, isLoading, ...others} = useMutation({
+  const {mutate, isPending, ...others} = useMutation({
     mutationFn: async (inputs: TransactionInput[]) => {
       const items = await asyncFilter(inputs, async (input) => !(await transactionAlreadyExists(input)));
       await batchSaveTransactions(items);
@@ -18,7 +18,7 @@ export const useSaveTransactions = () => {
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     saveTransactions: mutate,
   };
 };

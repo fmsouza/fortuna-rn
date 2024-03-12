@@ -1,13 +1,13 @@
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 
 import { getAccounts } from "../repositories";
 
 export const useAccounts = () => {
-  const {data: accounts, isLoading, ...others} = useQuery('accounts', () => getAccounts());
+  const {data: accounts, isPending, ...others} = useQuery('accounts', () => getAccounts());
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     accounts: accounts ?? [],
   };
 };

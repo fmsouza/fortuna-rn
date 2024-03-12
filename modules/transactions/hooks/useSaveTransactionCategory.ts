@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { saveTransactionCategory } from "../repositories";
 import { TransactionCategoryInput } from "../types";
 
 export const useSaveTransactionCategory = () => {
   const client = useQueryClient();
-  const {mutate, isLoading, ...others} = useMutation({
+  const {mutate, isPending, ...others} = useMutation({
     mutationFn: async (category: TransactionCategoryInput) => {
       await saveTransactionCategory(category);
       await client.invalidateQueries({ queryKey: ['transaction-categories'] });
@@ -14,7 +14,7 @@ export const useSaveTransactionCategory = () => {
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     saveTransactionCategory: mutate,
   };
 };

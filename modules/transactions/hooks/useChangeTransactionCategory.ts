@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { ID } from "~/modules/shared/types";
 
@@ -7,7 +7,7 @@ import { changeTransactionCategory } from "../repositories";
 
 export const useChangeTransactionCategory = () => {
   const client = useQueryClient();
-  const {mutate, isLoading, ...others} = useMutation({
+  const {mutate, isPending, ...others} = useMutation({
     mutationFn: async (input: {transaction: Transaction, categoryId: ID}) => {
       const {transaction, categoryId} = input;
       await changeTransactionCategory(transaction, categoryId);
@@ -18,7 +18,7 @@ export const useChangeTransactionCategory = () => {
 
   return {
     ...others,
-    loading: isLoading,
+    loading: isPending,
     changeTransactionCategory: mutate,
   };
 };
