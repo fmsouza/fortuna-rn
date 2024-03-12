@@ -10,7 +10,10 @@ type UseTransactionsInput = {
 };
 
 export const useTransactions = (filters: UseTransactionsInput) => {
-  const {data: transactions, isPending, ...others} = useQuery(['transactions', filters], () => getTransactions(filters));
+  const {data: transactions, isPending, ...others} = useQuery({
+    queryKey: ["transactions", filters],
+    queryFn: async () => getTransactions(filters),
+  });
 
   return {
     ...others,
