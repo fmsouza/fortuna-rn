@@ -1,8 +1,20 @@
 import { Dimensions } from 'react-native';
 
+import { DeepPartial } from '~/modules/shared/types';
+
 import { Theme } from './types';
 
 const { width: maxWidth, height: maxHeight } = Dimensions.get('window');
+
+const colors = {
+  primary: 'rgb(0, 122, 255)',
+  secondary: 'rgb(0, 122, 255)',
+  background: 'rgb(242, 242, 242)',
+  card: 'rgb(255, 255, 255)',
+  text: 'rgb(28, 28, 30)',
+  border: 'rgb(216, 216, 216)',
+  notification: 'rgb(255, 59, 48)',
+}
 
 const viewport = {
   width: maxWidth,
@@ -29,7 +41,8 @@ const navbar = {
   }
 };
 
-export const SharedBaseTheme: Partial<Theme> = {
+export const SharedBaseTheme: DeepPartial<Theme> = {
+  colors,
   viewport,
   dimensions,
   text,

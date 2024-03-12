@@ -1,5 +1,4 @@
-import { Text, View } from 'react-native';
-
+import { Container, Text } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 import { makeStyles } from '~/theme';
 
@@ -20,8 +19,8 @@ export function SettingsScreen() {
   });
 
   return (
-    <View style={styles.container}>
+    <Container style={styles.container}>
       <Text>SETTINGS PAGE</Text>
-    </View>
+    </Container>
   );
 }

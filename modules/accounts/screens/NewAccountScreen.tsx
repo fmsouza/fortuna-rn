@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
-import { Button, Text, View } from 'react-native';
+import { Button } from 'react-native';
 
+import { Container, Text } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 import { makeStyles } from '~/theme';
 
@@ -24,8 +25,8 @@ export function NewAccountScreen() {
   });
 
   return (
-    <View style={styles.container}>
+    <Container style={styles.container}>
       <Text>NEW ACCOUNT PAGE</Text>
-    </View>
+    </Container>
   );
 }

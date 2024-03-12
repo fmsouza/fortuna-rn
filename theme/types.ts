@@ -1,7 +1,6 @@
 import { StatusBarProps } from 'react-native';
-import { Theme as RNTheme } from '@react-navigation/native';
 
-export type Theme = RNTheme & {
+export type Theme = {
   statusBar: StatusBarProps;
   colors: {
     primary: string;
