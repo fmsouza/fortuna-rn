@@ -1,6 +1,6 @@
 import { StatusBarStyle } from 'react-native';
 import color from 'color';
-import merge from 'lodash/merge';
+import _mergeWith from 'lodash/mergeWith';
 
 import { Theme } from './types';
 import { SharedBaseTheme } from './shared';
@@ -19,7 +19,7 @@ const STATUS_BAR = {
   backgroundColor: color(COLORS.primary).darken(0.4).hex().toString(),
 };
 
-export const DarkTheme = <Theme>merge(SharedBaseTheme, {
+export const DarkTheme = <Theme>_mergeWith(SharedBaseTheme, {
   colors: COLORS,
   statusBar: STATUS_BAR,
   navbar: {
