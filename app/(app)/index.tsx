@@ -1,1 +1,1 @@
-export { AccountsScreen as default } from '~/accounts/screens';
+export { AccountsScreen as default } from '~/modules/accounts/screens';

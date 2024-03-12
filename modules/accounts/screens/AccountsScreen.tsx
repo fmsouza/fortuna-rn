@@ -1,9 +1,21 @@
 import { Link } from 'expo-router';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
-import { useHeaderOptions } from '~/shared/hooks';
+import { useHeaderOptions } from '~/modules/shared/navigation';
+import { makeStyles } from '~/theme';
+
+const useStyles = makeStyles(() => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+}));
 
 export function AccountsScreen() {
+  const styles = useStyles();
+
   useHeaderOptions({
     title: 'Accounts',
     headerLeft: () => (
@@ -12,7 +24,7 @@ export function AccountsScreen() {
       </Link>
     ),
     headerRight: () => (
-      <Link href="/accounts/new" asChild>
+      <Link href="/new-account" asChild>
         <Button title='+' />
       </Link>
     ),
@@ -24,12 +36,3 @@ export function AccountsScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

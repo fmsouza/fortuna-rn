@@ -1,0 +1,1 @@
+export { NewAccountScreen as default } from '~/modules/accounts/screens';

@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Button, Text, View } from 'react-native';
 
 import { useHeaderOptions } from '~/modules/shared/navigation';
 import { makeStyles } from '~/theme';
@@ -12,16 +13,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export function SettingsScreen() {
+export function NewAccountScreen() {
+  const router = useRouter();
   const styles = useStyles();
-
+  
   useHeaderOptions({
-    title: 'Settings',
+    title: 'Accounts',
+    presentation: 'modal',
+    headerRight: () => <Button title='Close' onPress={router.back} />,
   });
 
   return (
     <View style={styles.container}>
-      <Text>SETTINGS PAGE</Text>
+      <Text>NEW ACCOUNT PAGE</Text>
     </View>
   );
 }
