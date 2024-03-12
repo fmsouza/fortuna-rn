@@ -1,9 +1,9 @@
 import { v4 as uuid } from 'uuid';
 
 import { ID, Maybe } from "~/modules/shared/types";
+import { database } from '~/modules/shared/db';
 
 import { Transaction, TransactionInput } from "../types";
-import { database } from '~/modules/shared/db';
 
 type GetTransactionsFilters = {
   accountId?: Maybe<ID>,

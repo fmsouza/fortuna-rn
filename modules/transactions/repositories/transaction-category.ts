@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-import { TransactionCategory, TransactionCategoryInput } from "../types";
 import { database } from '~/modules/shared/db';
+
+import { TransactionCategory, TransactionCategoryInput } from "../types";
 
 export async function getTransactionCategories(): Promise<TransactionCategory[]> {
   const db = await database();
