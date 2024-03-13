@@ -47,6 +47,7 @@ type ButtonBaseProps = {
   rippleRadius?: number;
   fullWidth?: boolean;
   type?: 'text' | 'contained' | 'outline' | 'ripple-only';
+  disabled?: boolean;
 };
 
 type ButtonWithTitle = ButtonBaseProps & {
@@ -67,7 +68,8 @@ export const Button = ({
   title,
   rippleRadius,
   fullWidth,
-  type = 'contained'
+  type = 'contained',
+  disabled = false,
 }: ButtonWithChildren | ButtonWithTitle) => {
   const styles = useStyles();
 
@@ -81,8 +83,9 @@ export const Button = ({
       ])}
       onPress={onPress}
       android_ripple={{ radius: rippleRadius }}
+      disabled={disabled}
     >
-      {title && <Text style={StyleSheet.compose(styles.title, styles[`button-${type}-text`])}>{title}</Text>}
+      {title && <Text style={StyleSheet.flatten(styles.title, styles[`button-${type}-text`])}>{title}</Text>}
       {children}
     </PlatformPressable>
   );
