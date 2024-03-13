@@ -1,3 +1,6 @@
+import _merge from 'lodash/merge';
+import _cloneDeep from 'lodash/cloneDeep';
+
 export function readFile(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -17,4 +20,10 @@ export async function sha256(message: string): Promise<string> {
   const data = encoder.encode(message);
   const hash = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+export function deepMerge<T>(sourceObject: T, targetObject: T): T {
+  const sourceClose = _cloneDeep(sourceObject);
+  const targetClose = _cloneDeep(targetObject);
+  return _merge(sourceClose, targetClose);
 }

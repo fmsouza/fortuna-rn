@@ -13,5 +13,5 @@ export function makeStyles<TStyles>(fn: (theme: Theme) => StyleSheet.NamedStyles
 
 export function useTheme(): Theme {
   const colorScheme = useColorScheme();
-  return colorScheme === 'light' ? LightTheme : DarkTheme;
+  return colorScheme === 'dark' ? DarkTheme : LightTheme;
 };
