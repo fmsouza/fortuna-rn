@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.dimensions.radius,
     fontSize: theme.text.baseSize,
   },
+  errorLabel: {
+    color: 'red',
+    fontSize: theme.text.baseSize * 0.8,
+  },
 }));
 
 export function TextInput({ control, name, label, required, errors, ...rest }: TextInputProps) {
@@ -53,7 +57,7 @@ export function TextInput({ control, name, label, required, errors, ...rest }: T
           <ErrorMessage
             errors={errors}
             name={name}
-            // as={<IonNote className="error" />}
+            as={<Text style={styles.errorLabel} />}
           />
         </View>
       )}

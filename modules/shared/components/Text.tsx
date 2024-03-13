@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type TextProps = {
   style?: Partial<{}>;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 export const Text = ({ style, children }: TextProps) => {
