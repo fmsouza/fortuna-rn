@@ -85,7 +85,7 @@ export const Button = ({
       android_ripple={{ radius: rippleRadius }}
       disabled={disabled}
     >
-      {title && <Text style={StyleSheet.flatten(styles.title, styles[`button-${type}-text`])}>{title}</Text>}
+      {title && <Text style={StyleSheet.flatten([styles.title, styles[`button-${type}-text`]])}>{title}</Text>}
       {children}
     </PlatformPressable>
   );
