@@ -2,18 +2,29 @@ import { Link } from 'expo-router';
 import { Button, Pressable } from 'react-native';
 
 import { makeStyles } from '~/theme';
-import { Container, Icon, LoadingView, NoItems, Text } from '~/modules/shared/components';
+import { Container, Icon, LoadingView, NoItems } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 import { IS_IOS } from '~/modules/shared/constants';
+import { useAccounts } from '~/modules/accounts/hooks';
 
-import { useAccounts } from '../hooks';
+import { AccountItem } from './AccountItem';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: '100%',
+    flex: 1,
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    width: '100%',
+    marginTop: theme.dimensions.padding * 2
   },
 }));
 
@@ -43,9 +54,8 @@ export function AccountsScreen() {
       {!loading && accounts.length === 0 && <NoItems message='Nothing to see yet. Start adding new accounts to make this page more interesting!' />}
       {accounts.map((account) => (
         <Link key={account.id} href={`/account/${account.id}`} asChild>
-          <Pressable>
-            <Icon name='account' />
-            <Text>{account.title}</Text>
+          <Pressable style={styles.row}>
+            <AccountItem account={account} />
           </Pressable>
         </Link>
       ))}
