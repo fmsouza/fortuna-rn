@@ -5,10 +5,10 @@ import { ID, Maybe } from "~/modules/shared/types";
 import { Account } from "../types";
 import { getAccountById } from "../repositories";
 
-export const useAccount = (accountId: ID) => {
+export const useAccount = (accountId?: ID) => {
   const {data: account, isPending, ...others} = useQuery<Maybe<Account>>({
     queryKey: ["account", accountId],
-    queryFn: async () => getAccountById(accountId),
+    queryFn: async () => accountId ? getAccountById(accountId) : null,
   });
 
   return {

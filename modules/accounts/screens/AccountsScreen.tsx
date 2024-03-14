@@ -1,11 +1,12 @@
 import { Link } from 'expo-router';
-import { Button } from 'react-native';
+import { Button, Pressable } from 'react-native';
 
-import { Container, IconButton, Text } from '~/modules/shared/components';
-import { useHeaderOptions } from '~/modules/shared/navigation';
 import { makeStyles } from '~/theme';
-import { NewAccountModal } from '../modals';
-import { useState } from 'react';
+import { Container, Icon, LoadingView, NoItems, Text } from '~/modules/shared/components';
+import { useHeaderOptions } from '~/modules/shared/navigation';
+import { IS_IOS } from '~/modules/shared/constants';
+
+import { useAccounts } from '../hooks';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -18,27 +19,36 @@ const useStyles = makeStyles(() => ({
 
 export function AccountsScreen() {
   const styles = useStyles();
-  const [showNewAccountModal, setShowNewAccountModal] = useState(false);
+  const {accounts, loading} = useAccounts();
 
   useHeaderOptions({
     title: 'Accounts',
-    headerLeft: () => (
+    headerLeft: () => IS_IOS && (
       <Link href="/settings" asChild>
         <Button title='Settings' />
       </Link>
     ),
     headerRight: () => (
-      <IconButton name='plus' color='#0070E0' onPress={() => setShowNewAccountModal(true)} />
+      <Link href="/new-account" asChild>
+        <Pressable>
+          <Icon name='plus' color='#0070E0' />
+        </Pressable>
+      </Link>
     ),
   });
 
   return (
     <Container style={styles.container}>
-      <Text>ACCOUNTS PAGE</Text>
-      <NewAccountModal
-        isOpen={showNewAccountModal}
-        onDismiss={() => setShowNewAccountModal(false)}
-      />
+      {loading && <LoadingView />}
+      {!loading && accounts.length === 0 && <NoItems message='Nothing to see yet. Start adding new accounts to make this page more interesting!' />}
+      {accounts.map((account) => (
+        <Link key={account.id} href={`/account/${account.id}`} asChild>
+          <Pressable>
+            <Icon name='account' />
+            <Text>{account.title}</Text>
+          </Pressable>
+        </Link>
+      ))}
     </Container>
   );
 }
