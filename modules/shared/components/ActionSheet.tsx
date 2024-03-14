@@ -70,34 +70,32 @@ export function ActionSheet({ isOpen, onDismiss, children, style, title, showClo
   const showHeader = title || showCloseButton;
 
   return (
-    <>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isOpen}
-        onRequestClose={onDismiss}>
-        <View style={styles.root}>
-          <View style={StyleSheet.flatten([styles.actionSheet, { height }])}>
-            {showHeader && (
-              <View style={styles.header}>
-                <View style={styles.buttonSlot} />
-                <View>
-                  <Text style={styles.headerTitle}>{title}</Text>
-                </View>
-                <View style={styles.buttonSlot}>
-                  {showCloseButton && (
-                    <IconButton name="close" onPress={onDismiss} />
-                  )}
-                </View>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={isOpen}
+      onRequestClose={onDismiss}>
+      <View style={styles.root}>
+        <View style={StyleSheet.flatten([styles.actionSheet, { height }])}>
+          {showHeader && (
+            <View style={styles.header}>
+              <View style={styles.buttonSlot} />
+              <View>
+                <Text style={styles.headerTitle}>{title}</Text>
               </View>
-            
-            )}
-            <View style={StyleSheet.flatten([styles.content, style])}>
-              {children}
+              <View style={styles.buttonSlot}>
+                {showCloseButton && (
+                  <IconButton name="close" onPress={onDismiss} />
+                )}
+              </View>
             </View>
+          
+          )}
+          <View style={StyleSheet.flatten([styles.content, style])}>
+            {children}
           </View>
         </View>
-      </Modal>
-    </>
+      </View>
+    </Modal>
   );
 }

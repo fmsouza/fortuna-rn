@@ -4,10 +4,11 @@ import { useForm } from "react-hook-form";
 
 import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
-import { ActionSheet, Button, Text, TextInput } from "~/modules/shared/components";
+import { ActionSheet, Button, SelectInput, TextInput } from "~/modules/shared/components";
 
 import { useSaveAccount } from "../hooks";
 import { Account, AccountInput } from "../types";
+import { ACCOUNT_BANK_TYPE_LABELS, AccountBankType, Currency } from "../constants";
 
 type NewAccountModalProps = {
   isOpen: boolean;
@@ -34,8 +35,6 @@ export function NewAccountModal({ account, isOpen, onDismiss }: NewAccountModalP
   const {
     handleSubmit,
     control,
-    setValue,
-    register,
     formState: { errors },
     reset,
   } = useForm<Partial<AccountInput>>({
@@ -59,8 +58,18 @@ export function NewAccountModal({ account, isOpen, onDismiss }: NewAccountModalP
     );
   };
 
+  const accountBankTypeOptions = Object.values(AccountBankType).map(bankType => ({
+    label: ACCOUNT_BANK_TYPE_LABELS[bankType],
+    value: bankType,
+  }));
+
+  const currencyOptions = Object.values(Currency).map(currency => ({
+    label: currency,
+    value: currency,
+  }));
+
   return (
-    <ActionSheet isOpen={isOpen} onDismiss={onDismiss} title="New Account" showCloseButton size={0.7}>
+    <ActionSheet isOpen={isOpen} onDismiss={onDismiss} title="New Account" showCloseButton size={0.75}>
       <View style={styles.root}>
         <View style={styles.row}>
           <TextInput
@@ -72,19 +81,23 @@ export function NewAccountModal({ account, isOpen, onDismiss }: NewAccountModalP
           />
         </View>
         <View style={styles.row}>
-          <TextInput
+          <SelectInput
             control={control}
-            name="currency"
-            label="Currency"
+            name="accountBankType"
+            label="Bank type"
+            placeholder="Wise, N26, Revolut, etc"
+            options={accountBankTypeOptions}
             required
             errors={errors}
           />
         </View>
         <View style={styles.row}>
-          <TextInput
+          <SelectInput
             control={control}
-            name="accountBankType"
-            label="Account Bank Type"
+            name="currency"
+            label="Account currency"
+            placeholder="USD, EUR, etc"
+            options={currencyOptions}
             required
             errors={errors}
           />
