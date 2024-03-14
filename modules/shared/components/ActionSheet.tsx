@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flex: 1,
     height: "100%",
+    width: "100%",
     flexDirection: "column",
     justifyContent: "flex-end",
     alignItems: "center",
@@ -65,35 +66,38 @@ export function ActionSheet({ isOpen, onDismiss, children, style, title, showClo
   const styles = useStyles();
   const theme = useTheme();
 
+  const height = size * theme.viewport.height;
   const showHeader = title || showCloseButton;
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isOpen}
-      onRequestClose={onDismiss}>
-      <View style={styles.root}>
-        <View style={StyleSheet.flatten([styles.actionSheet, { height: size * theme.viewport.height }])}>
-          {showHeader && (
-            <View style={styles.header}>
-              <View style={styles.buttonSlot} />
-              <View>
-                <Text style={styles.headerTitle}>{title}</Text>
+    <>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isOpen}
+        onRequestClose={onDismiss}>
+        <View style={styles.root}>
+          <View style={StyleSheet.flatten([styles.actionSheet, { height }])}>
+            {showHeader && (
+              <View style={styles.header}>
+                <View style={styles.buttonSlot} />
+                <View>
+                  <Text style={styles.headerTitle}>{title}</Text>
+                </View>
+                <View style={styles.buttonSlot}>
+                  {showCloseButton && (
+                    <IconButton name="close" onPress={onDismiss} />
+                  )}
+                </View>
               </View>
-              <View style={styles.buttonSlot}>
-                {showCloseButton && (
-                  <IconButton name="close" onPress={onDismiss} />
-                )}
-              </View>
+            
+            )}
+            <View style={StyleSheet.flatten([styles.content, style])}>
+              {children}
             </View>
-          
-          )}
-          <View style={StyleSheet.flatten([styles.content, style])}>
-            {children}
           </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+    </>
   );
 }

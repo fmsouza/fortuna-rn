@@ -4,7 +4,6 @@ import { View, TextInput as BaseTextInput, TextInputProps as BaseTextInputProps 
 import { makeStyles } from "~/theme";
 
 import { Text } from "./Text";
-import { ErrorMessage } from "@hookform/error-message";
 
 type TextInputProps = BaseTextInputProps & {
   control: Control;
@@ -25,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.dimensions.padding / 2,
   },
   input: {
-    padding: theme.dimensions.padding,
+    paddingVertical: theme.dimensions.padding / 2,
+    marginBottom: theme.dimensions.padding,
     backgroundColor: theme.colors.background,
     borderBottomColor: theme.colors.border,
     borderBottomWidth: 1,
@@ -54,11 +54,7 @@ export function TextInput({ control, name, label, required, errors, ...rest }: T
             onBlur={onBlur}
             {...rest}
           />
-          <ErrorMessage
-            errors={errors}
-            name={name}
-            as={<Text style={styles.errorLabel} />}
-          />
+          {errors?.[name]?.type && (<Text style={styles.errorLabel}>This field is required</Text>)}
         </View>
       )}
       name={name}

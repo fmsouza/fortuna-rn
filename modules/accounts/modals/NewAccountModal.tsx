@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from '@hookform/error-message';
 
 import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
@@ -61,7 +60,7 @@ export function NewAccountModal({ account, isOpen, onDismiss }: NewAccountModalP
   };
 
   return (
-    <ActionSheet isOpen={isOpen} onDismiss={onDismiss} title="New Account" showCloseButton size={0.60}>
+    <ActionSheet isOpen={isOpen} onDismiss={onDismiss} title="New Account" showCloseButton size={0.7}>
       <View style={styles.root}>
         <View style={styles.row}>
           <TextInput
