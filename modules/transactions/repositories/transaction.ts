@@ -1,110 +1,97 @@
-import { v4 as uuid } from 'uuid';
-
-import { ID, Maybe } from "~/modules/shared/types";
-import { database } from '~/modules/shared/db';
+import { Maybe } from "~/modules/shared/types";
+import { dbWaitForReady } from '~/modules/shared/database';
 
 import { Transaction, TransactionInput } from "../types";
 
 type GetTransactionsFilters = {
-  accountId?: Maybe<ID>,
+  accountId?: Maybe<number>,
   dates?: Maybe<{ from: Date, to: Date }>,
 };
 export async function getTransactions(filters: GetTransactionsFilters): Promise<Transaction[]> {
-  const db = await database();
-  
-  const andFilters = [];
-  if (filters.accountId) {
-    andFilters.push({ accountId: { $eq: filters.accountId } });
-  }
-  if (filters.dates) {
-    andFilters.push({ registeredAt: { $gte: filters.dates.from.toISOString() } });
-    andFilters.push({ registeredAt: { $lte: filters.dates.to.toISOString() } });
-  }
+  await dbWaitForReady();
 
-  const items = await db.transaction.find({
-    selector: {
-      $and: andFilters
-    },
-    sort: [{
-      registeredAt: 'desc',
-    }],
-  }).exec();
-
-  return items.map(fromDb);
+  return Transaction.find({
+    // accountId: filters.accountId ?? undefined,
+    // dates: filters.dates ? {
+    //   from: filters.dates.from.toISOString(),
+    //   to: filters.dates.to.toISOString(),
+    // } : undefined,
+  });
 }
 
 export async function transactionAlreadyExists(input: TransactionInput): Promise<boolean> {
-  const db = await database();
-  const count = await db.transaction.count({
-    selector: {
-      accountId: input.accountId,
-      externalId: input.externalId,
-    }
-  }).exec();
+  await dbWaitForReady();
+
+  const count = await Transaction.count({
+    // accountId: input.accountId,
+    // externalId: input.externalId,
+  });
 
   return count > 0;
 }
 
 export async function batchSaveTransactions(inputs: TransactionInput[]): Promise<number> {
-  const db = await database();
+  await dbWaitForReady();
 
-  const items = inputs.map(input => toDb(input));
-  const results = await db.transaction.bulkInsert(items);
+  const items = inputs.map(input => {
+    const transaction = new Transaction();
+    transaction.accountId = input.accountId;
+    transaction.externalId = input.externalId;
+    transaction.title = input.title;
+    transaction.amount = input.amount;
+    transaction.origin = input.origin;
+    transaction.details = input.details;
+    transaction.categoryId = input.categoryId;
+    transaction.type = input.type;
+    transaction.registeredAt = input.registeredAt;
+    return transaction;
+  });
 
-  return results.success.length;
+  const result = await Transaction.save(items);
+  return result.length;
 }
 
 export async function removeTransaction(transaction: Transaction): Promise<void> {
-  const db = await database();
-  await db.transaction.find({
-    selector: {
-      id: transaction.id,
-    },
-  }).remove();
+  await dbWaitForReady();
+
+  await Transaction.delete(transaction.id);
 }
 
-export async function removeAllTransactions(accountId?: Maybe<ID>): Promise<void> {
-  const db = await database();
-  await db.transaction.find({
-    selector: {
-      accountId: accountId ?? undefined,
-    },
-  }).remove();
+export async function removeAllTransactions(accountId?: Maybe<number>): Promise<void> {
+  await dbWaitForReady();
+  
+  await Transaction.delete({
+    accountId: accountId ?? undefined,
+  });
 }
 
-export async function changeTransactionCategory(transaction: Transaction, categoryId: ID): Promise<void> {
-  const db = await database();
-  await db.transaction.find({
-    selector: {
-      id: transaction.id,
-    },
-  }).update({
-    $set: {
-      categoryId,
-    },
+export async function changeTransactionCategory(transaction: Transaction, categoryId: number): Promise<void> {
+  await dbWaitForReady();
+
+  await Transaction.update({
+    id: transaction.id,
+  }, {
+    categoryId,
   });
 }
 
 export async function updateTransaction(transaction: Transaction): Promise<void> {
-  const db = await database();
-  await db.transaction.find({
-    selector: {
-      id: transaction.id,
-    },
-  }).update({
-    $set: {
-      externalId: transaction.externalId,
-      title: transaction.title,
-      amount: transaction.amount,
-      origin: transaction.origin,
-      details: transaction.details,
-      categoryId: transaction.categoryId,
-      type: transaction.type,
-    },
+  await dbWaitForReady();
+
+  await Transaction.update({
+    id: transaction.id,
+  }, {
+    title: transaction.title,
+    amount: transaction.amount,
+    origin: transaction.origin,
+    details: transaction.details,
+    categoryId: transaction.categoryId,
+    type: transaction.type,
+    registeredAt: transaction.registeredAt,
   });
 }
 
-export async function getTransactionMonths(accountId?: Maybe<ID>): Promise<Date[]> {
+export async function getTransactionMonths(accountId?: Maybe<number>): Promise<Date[]> {
   const transaction = await getOlderTransaction(accountId);
   if (!transaction) return [];
 
@@ -121,49 +108,12 @@ export async function getTransactionMonths(accountId?: Maybe<ID>): Promise<Date[
   return periods.reverse();
 }
 
-async function getOlderTransaction(accountId?: Maybe<ID>): Promise<Maybe<Transaction>> {
-  const db = await database();
-
-  const item = await db.transaction.findOne({
-    selector: {
-      accountId: accountId ?? undefined,
-    },
-    sort: [{
-      registeredAt: 'asc',
-    }],
-  }).exec();
-
-  return item ? fromDb(item) : null;
-}
-
-type TransactionModel = Omit<Transaction, 'registeredAt' | 'createdAt' | 'updatedAt'> & {
-  registeredAt: string,
-  createdAt: string,
-  updatedAt: string,
-};
-function toDb(input: TransactionInput): TransactionModel {
-  return {
-    ...input,
-    id: uuid(),
-    registeredAt: new Date(input.registeredAt).toISOString(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-function fromDb(input: TransactionModel): Transaction {
-  return {
-    id: input.id,
-    accountId: input.accountId,
-    externalId: input.externalId,
-    type: input.type,
-    title: input.title,
-    amount: input.amount,
-    origin: input.origin,
-    details: input.details,
-    categoryId: input.categoryId,
-    registeredAt: new Date(input.registeredAt),
-    createdAt: new Date(input.createdAt),
-    updatedAt: new Date(input.updatedAt),
-  };
+async function getOlderTransaction(accountId?: Maybe<number>): Promise<Maybe<Transaction>> {
+  await dbWaitForReady();
+  
+  return Transaction.findOne({
+    accountId: accountId ?? undefined,
+  // }, {
+  //   sort: [{ registeredAt: 'asc' }],
+  });
 }

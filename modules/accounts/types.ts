@@ -1,14 +1,26 @@
-import { ID } from "~/modules/shared/types";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+} from 'typeorm';
 
 import { AccountBankType, Currency } from "./constants";
 
-export type AccountInput = Omit<Account, 'id' | 'createdAt' | 'updatedAt'>;
+@Entity('account')
+export class Account extends BaseEntity {
+  @PrimaryGeneratedColumn() id: number;
+  @Column('text')           title: string;
+  @Column('text')           accountBankType: AccountBankType;
+  @Column('text')           currency: Currency;
+  @CreateDateColumn()       createdAt: Date;
+  @UpdateDateColumn()       updatedAt: Date;
+}
 
-export type Account = {
-  id: ID;
+export type AccountInput = {
   title: string;
   accountBankType: AccountBankType;
   currency: Currency;
-  createdAt: Date;
-  updatedAt: Date;
 }

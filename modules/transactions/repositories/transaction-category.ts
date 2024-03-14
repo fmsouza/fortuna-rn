@@ -1,45 +1,20 @@
-import { v4 as uuid } from 'uuid';
-
-import { database } from '~/modules/shared/db';
+import { dbWaitForReady } from '~/modules/shared/database';
 
 import { TransactionCategory, TransactionCategoryInput } from "../types";
 
 export async function getTransactionCategories(): Promise<TransactionCategory[]> {
-  const db = await database();
-  const items = await db.transaction_category.find().exec();
-  return items.map(fromDb);
+  await dbWaitForReady();
+  return TransactionCategory.find();
 }
 
-export async function saveTransactionCategory(input: TransactionCategoryInput): Promise<void> {
-  const db = await database();
-  await db.transaction_category.insert(toDb(input));
-}
-
-type TransactionCategoryModel = Omit<TransactionCategory, 'createdAt' | 'updatedAt'> & {
-  createdAt: string,
-  updatedAt: string,
-};
-
-function toDb(input: TransactionCategoryInput): TransactionCategoryModel {
-  return {
-    ...input,
-    id: uuid(),
-    removable: true,
-    type: input.type,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-function fromDb(input: TransactionCategoryModel): TransactionCategory {
-  return {
-    id: input.id,
-    parentId: input.parentId,
-    title: input.title,
-    type: input.type,
-    removable: input.removable,
-    createdAt: new Date(input.createdAt),
-    updatedAt: new Date(input.updatedAt),
-
-  };
+type UpdateTransactionCategoryInput = TransactionCategoryInput & { id: number };
+type NewTransactionCategoryInput = TransactionCategoryInput & { id: never };
+type SaveTransactionCategoryInput = UpdateTransactionCategoryInput | NewTransactionCategoryInput;
+export async function saveTransactionCategory(input: SaveTransactionCategoryInput): Promise<void> {
+  await dbWaitForReady();
+  const transactionCategory = input.id ? await TransactionCategory.findOneByOrFail({ id: input.id }) : new TransactionCategory();
+  transactionCategory.parentId = input.parentId;
+  transactionCategory.title = input.title;
+  transactionCategory.type = input.type;
+  await transactionCategory.save();
 }

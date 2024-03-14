@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { StatusBar } from 'expo-status-bar';
 import { Slot } from 'expo-router';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';

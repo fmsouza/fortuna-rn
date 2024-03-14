@@ -1,37 +1,58 @@
-import { ID, Maybe } from "~/modules/shared/types";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+} from 'typeorm';
+
+import { Maybe } from '~/modules/shared/types';
 
 import { TransactionType } from "./constants";
 
-export type Transaction = {
-  id: ID;
-  accountId: ID;
+@Entity('transaction')
+export class Transaction extends BaseEntity {
+  @PrimaryGeneratedColumn()           id: number;
+  @Column('int')                      accountId: number;
+  @Column('int')                      externalId: string;
+  @Column('text')                     type: TransactionType;
+  @Column('text')                     title: string;
+  @Column('int')                      amount: number;
+  @Column('text', { nullable: true }) origin?: Maybe<string>;
+  @Column('text', { nullable: true }) details?: Maybe<string>;
+  @Column('int')                      categoryId: number;
+  @Column('datetime')                 registeredAt: Date;
+  @CreateDateColumn()                 createdAt: Date;
+  @UpdateDateColumn()                 updatedAt: Date;
+}
+
+export type TransactionInput = {
+  accountId: number;
   externalId: string;
   type: TransactionType;
   title: string;
   amount: number;
   origin?: Maybe<string>;
   details?: Maybe<string>;
-  categoryId: ID;
+  categoryId: number;
   registeredAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export type TransactionInput = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
+@Entity('transaction_category')
+export class TransactionCategory extends BaseEntity {
+  @PrimaryGeneratedColumn()             id: number;
+  @Column('int', { nullable: true })    parentId?: Maybe<number>;
+  @Column('text')                       title: string;
+  @Column('text')                       type: TransactionType;
+  @Column('boolean', { default: true }) removable: boolean;
+  @CreateDateColumn()                   createdAt: Date;
+  @UpdateDateColumn()                   updatedAt: Date;
+}
 
-export type TransactionCategory = {
-  id: ID;
-  parentId?: Maybe<ID>;
+
+export type TransactionCategoryInput = {
+  parentId?: Maybe<number>;
   title: string;
-  type: TransactionCategoryType;
-  removable: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  type: TransactionType;
 };
-
-export type TransactionCategoryInput = Omit<TransactionCategory, 'id' | 'removable' | 'createdAt' | 'updatedAt'>;
-
-export enum TransactionCategoryType {
-  EXPENSE = 'expense',
-  INCOME = 'income',
-}
