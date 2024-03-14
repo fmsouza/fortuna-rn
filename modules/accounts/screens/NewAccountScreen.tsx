@@ -1,15 +1,16 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { View } from 'react-native';
-
-import { Button, Container, HeaderButton, IconButton, SelectInput, TextInput } from '~/modules/shared/components';
-import { useHeaderOptions } from '~/modules/shared/navigation';
-import { makeStyles } from '~/theme';
-import { useAccount, useSaveAccount } from '../hooks';
-import { useForm } from 'react-hook-form';
-import { AccountInput } from '../types';
 import { useEffect } from 'react';
-import { ACCOUNT_BANK_TYPE_LABELS, AccountBankType, Currency } from '../constants';
+import { View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useForm } from 'react-hook-form';
+
+import { makeStyles } from '~/theme';
+import { useHeaderOptions } from '~/modules/shared/navigation';
+import { Button, Container, HeaderButton, IconButton, SelectInput, TextInput } from '~/modules/shared/components';
 import { IS_ANDROID, IS_IOS } from '~/modules/shared/constants';
+
+import { AccountInput } from '../types';
+import { ACCOUNT_BANK_TYPE_LABELS, AccountBankType, Currency } from '../constants';
+import { useAccount, useSaveAccount } from '../hooks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,7 @@ export function NewAccountScreen() {
   const router = useRouter();
   const styles = useStyles();
   const {accountId} = useLocalSearchParams();
-  const { account } = useAccount(accountId as string);
+  const { account } = useAccount(Number(accountId));
   const {saveAccount, loading} = useSaveAccount();
   
   useHeaderOptions({

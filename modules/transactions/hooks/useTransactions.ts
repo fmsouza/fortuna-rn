@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ID, Maybe } from "~/modules/shared/types";
+import { Maybe } from "~/modules/shared/types";
 
 import { getTransactions } from "../repositories";
 
 type UseTransactionsInput = {
-  accountId?: Maybe<ID>,
+  accountId?: Maybe<number>,
   dates?: Maybe<{ from: Date, to: Date }>,
 };
 
