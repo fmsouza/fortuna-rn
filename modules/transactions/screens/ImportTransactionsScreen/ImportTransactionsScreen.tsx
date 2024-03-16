@@ -8,7 +8,7 @@ import { IS_IOS } from "~/modules/shared/constants";
 import { TransactionItem } from "~/modules/transactions/components";
 
 import { useImportTransactionsScreenState } from "./useImportTransactionsScreenState";
-import { ReviewUncategorizedTransactions } from "./RewviewUncaterorizedTransactions";
+import { ReviewUncategorizedTransactions } from "./ReviewUncaterorizedTransactions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
