@@ -1,3 +1,5 @@
+import { Between } from "typeorm";
+
 import { Maybe } from "~/modules/shared/types";
 import { dbWaitForReady } from '~/modules/shared/database';
 
@@ -11,11 +13,10 @@ export async function getTransactions(filters: GetTransactionsFilters): Promise<
   await dbWaitForReady();
 
   return Transaction.find({
-    // accountId: filters.accountId ?? undefined,
-    // dates: filters.dates ? {
-    //   from: filters.dates.from.toISOString(),
-    //   to: filters.dates.to.toISOString(),
-    // } : undefined,
+    where: {
+      accountId: filters.accountId ?? undefined,
+      registeredAt: filters.dates ? Between(filters.dates.from, filters.dates.to) : undefined,
+    }
   });
 }
 
@@ -23,8 +24,10 @@ export async function transactionAlreadyExists(input: TransactionInput): Promise
   await dbWaitForReady();
 
   const count = await Transaction.count({
-    // accountId: input.accountId,
-    // externalId: input.externalId,
+    where: {
+      accountId: input.accountId,
+      externalId: input.externalId,
+    }
   });
 
   return count > 0;
@@ -92,28 +95,10 @@ export async function updateTransaction(transaction: Transaction): Promise<void>
 }
 
 export async function getTransactionMonths(accountId?: Maybe<number>): Promise<Date[]> {
-  const transaction = await getOlderTransaction(accountId);
-  if (!transaction) return [];
-
-  const today = new Date();
-  const earliestDate = new Date(transaction.registeredAt);
-  
-  const periods: Date[] = [];
-  let current = earliestDate;
-  while (current <= today) {
-    periods.push(current);
-    current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
-  }
-
-  return periods.reverse();
-}
-
-async function getOlderTransaction(accountId?: Maybe<number>): Promise<Maybe<Transaction>> {
-  await dbWaitForReady();
-  
-  return Transaction.findOne({
-    accountId: accountId ?? undefined,
-  // }, {
-  //   sort: [{ registeredAt: 'asc' }],
-  });
+  return Transaction.createQueryBuilder('transaction')
+  .select('MIN(strftime("%Y-%m-01", transaction.registeredAt)) as month')
+  .groupBy('strftime("%Y", transaction.registeredAt), strftime("%m", transaction.registeredAt)')
+  .orderBy('month', 'DESC')
+  .where('transaction.accountId = :accountId', { accountId })
+  .getRawMany();
 }
