@@ -57,7 +57,7 @@ export function ImportTransactionsScreen() {
 
       <FlatList
         data={state.transactions}
-        keyExtractor={(item) => `${item.id ?? 0}-${item.registeredAt?.toISOString()}`}
+        keyExtractor={(item) => item.externalId!}
         ListEmptyComponent={
           <View style={styles.buttonRow}>
             <Button icon="file-download-outline" mode="contained" onPress={state.onPressImport}>

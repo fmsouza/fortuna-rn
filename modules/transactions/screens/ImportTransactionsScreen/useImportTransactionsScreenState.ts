@@ -32,9 +32,8 @@ export function useImportTransactionsScreenState() {
 
       dispatch({type: ActionType.SET_LOADING_IMPORT_LOADING_STATE});
 
-      const [{file}] = document.assets;
-
-      const fileContents = await readFile(file!);
+      const [{uri}] = document.assets;
+      const fileContents = await readFile(uri);
       const trxns = await csvToTransactions(account!, fileContents);
 
       dispatch({type: ActionType.SAVE_IMPORTED_TRANSACTIONS, data: trxns});

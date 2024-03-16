@@ -1,13 +1,10 @@
+import * as FileSystem from 'expo-file-system';
+import * as Crypto from 'expo-crypto';
 import _merge from 'lodash/merge';
 import _cloneDeep from 'lodash/cloneDeep';
 
-export function readFile(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = error => reject(error);
-    reader.readAsText(file);
-  })
+export function readFile(uri: string): Promise<string> {
+  return FileSystem.readAsStringAsync(uri);
 }
 
 export async function asyncFilter<T>(list: T[], predicate: (value: T, index: number, array: T[]) => Promise<boolean>): Promise<T[]> {
@@ -16,10 +13,10 @@ export async function asyncFilter<T>(list: T[], predicate: (value: T, index: num
 }
 
 export async function sha256(message: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(message);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  return Crypto.digestStringAsync(
+    Crypto.CryptoDigestAlgorithm.SHA256,
+    message
+  );
 }
 
 export function deepMerge(sourceObject: any, targetObject: any): any {
