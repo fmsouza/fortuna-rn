@@ -1,8 +1,12 @@
 import { Link } from "expo-router";
 import { Button } from "react-native";
+import { IconButton } from "react-native-paper";
+
+import { IS_IOS } from "../constants";
 
 type BaseHeaderButtonProps = {
   title: string;
+  icon: string;
 };
 
 type HeaderButtonWithLinkProps = BaseHeaderButtonProps & {
@@ -17,10 +21,10 @@ type HeaderButtonWithPressProps = BaseHeaderButtonProps & {
 
 type HeaderButtonProps = HeaderButtonWithLinkProps | HeaderButtonWithPressProps;
 
-export function HeaderButton({ title, onPress = () => {}, link = '' }: HeaderButtonProps) {
+export function HeaderButton({ icon, title, onPress = () => {}, link = '' }: HeaderButtonProps) {
   return (
     <Link href={link} asChild>
-      <Button title={title} onPress={onPress} />
+      {IS_IOS ? <Button title={title} onPress={onPress} /> : <IconButton icon={icon} onPress={onPress} />}
     </Link>
   );
 }

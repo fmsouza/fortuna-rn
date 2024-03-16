@@ -1,23 +1,15 @@
 import { Link } from 'expo-router';
-import { Button, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
+import { ProgressBar, Snackbar } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
-import { Container, Icon, LoadingView, NoItems } from '~/modules/shared/components';
+import { Container, HeaderButton, NoItems } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
-import { IS_IOS } from '~/modules/shared/constants';
 import { useAccounts } from '~/modules/accounts/hooks';
 
 import { AccountItem } from './AccountItem';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    width: '100%',
-    flex: 1,
-  },
   row: {
     display: 'flex',
     flexDirection: 'column',
@@ -30,27 +22,23 @@ const useStyles = makeStyles((theme) => ({
 
 export function AccountsScreen() {
   const styles = useStyles();
-  const {accounts, loading} = useAccounts();
+  const {accounts, loading, error} = useAccounts();
 
   useHeaderOptions({
     title: 'Accounts',
-    headerLeft: () => IS_IOS && (
-      <Link href="/settings" asChild>
-        <Button title='Settings' />
-      </Link>
+    headerLeft: () => (
+      <HeaderButton title="Settings" icon="cog" link="/settings" />
     ),
     headerRight: () => (
-      <Link href="/new-account" asChild>
-        <Pressable>
-          <Icon name='plus' color='#0070E0' />
-        </Pressable>
-      </Link>
+      <HeaderButton title="Add" icon="plus" link="/new-account" />
     ),
   });
 
   return (
-    <Container style={styles.container}>
-      {loading && <LoadingView />}
+    <Container>
+      {loading && <ProgressBar indeterminate />}
+      <Snackbar visible={error !== null} onDismiss={() => {}}>{error?.message}</Snackbar>
+
       {!loading && accounts.length === 0 && <NoItems message='Nothing to see yet. Start adding new accounts to make this page more interesting!' />}
       {accounts.map((account) => (
         <Link key={account.id} href={`/account/${account.id}`} asChild>

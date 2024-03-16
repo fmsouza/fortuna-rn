@@ -1,8 +1,7 @@
 import { View, Image } from "react-native";
+import { Text } from "react-native-paper";
 
 import { makeStyles } from "~/theme";
-
-import { Text } from "./Text";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +32,7 @@ export const NoItems: React.FC<NoItemsProps> = ({ message }) => {
   return (
     <View style={styles.root}>
       <Image style={styles.image as any} source={require("~/assets/images/empty-wallet.png")} alt="Empty wallet image" />
-      <Text style={styles.text}>{message}</Text>
+      <Text variant="bodyLarge" style={styles.text}>{message}</Text>
     </View>
   );
 };

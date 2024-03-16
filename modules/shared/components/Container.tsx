@@ -6,11 +6,15 @@ import { makeStyles, Theme } from '~/theme';
 const useStyles = makeStyles((theme: Theme) => ({
   safeWrapper: {
     flex: 1,
-    paddingHorizontal: theme.dimensions.padding,
   },
   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
     flex: 1,
     backgroundColor: theme.colors.background,
+    paddingHorizontal: theme.dimensions.padding,
   },
 }));
 
