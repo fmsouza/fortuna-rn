@@ -3,9 +3,11 @@ import { useTheme as useThemePaper, MD3Theme as ThemePaper } from 'react-native-
 
 import { ISharedBaseTheme } from './shared';
 
-export function makeStyles<TStyles>(fn: (theme: ThemePaper & ISharedBaseTheme) => StyleSheet.NamedStyles<TStyles>) {
+export type Theme = ThemePaper & ISharedBaseTheme;
+
+export function makeStyles<TStyles>(fn: (theme: Theme) => StyleSheet.NamedStyles<TStyles>) {
   return () => {
-    const theme = useThemePaper() as ThemePaper & ISharedBaseTheme;
+    const theme = useThemePaper() as Theme;
     return StyleSheet.create(fn(theme));
   };
 };

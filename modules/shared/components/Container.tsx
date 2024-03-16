@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 import { SafeAreaView, View, StyleSheet } from 'react-native';
 
-import { makeStyles, Theme } from '~/theme';
+import { makeStyles } from '~/theme';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   safeWrapper: {
     flex: 1,
   },
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'flex-start',
     flex: 1,
     backgroundColor: theme.colors.background,
-    paddingHorizontal: theme.dimensions.padding,
+    paddingHorizontal: theme.dimensions.padding(),
   },
 }));
 

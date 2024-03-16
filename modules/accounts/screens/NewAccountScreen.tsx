@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { Button, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
+import { PaperProvider, ProgressBar, Snackbar, useTheme } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
 import { useHeaderOptions } from '~/modules/shared/navigation';
-import { Container, HeaderButton, SelectInput, TextInput } from '~/modules/shared/components';
+import { Container, DropdownInput, HeaderButton, TextInput } from '~/modules/shared/components';
 import { IS_ANDROID, IS_IOS } from '~/modules/shared/constants';
 
 import { AccountInput } from '../types';
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
   },
   row: {
     marginVertical: theme.dimensions.padding(),
@@ -28,7 +29,8 @@ export function NewAccountScreen() {
   const styles = useStyles();
   const {accountId} = useLocalSearchParams();
   const { account } = useAccount(Number(accountId));
-  const {saveAccount, loading} = useSaveAccount();
+  const {saveAccount, loading, error} = useSaveAccount();
+  const theme = useTheme();
   
   useHeaderOptions({
     title: 'New Account',
@@ -37,7 +39,7 @@ export function NewAccountScreen() {
       <HeaderButton title="Close" icon="close" onPress={router.back} />
     ),
     headerRight: () => (
-      <HeaderButton title="Add" icon="content-save" onPress={router.back} />
+      <HeaderButton title="Add" icon="content-save" onPress={handleSubmit(onSubmit)} />
     ),
   });
 
@@ -80,48 +82,52 @@ export function NewAccountScreen() {
   }));
 
   return (
-    <Container style={styles.root}>
-      <View style={styles.row}>
-        <TextInput
-          control={control}
-          name="title"
-          label="Account title"
-          required
-          errors={errors}
-        />
-      </View>
-      <View style={styles.row}>
-        <SelectInput
-          control={control}
-          name="accountBankType"
-          label="Bank type"
-          placeholder="Wise, N26, Revolut, etc"
-          options={accountBankTypeOptions}
-          required
-          errors={errors}
-        />
-      </View>
-      <View style={styles.row}>
-        <SelectInput
-          control={control}
-          name="currency"
-          label="Account currency"
-          placeholder="USD, EUR, etc"
-          options={currencyOptions}
-          required
-          errors={errors}
-        />
-      </View>
-      {IS_ANDROID && (
-        <>
-          <View style={styles.row}>
-            <Button onPress={handleSubmit(onSubmit)} title="Save Account" disabled={loading} />
-          </View>
-          {/* <View style={styles.row}>
-            <Button type="text" title="Cancel" disabled={loading} onPress={router.back} />
-          </View> */}
-        </>
-      )}
-    </Container>
+    <PaperProvider theme={theme}>
+      {loading && <ProgressBar indeterminate />}
+      <Snackbar visible={error !== null} onDismiss={() => {}}>{error?.message}</Snackbar>
+      <Container style={styles.root}>
+        <View style={styles.row}>
+          <TextInput
+            control={control}
+            name="title"
+            label="Account title"
+            required
+            errors={errors}
+          />
+        </View>
+        <View style={styles.row}>
+          <DropdownInput
+            control={control}
+            name="accountBankType"
+            label="Bank type"
+            placeholder="Wise, N26, Revolut, etc"
+            options={accountBankTypeOptions}
+            required
+            errors={errors}
+          />
+        </View>
+        <View style={styles.row}>
+          <DropdownInput
+            control={control}
+            name="currency"
+            label="Account currency"
+            placeholder="USD, EUR, etc"
+            options={currencyOptions}
+            required
+            errors={errors}
+          />
+        </View>
+        {IS_ANDROID && (
+          <>
+            <View style={styles.row}>
+              <Button onPress={handleSubmit(onSubmit)} title="Save Account" disabled={loading} />
+            </View>
+            {/* <View style={styles.row}>
+              <Button type="text" title="Cancel" disabled={loading} onPress={router.back} />
+            </View> */}
+          </>
+        )}
+      </Container>
+    </PaperProvider>
   );
 }

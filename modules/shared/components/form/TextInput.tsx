@@ -7,7 +7,6 @@ import { makeStyles } from "~/theme";
 type TextInputProps = BaseTextInputProps & {
   control: Control;
   name: string;
-  label: string;
   required?: boolean;
   errors?: any;
 };
@@ -19,19 +18,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function TextInput({ control, name, label, required, errors, ...rest }: TextInputProps) {
+export function TextInput({ control, mode = 'outlined', name, required, errors, ...rest }: TextInputProps) {
   const styles = useStyles();
 
   return (
     <Controller
       control={control}
-      render={({ field: { onChange, value, ...fieldProps } }) => (
+      render={({ field: { onChange, ...fieldProps } }) => (
         <View style={styles.root}>
           <BaseTextInput
-            mode="outlined"
-            label={label}
+            mode={mode}
             onChangeText={onChange}
-            value={value}
             {...rest}
             {...fieldProps}
           />
