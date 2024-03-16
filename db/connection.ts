@@ -3,7 +3,11 @@ import { DataSource } from 'typeorm';
 import { Account } from '~/modules/accounts/types';
 import { Transaction, TransactionCategory } from '~/modules/transactions/types';
 
+import * as migrations from './migrations';
+
 const ENTITIES = [Account, Transaction, TransactionCategory];
+
+const MIGRATIONS = Object.values(migrations);
 
 export const dataSource = new DataSource({
   database: 'fortuna.db',
@@ -13,11 +17,14 @@ export const dataSource = new DataSource({
   logging: ['error', 'schema'],
   synchronize: false,
   migrationsRun: true,
+  migrations: MIGRATIONS,
 });
 
 export async function dbWaitForReady(): Promise<void> {
   if (!dataSource.isInitialized) {
     await dataSource.initialize();
+    await dataSource.runMigrations();
+    await dataSource.synchronize();
   }
 }
 
@@ -25,4 +32,5 @@ export async function dbWaitForReady(): Promise<void> {
 export async function clearDatabase(): Promise<void> {
   await dbWaitForReady();
   await dataSource.dropDatabase();
+  await dbWaitForReady();
 }
