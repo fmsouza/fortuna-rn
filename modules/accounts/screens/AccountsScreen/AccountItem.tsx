@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
+import { List } from "react-native-paper";
 
 import { makeStyles } from "~/theme";
 import { Account } from "~/modules/accounts/types";
@@ -13,17 +12,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: theme.dimensions.padding(2),
-    borderRadius: theme.dimensions.border(),
-    backgroundColor: theme.colors.background,
-    shadowColor: theme.colors.backdrop,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
 }));
 
@@ -43,11 +31,10 @@ export function AccountItem({ account }: AccountItemProps) {
   }, [transactions]);
 
   return (
-    <View style={styles.container}>
-      <Text variant="bodyLarge">{account.title}</Text>
-      <Text variant="bodyLarge">
-        {CURRENCY_SYMBOLS[account.currency]} {balance.toFixed(2)}
-      </Text>
-    </View>
+    <List.Item
+      style={styles.container}
+      title={account.title}
+      description={`${CURRENCY_SYMBOLS[account.currency]} ${balance.toFixed(2)}`}
+      right={props => <List.Icon {...props} icon="chevron-right" />} />
   );
 }
