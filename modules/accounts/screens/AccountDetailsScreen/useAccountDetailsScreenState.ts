@@ -1,27 +1,24 @@
 import { useCallback, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import dayjs from "dayjs";
 
+import { Maybe } from "~/modules/shared/types";
 import { useAccount } from "~/modules/accounts/hooks";
 import { periodToDateInterval } from "~/modules/accounts/utils";
-import { Maybe } from "~/modules/shared/types";
 import { useTransactionPeriods, useTransactions } from "~/modules/transactions/hooks";
-import { useRouter } from "expo-router";
 
 const periodLabel = (period: Date): string => {
   return dayjs(period).format('MMM YYYY');
 };
 
-type UseAccountDetailsPageStateInput = {
-  accountId: number;
-};
-
-export const useAccountDetailsScreenState = ({ accountId }: UseAccountDetailsPageStateInput) => {
+export const useAccountDetailsScreenState = () => {
   const router = useRouter();
+  const { accountId } = useLocalSearchParams();
   const [currentPeriod, setCurrentPeriod] = useState<Maybe<Date>>(null);
-  const {account, loading: accountLoading, error: accountError} = useAccount(accountId);
-  const {periods: trxPeriods, loading: periodsLoading, error: periodsError} = useTransactionPeriods(accountId);
+  const {account, loading: accountLoading, error: accountError} = useAccount(Number(accountId));
+  const {periods: trxPeriods, loading: periodsLoading, error: periodsError} = useTransactionPeriods(Number(accountId));
   const {transactions, loading: transactionsLoading, error: transactionsError} = useTransactions({
-    accountId,
+    accountId: Number(accountId),
     dates: currentPeriod ? periodToDateInterval(currentPeriod) : undefined,
   });
 
@@ -30,7 +27,7 @@ export const useAccountDetailsScreenState = ({ accountId }: UseAccountDetailsPag
   }, [setCurrentPeriod]);
 
   const handlePressAddTransactions = useCallback(() => {
-    router.push('/import-transactions');
+    router.push(`/import-transactions/${accountId}`);
   }, [router]);
 
   const error = accountError || transactionsError || periodsError;

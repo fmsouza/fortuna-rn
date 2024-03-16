@@ -21,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function AccountDetailsScreen() {
   const styles = useStyles();
-  const { accountId } = useLocalSearchParams();
-  const state = useAccountDetailsScreenState({ accountId: Number(accountId) });
+  const state = useAccountDetailsScreenState();
 
   useHeaderOptions({
     title: state.account?.title ?? '',
