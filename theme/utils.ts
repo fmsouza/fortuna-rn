@@ -1,17 +1,11 @@
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useTheme as useThemePaper, MD3Theme as ThemePaper } from 'react-native-paper';
 
-import { Theme } from './types';
-import { LightTheme } from './light';
-import { DarkTheme } from './dark';
+import { ISharedBaseTheme } from './shared';
 
-export function makeStyles<TStyles>(fn: (theme: Theme) => StyleSheet.NamedStyles<TStyles>) {
+export function makeStyles<TStyles>(fn: (theme: ThemePaper & ISharedBaseTheme) => StyleSheet.NamedStyles<TStyles>) {
   return () => {
-    const theme = useTheme();
+    const theme = useThemePaper() as ThemePaper & ISharedBaseTheme;
     return StyleSheet.create(fn(theme));
   };
-};
-
-export function useTheme(): Theme {
-  const colorScheme = useColorScheme();
-  return colorScheme === 'dark' ? DarkTheme : LightTheme;
 };

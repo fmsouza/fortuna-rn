@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 
 import { makeStyles } from '~/theme';
 import { useHeaderOptions } from '~/modules/shared/navigation';
-import { Button, Container, HeaderButton, IconButton, SelectInput, TextInput } from '~/modules/shared/components';
+import { Container, HeaderButton, SelectInput, TextInput } from '~/modules/shared/components';
 import { IS_ANDROID, IS_IOS } from '~/modules/shared/constants';
 
 import { AccountInput } from '../types';
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-evenly",
   },
   row: {
-    marginVertical: theme.dimensions.padding,
+    marginVertical: theme.dimensions.padding(),
   }
 }));
 
@@ -33,8 +33,12 @@ export function NewAccountScreen() {
   useHeaderOptions({
     title: 'New Account',
     presentation: IS_IOS && 'modal',
-    headerLeft: () => IS_IOS ? <HeaderButton title='Cancel' onPress={router.back} /> : <IconButton name='arrow-back' mdIcon onPress={router.back} />,
-    headerRight: () => IS_IOS ? <HeaderButton title='Save' onPress={handleSubmit(onSubmit)} /> : <HeaderButton title='x' onPress={router.back} />,
+    headerLeft: () => (
+      <HeaderButton title="Close" icon="close" onPress={router.back} />
+    ),
+    headerRight: () => (
+      <HeaderButton title="Add" icon="content-save" onPress={router.back} />
+    ),
   });
 
   const {
@@ -113,9 +117,9 @@ export function NewAccountScreen() {
           <View style={styles.row}>
             <Button onPress={handleSubmit(onSubmit)} title="Save Account" disabled={loading} />
           </View>
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <Button type="text" title="Cancel" disabled={loading} onPress={router.back} />
-          </View>
+          </View> */}
         </>
       )}
     </Container>

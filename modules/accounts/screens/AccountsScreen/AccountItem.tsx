@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { View } from "react-native";
+import { Text } from "react-native-paper";
 
 import { makeStyles } from "~/theme";
-import { Text } from "~/modules/shared/components";
 import { Account } from "~/modules/accounts/types";
 import { CURRENCY_SYMBOLS } from "~/modules/accounts/constants";
 import { useTransactions } from "~/modules/transactions/hooks";
@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: theme.dimensions.padding * 2,
-    borderRadius: theme.dimensions.border,
+    padding: theme.dimensions.padding(2),
+    borderRadius: theme.dimensions.border(),
     backgroundColor: theme.colors.background,
-    shadowColor: theme.colors.text,
+    shadowColor: theme.colors.backdrop,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -24,12 +24,6 @@ const useStyles = makeStyles((theme) => ({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  name: {
-    fontSize: theme.text.baseSize * 1.3,
-  },
-  balance: {
-    fontSize: theme.text.baseSize * 1.3,
   },
 }));
 
@@ -50,8 +44,8 @@ export function AccountItem({ account }: AccountItemProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>{account.title}</Text>
-      <Text style={styles.balance}>
+      <Text variant="bodyLarge">{account.title}</Text>
+      <Text variant="bodyLarge">
         {CURRENCY_SYMBOLS[account.currency]} {balance.toFixed(2)}
       </Text>
     </View>

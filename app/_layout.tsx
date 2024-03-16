@@ -18,6 +18,7 @@ import {
 } from 'react-native-paper';
 
 import { deepMerge } from '~/modules/shared/utils';
+import { SharedBaseTheme } from '~/theme/shared';
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -34,9 +35,11 @@ export const queryClient = new QueryClient();
 export default function Layout() {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
+  const extendedTheme = deepMerge(theme, SharedBaseTheme);
+
   return (
-    <PaperProvider theme={theme}>
-      <NavigationThemeProvider value={theme}>
+    <PaperProvider theme={extendedTheme}>
+      <NavigationThemeProvider value={extendedTheme}>
         <QueryClientProvider client={queryClient}>
           <StatusBar style="auto" />
           <Slot />

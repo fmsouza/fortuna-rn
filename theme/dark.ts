@@ -3,7 +3,6 @@ import color from 'color';
 
 import { deepMerge } from '~/modules/shared/utils';
 
-import { Theme } from './types';
 import { SharedBaseTheme } from './shared';
 
 const COLORS = {
@@ -20,7 +19,7 @@ const STATUS_BAR = {
   backgroundColor: color(COLORS.primary).darken(0.4).hex().toString(),
 };
 
-export const DarkTheme = <Theme>deepMerge(SharedBaseTheme, {
+export const DarkTheme = deepMerge(SharedBaseTheme, {
   colors: COLORS,
   statusBar: STATUS_BAR,
   navbar: {

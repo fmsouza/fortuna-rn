@@ -1,9 +1,8 @@
 import { Control, Controller } from "react-hook-form";
-import { View, TextInput as BaseTextInput, TextInputProps as BaseTextInputProps } from "react-native";
+import { View } from "react-native";
+import { TextInput as BaseTextInput, TextInputProps as BaseTextInputProps, HelperText } from 'react-native-paper';
 
 import { makeStyles } from "~/theme";
-
-import { Text } from "./Text";
 
 type TextInputProps = BaseTextInputProps & {
   control: Control;
@@ -17,24 +16,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    marginBottom: theme.dimensions.padding,
-  },
-  label: {
-    fontSize: theme.text.baseSize,
-    marginBottom: theme.dimensions.padding / 2,
-  },
-  input: {
-    paddingVertical: theme.dimensions.padding / 2,
-    marginBottom: theme.dimensions.padding,
-    backgroundColor: theme.colors.background,
-    borderBottomColor: theme.colors.border,
-    borderBottomWidth: 1,
-    borderRadius: theme.dimensions.radius,
-    fontSize: theme.text.baseSize,
-  },
-  errorLabel: {
-    color: 'red',
-    fontSize: theme.text.baseSize * 0.8,
   },
 }));
 
@@ -44,17 +25,19 @@ export function TextInput({ control, name, label, required, errors, ...rest }: T
   return (
     <Controller
       control={control}
-      render={({ field: { onChange, value, onBlur } }) => (
+      render={({ field: { onChange, value, ...fieldProps } }) => (
         <View style={styles.root}>
-          <Text style={styles.label}>{label}</Text>
           <BaseTextInput
-            style={styles.input}
+            mode="outlined"
+            label={label}
             onChangeText={onChange}
             value={value}
-            onBlur={onBlur}
             {...rest}
+            {...fieldProps}
           />
-          <Text style={styles.errorLabel}>{errors?.[name]?.type && 'This field is required'}</Text>
+          <HelperText type="error" visible={errors?.[name]?.type ?? false}>
+            This field is required
+          </HelperText>
         </View>
       )}
       name={name}
