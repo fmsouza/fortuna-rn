@@ -6,5 +6,10 @@ module.exports = function(api) {
       '@babel/transform-react-jsx-source',
       'babel-plugin-transform-typescript-metadata',
     ],
+    env: {
+      production: {
+        plugins: ['react-native-paper/babel'],
+      },
+    },
   };
 };

@@ -22,7 +22,7 @@ export async function sha256(message: string): Promise<string> {
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-export function deepMerge<T>(sourceObject: T, targetObject: T): T {
+export function deepMerge(sourceObject: any, targetObject: any): any {
   const sourceClose = _cloneDeep(sourceObject);
   const targetClose = _cloneDeep(targetObject);
   return _merge(sourceClose, targetClose);
