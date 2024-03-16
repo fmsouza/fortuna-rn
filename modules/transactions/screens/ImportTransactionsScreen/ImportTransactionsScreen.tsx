@@ -66,11 +66,7 @@ export function ImportTransactionsScreen() {
             <Text variant="bodyLarge">or</Text>
           </View>
         }
-        renderItem={({ item }) => (
-          <View>
-            <TransactionItem transaction={item} />
-          </View>
-        )}
+        renderItem={({ item }) => <TransactionItem transaction={item} />}
         ListFooterComponent={
           <View style={styles.buttonRow}>
             <Button icon="plus" mode="contained" onPress={state.onPressAddAnotherTransaction}>
