@@ -5,7 +5,7 @@ import { Account } from "~/modules/accounts/types";
 import { Maybe } from "~/modules/shared/types";
 import { sha256 } from "~/modules/shared/utils";
 
-import { TransactionType } from "../constants";
+import { StandardTransactionCategory, TransactionType } from "../constants";
 import { TransactionInput } from "../types";
 
 export async function transformer(account: Account, columns: string[]): Promise<Maybe<TransactionInput>> {
@@ -30,16 +30,16 @@ export async function transformer(account: Account, columns: string[]): Promise<
   let categoryId; {
     switch(true) {
       case isTaxes:
-        categoryId = 'taxes';
+        categoryId = StandardTransactionCategory.TAXES;
         break;
         case isRefunds:
-          categoryId = 'refunds';
+          categoryId = StandardTransactionCategory.REFUNDS;
           break;
         case isIncome:
-          categoryId = 'income';
+          categoryId = StandardTransactionCategory.INCOME;
           break;
       default:
-        categoryId = 'other';
+        categoryId = StandardTransactionCategory.OTHER;
         break;
     }
   };

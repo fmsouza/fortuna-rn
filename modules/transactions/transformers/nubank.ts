@@ -4,7 +4,7 @@ import { Account } from "~/modules/accounts/types";
 import { Maybe } from "~/modules/shared/types";
 import { sha256 } from "~/modules/shared/utils";
 
-import { TransactionType } from "../constants";
+import { StandardTransactionCategory, TransactionType } from "../constants";
 import { TransactionInput } from "../types";
 
 export async function transformer(account: Account, columns: string[], headers: string[]): Promise<Maybe<TransactionInput>> {
@@ -34,7 +34,7 @@ export async function debitTransformer(account: Account, columns: string[]): Pro
     amount: Math.abs(amount),
     origin: '',
     details: [operation, ...others].join(' - '),
-    categoryId: isIncome ? 'income' : 'other',
+    categoryId: isIncome ? StandardTransactionCategory.INCOME : StandardTransactionCategory.OTHER,
     registeredAt: dayjs(registeredAt, "DD/MM/YYYY").toDate(),
   };
 }
@@ -64,21 +64,21 @@ export async function creditTransformer(account: Account, columns: string[]): Pr
   };
 }
 
-const TRANSACTION_CATGEGORY_MAP: Record<string, string> = {
-  'saúde': 'health',
-  'casa': 'home',
-  'supermercado': 'groceries',
-  'outros': 'other',
-  'transporte': 'transportation',
-  'restaurante': 'food',
-  'serviços': 'services',
-  'tax_foreign': 'taxes',
-  'forex_delta': 'taxes',
-  'subscription_fee': 'taxes',
-  'viagem': 'travel',
-  'eletrônicos': 'shopping',
-  'lazer': 'entertainment',
-  'vestuário': 'shopping',
-  'insurance_payment_upfront_national': 'taxes',
-  'educação': 'education',
+const TRANSACTION_CATGEGORY_MAP: Record<string, StandardTransactionCategory> = {
+  'saúde': StandardTransactionCategory.HEALTH,
+  'casa': StandardTransactionCategory.HOME,
+  'supermercado': StandardTransactionCategory.GROCERIES,
+  'outros': StandardTransactionCategory.OTHER,
+  'transporte': StandardTransactionCategory.TRANSPORTATION,
+  'restaurante': StandardTransactionCategory.FOOD,
+  'serviços': StandardTransactionCategory.SERVICES,
+  'tax_foreign': StandardTransactionCategory.TAXES,
+  'forex_delta': StandardTransactionCategory.TAXES,
+  'subscription_fee': StandardTransactionCategory.TAXES,
+  'viagem': StandardTransactionCategory.TRAVEL,
+  'eletrônicos': StandardTransactionCategory.SHOPPING,
+  'lazer': StandardTransactionCategory.ENTERTAINMENT,
+  'vestuário': StandardTransactionCategory.SHOPPING,
+  'insurance_payment_upfront_national': StandardTransactionCategory.TAXES,
+  'educação': StandardTransactionCategory.EDUCATION,
 };

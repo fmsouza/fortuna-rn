@@ -60,7 +60,7 @@ export function ImportTransactionsScreen() {
         keyExtractor={(item) => `${item.id ?? 0}-${item.registeredAt?.toISOString()}`}
         ListEmptyComponent={
           <View style={styles.buttonRow}>
-            <Button icon="file-download-outline" mode="contained" onPress={() => console.log('Pressed')}>
+            <Button icon="file-download-outline" mode="contained" onPress={state.onPressImport}>
               Import from CSV
             </Button>
             <Text variant="bodyLarge">or</Text>

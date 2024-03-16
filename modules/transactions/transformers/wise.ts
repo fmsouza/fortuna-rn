@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { Account } from "~/modules/accounts/types";
 import { Maybe } from "~/modules/shared/types";
 
-import { TransactionType } from "../constants";
+import { StandardTransactionCategory, TransactionType } from "../constants";
 import { TransactionInput } from "../types";
 
 export async function transformer(account: Account, columns: string[], headers: string[]): Promise<Maybe<TransactionInput>> {
@@ -53,20 +53,20 @@ export async function statementsTransformer(account: Account, columns: string[])
   let categoryId; {
     switch(true) {
       case isCashback:
-        categoryId = 'cashback';
+        categoryId = StandardTransactionCategory.CASHBACK;
         break;
       case isTaxes:
-        categoryId = 'taxes';
+        categoryId = StandardTransactionCategory.TAXES;
         break;
         case isWiseRefunds:
         case isMerchantRefunds:
-          categoryId = 'refunds';
+          categoryId = StandardTransactionCategory.REFUNDS;
           break;
         case isIncome:
-          categoryId = 'income';
+          categoryId = StandardTransactionCategory.INCOME;
           break;
       default:
-        categoryId = 'other';
+        categoryId = StandardTransactionCategory.OTHER;
         break;
     }
   };
@@ -118,7 +118,7 @@ export async function transactionHistoryTransformer(account: Account, columns: s
       amount: Number(targetAmount.replace(/,/g, '.') ?? 0),
       origin: sourceName,
       details: '',
-      categoryId: 'other',
+      categoryId: StandardTransactionCategory.OTHER,
       registeredAt: dayjs(finishedOn, "YYYY-MM-DD HH:mm:ss").toDate(), // Finished On  \"2023-09-28 19:09:32\"
   };
 }

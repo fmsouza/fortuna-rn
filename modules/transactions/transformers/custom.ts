@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 
 import { Account } from "~/modules/accounts/types";
 
-import { TransactionType } from "../constants";
+import { StandardTransactionCategory, TransactionType } from "../constants";
 import { TransactionInput } from "../types";
 
 export async function transformer(account: Account, columns: string[]): Promise<TransactionInput> {
@@ -28,7 +28,7 @@ export async function transformer(account: Account, columns: string[]): Promise<
       amount: Math.abs(amount),
       origin,
       details,
-      categoryId: isIncome ? 'income' : 'other',
+      categoryId: isIncome ? StandardTransactionCategory.INCOME : StandardTransactionCategory.OTHER,
       registeredAt: dayjs(registeredAt, "YYYY-MM-DD").toDate(),
   };
 }

@@ -1,14 +1,16 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useMemo, useReducer } from "react";
-import { useAccount } from "~/modules/accounts/hooks";
+import * as DocumentPicker from 'expo-document-picker';
 
-import { Account } from "~/modules/accounts/types";
+import { useAccount } from "~/modules/accounts/hooks";
 import { Maybe } from "~/modules/shared/types";
 import { readFile } from "~/modules/shared/utils";
 import { useSaveTransactions } from "~/modules/transactions/hooks";
 import { csvToTransactions } from "~/modules/transactions/transformers";
 import { Transaction } from "~/modules/transactions/types";
 import { aggregateUncategorizedTransactionsByTitle } from "~/modules/transactions/utils";
+import { StandardTransactionCategory } from "~/modules/transactions/constants";
+
 
 export function useImportTransactionsScreenState() {
   const router = useRouter();
@@ -21,13 +23,18 @@ export function useImportTransactionsScreenState() {
     dispatch({type: ActionType.SHOW_UPSERT_TRANSACTION_MODAL});
   }, [dispatch]);
 
-  const onImport = useCallback(async (file: Maybe<File>) => {
-    if (!file) return;
-
+  const onPressImport = useCallback(async () => {
     try {
+      const document = await DocumentPicker.getDocumentAsync({type: 'text/csv'});
+      if (document.canceled) {
+        return;
+      }
+
       dispatch({type: ActionType.SET_LOADING_IMPORT_LOADING_STATE});
 
-      const fileContents = await readFile(file);
+      const [{file}] = document.assets;
+
+      const fileContents = await readFile(file!);
       const trxns = await csvToTransactions(account!, fileContents);
 
       dispatch({type: ActionType.SAVE_IMPORTED_TRANSACTIONS, data: trxns});
@@ -101,12 +108,12 @@ export function useImportTransactionsScreenState() {
 
   return {
     transactions: state.transactions,
-    uncategorizedTransactionsCount: state.transactions.filter(trx => trx.categoryId === 'other').length,
+    uncategorizedTransactionsCount: state.transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER).length,
     uncategorizedTransactionGroups,
     uncategorizedTransactionGroupsCount: Object.keys(uncategorizedTransactionGroups).length,
     loading,
     error,
-    onImport,
+    onPressImport,
     showUpsertTransactionModal: state.showUpsertTransactionModal,
     showUncategorizedTransactionsModal: state.showUncategorizedTransactionsModal,
     onPressAddAnotherTransaction,
