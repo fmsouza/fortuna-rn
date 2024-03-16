@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 
-import { clearDatabase } from "~/modules/shared/database";
+import { clearDatabase } from "~/db";
 
 
 export function useClearAllData() {

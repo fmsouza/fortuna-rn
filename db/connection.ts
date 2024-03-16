@@ -10,7 +10,9 @@ export const dataSource = new DataSource({
   type: 'expo',
   driver: require('expo-sqlite'),
   entities: ENTITIES,
-  synchronize: true,
+  logging: ['error', 'schema'],
+  synchronize: false,
+  migrationsRun: true,
 });
 
 export async function dbWaitForReady(): Promise<void> {

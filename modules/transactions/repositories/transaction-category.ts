@@ -1,4 +1,4 @@
-import { dbWaitForReady } from '~/modules/shared/database';
+import { dbWaitForReady } from '~/db';
 
 import { TransactionCategory, TransactionCategoryInput } from "../types";
 

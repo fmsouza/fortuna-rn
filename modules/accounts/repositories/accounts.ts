@@ -1,5 +1,5 @@
 import { Maybe } from "~/modules/shared/types";
-import { dbWaitForReady } from "~/modules/shared/database";
+import { dbWaitForReady } from "~/db";
 
 import { Account, AccountInput } from "../types";
 

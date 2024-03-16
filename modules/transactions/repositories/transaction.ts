@@ -1,7 +1,7 @@
 import { Between } from "typeorm";
 
 import { Maybe } from "~/modules/shared/types";
-import { dbWaitForReady } from '~/modules/shared/database';
+import { dbWaitForReady } from '~/db';
 
 import { Transaction, TransactionInput } from "../types";
 
