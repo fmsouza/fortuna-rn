@@ -60,7 +60,7 @@ export function ImportTransactionsScreen() {
 
       <FlatList
         data={state.transactions}
-        keyExtractor={(item) => item.externalId!}
+        keyExtractor={(item, index) => [item.externalId!, index].join('-')}
         ListHeaderComponent={state.uncategorizedTransactionGroupsCount === 0 ? null : (
           <View style={styles.itemRow}>
             <ReviewUncategorizedTransactions
