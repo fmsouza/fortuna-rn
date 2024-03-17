@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { FlatList, View } from "react-native";
-import { Card, Modal, Text } from "react-native-paper";
+import { Button, FlatList, View } from "react-native";
+import { Card, IconButton, Text } from "react-native-paper";
 
 import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
-import { HeaderButton } from "~/modules/shared/components";
+import { Modal } from "~/modules/shared/components";
 
 import { StandardTransactionCategory } from "../constants";
 import { CategorySelect } from "../components";
+import { IS_IOS } from "~/modules/shared/constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,25 +42,22 @@ const useStyles = makeStyles((theme) => ({
 type UncategorizedTransactionsModalProps = {
   onDismiss: (updates?: Maybe<Record<string, number>>) => void;
   transactionGroups: Record<string, number>;
+  visible: boolean;
 };
 
-export function UncategorizedTransactionsModal({ onDismiss, transactionGroups }: UncategorizedTransactionsModalProps) {
+export function UncategorizedTransactionsModal({ onDismiss, transactionGroups, visible }: UncategorizedTransactionsModalProps) {
   const styles = useStyles();
   const [values, setValues] = useState<Record<string, number>>({});
 
   const groups = Object.keys(transactionGroups).sort((a, b) => transactionGroups[b] - transactionGroups[a]);
 
   return (
-    <Modal visible onDismiss={() => onDismiss()} style={{ maxHeight: '90%'}} contentContainerStyle={styles.root} dismissableBackButton dismissable>
-      <View style={styles.modalHeader}>
-        <View>
-          <HeaderButton title="Cancel" icon="close" onPress={() => onDismiss()} />
-        </View>
-        <Text variant="titleMedium">Review Categories</Text>
-        <View>
-          <HeaderButton title="Save" icon="content-save" onPress={() => onDismiss(values)} />
-        </View>
-      </View>
+    <Modal visible={visible} onDismiss={onDismiss} style={styles.root}>
+      <Modal.Header
+        title="Review Categories"
+        left={<Modal.Header.Button title="Close" icon="close" onPress={onDismiss} />}
+        right={<Modal.Header.Button title="Save" icon="content-save" onPress={() => onDismiss(values)} />}
+      />
       <FlatList
         contentContainerStyle={styles.modalContent}
         data={groups}

@@ -110,6 +110,7 @@ export function ImportTransactionsScreen() {
         <UncategorizedTransactionsModal
           onDismiss={state.onDismissReviewUncategorizedTransactions}
           transactionGroups={state.uncategorizedTransactionGroups}
+          visible
         />
       )}
     </Container>
