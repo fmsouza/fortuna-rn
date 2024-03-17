@@ -14,10 +14,7 @@ const periodLabel = (period: Date): string => {
 export const useAccountDetailsScreenState = () => {
   const router = useRouter();
   const { accountId } = useLocalSearchParams();
-  const [currentPeriod, setCurrentPeriod] = useState<Date>(() => {
-    const today = new Date();
-    return new Date(today.getFullYear(), today.getMonth(), 1);
-  });
+  const [currentPeriod, setCurrentPeriod] = useState<Maybe<Date>>(null);
   const {account, loading: accountLoading, error: accountError} = useAccount(Number(accountId));
   const {periods: trxPeriods, loading: periodsLoading, error: periodsError} = useTransactionPeriods(Number(accountId));
   const {transactions, loading: transactionsLoading, error: transactionsError} = useTransactions({
@@ -27,6 +24,7 @@ export const useAccountDetailsScreenState = () => {
 
   const handleChangePeriod = useCallback((period: Maybe<string>) => {
     if (!period) return;
+    if (period === 'all') return setCurrentPeriod(null);
     setCurrentPeriod(new Date(period));
   }, [setCurrentPeriod]);
 
@@ -39,10 +37,12 @@ export const useAccountDetailsScreenState = () => {
   const canShowPeriods = account && trxPeriods?.length > 0;
   const canShowList = account && !loading && !error;
 
-  const periods = trxPeriods?.map((period: Date) => ({
+  const datePeriods = trxPeriods?.map((period: Date) => ({
     label: periodLabel(period),
     value: period.toISOString(),
-  }));
+  })) ?? [];
+
+  const periods = [{label: 'All', value: 'all'}, ...datePeriods];
 
   return {
     account,

@@ -1,13 +1,12 @@
-import { Button, ProgressBar, SegmentedButtons, Snackbar, Text } from 'react-native-paper';
-
 import { makeStyles } from '~/theme';
 import { Container, HeaderButton, SwiperView } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 
 import { useAccountDetailsScreenState } from './useAccountDetailsScreenState';
 import { NoTransactions } from './NoTransactions';
+import { MonthOverview } from './MonthOverview';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -30,14 +29,19 @@ export function AccountDetailsScreen() {
   return (
     <Container style={styles.container}>
       <SwiperView
-        activeItem={state.currentPeriod.toISOString()}
+        activeItem={state.currentPeriod?.toISOString() ?? 'all'}
         items={state.periods}
         onChangeActiveItem={state.handleChangePeriod}
-        renderScreen={({ value: currentPeriod }, index) => (
+        renderScreen={(_item, index) => (
           <Container key={index} style={styles.container}>
             {state.showList && (
               <>
-                {state.transactions.length === 0 && <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />}
+                {state.transactions.length === 0 ?
+                  <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />
+                : state.account && state.currentPeriod ? 
+                  <MonthOverview account={state.account} currentPeriod={state.currentPeriod} transactions={state.transactions} />
+                : null
+                }
               </>
             )}
           </Container>
