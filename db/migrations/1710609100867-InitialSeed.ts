@@ -15,10 +15,10 @@ export class InitialSeed1710609100867 implements MigrationInterface {
       {id: 10, removable: false, parentId: null, type: 'expense', title: 'Pet'},
       {id: 11, removable: false, parentId: null, type: 'expense', title: 'Travel'},
       {id: 12, removable: false, parentId: null, type: 'expense', title: 'Taxes'},
-      {id: 13, removable: false, parentId: null, type: 'expense', title: 'Other'},
-      {id: 14, removable: false, parentId: null, type: 'income',  title: 'Income'},
-      {id: 15, removable: false, parentId: null, type: 'income',  title: 'Cashback'},
-      {id: 16, removable: false, parentId: null, type: 'income',  title: 'Refunds'},
+      {id: 13, removable: false, parentId: null, type: 'income',  title: 'Income'},
+      {id: 14, removable: false, parentId: null, type: 'income',  title: 'Cashback'},
+      {id: 15, removable: false, parentId: null, type: 'income',  title: 'Refunds'},
+      {id: 16, removable: false, parentId: null, type: 'expense', title: 'Other'},
     ];
 
     await queryRunner.query(`
