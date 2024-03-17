@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
+    flex: 1
   },
 }));
 
