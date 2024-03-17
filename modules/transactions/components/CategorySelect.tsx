@@ -4,7 +4,7 @@ import { Dropdown, DropdownProps } from "~/modules/shared/components";
 
 import { useTransactionCategories } from "../hooks";
 
-export type CategorySelectProps = Omit<DropdownProps, 'onChange' | 'options'> & {
+export type CategorySelectProps = Omit<DropdownProps, 'onChange' | 'options' | 'value'> & {
   onChange: (categoryId: number) => void;
   categoryId?: number;
 };
