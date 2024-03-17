@@ -7,7 +7,7 @@ import { useHeaderOptions } from "~/modules/shared/navigation";
 import { TransactionItem } from "~/modules/transactions/components";
 import { Transaction } from "~/modules/transactions/types";
 
-import { UpsertTransactionModal } from "~/modules/transactions/modals";
+import { UpsertTransactionSheet } from "~/modules/transactions/modals";
 
 import { useImportTransactionsScreenState } from "./useImportTransactionsScreenState";
 import { ReviewUncategorizedTransactions } from "./ReviewUncaterorizedTransactions";
@@ -97,12 +97,12 @@ export function ImportTransactionsScreen() {
           </View>
         }
       />
-      {state.showUpsertTransactionModal && (
-        <UpsertTransactionModal
+      {state.showUpsertTransactionSheet && (
+        <UpsertTransactionSheet
           currency={state.account?.currency!}
-          onDismiss={state.onDismissUpsertTransactionModal}
+          onDismiss={state.onDismissUpsertTransactionSheet}
           transaction={state.selectedTransaction}
-          visible={state.showUpsertTransactionModal}
+          visible={state.showUpsertTransactionSheet}
         />
       )}
     </Container>

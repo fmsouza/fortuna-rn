@@ -43,7 +43,7 @@ export function useImportTransactionsScreenState() {
     }
   }, [account, dispatch, state]);
 
-  const onDismissUpsertTransactionModal = useCallback((trx?: Maybe<Partial<Transaction>>) => {
+  const onDismissUpsertTransactionSheet = useCallback((trx?: Maybe<Partial<Transaction>>) => {
     if (!trx) {
       dispatch({type: ActionType.DISMISS_UPSERT_TRANSACTION_MODAL});
       return;
@@ -114,10 +114,10 @@ export function useImportTransactionsScreenState() {
     loading,
     error,
     onPressImport,
-    showUpsertTransactionModal: state.showUpsertTransactionModal,
+    showUpsertTransactionSheet: state.showUpsertTransactionSheet,
     showUncategorizedTransactionsModal: state.showUncategorizedTransactionsModal,
     onPressAddAnotherTransaction,
-    onDismissUpsertTransactionModal,
+    onDismissUpsertTransactionSheet,
     selectedTransaction,
     canRemoveTransactions,
     onPressEditTransaction,
@@ -132,7 +132,7 @@ export function useImportTransactionsScreenState() {
 
 const INITIAL_STATE = {
   selectedTransactionIndex: -1,
-  showUpsertTransactionModal: false,
+  showUpsertTransactionSheet: false,
   showUncategorizedTransactionsModal: false,
   loadingImport: false,
   importError: null,
@@ -184,7 +184,7 @@ function stateReducer(state: typeof INITIAL_STATE, action: {type: ActionType; da
       return {
         ...state,
         selectedTransactionIndex: selectedTransactionIndex ?? -1,
-        showUpsertTransactionModal: true
+        showUpsertTransactionSheet: true
       };
     }
 
@@ -192,7 +192,7 @@ function stateReducer(state: typeof INITIAL_STATE, action: {type: ActionType; da
       return {
         ...state,
         selectedTransactionIndex: -1,
-        showUpsertTransactionModal: false,
+        showUpsertTransactionSheet: false,
       };
     }
 
@@ -218,7 +218,7 @@ function stateReducer(state: typeof INITIAL_STATE, action: {type: ActionType; da
       return {
         ...state,
         selectedTransactionIndex: -1,
-        showUpsertTransactionModal: false,
+        showUpsertTransactionSheet: false,
         transactions: state.transactions.map((t, i) => i === selectedTransactionIndex ? {...t, ...transaction} : t),
       };
     }
@@ -228,7 +228,7 @@ function stateReducer(state: typeof INITIAL_STATE, action: {type: ActionType; da
       return {
         ...state,
         selectedTransactionIndex: -1,
-        showUpsertTransactionModal: false,
+        showUpsertTransactionSheet: false,
         transactions: state.transactions.filter((_, i) => i !== selectedTransactionIndex),
       };
     }

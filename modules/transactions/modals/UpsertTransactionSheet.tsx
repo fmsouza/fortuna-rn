@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   row: {}
 }));
 
-type UpsertTransactionModalProps = {
+type UpsertTransactionSheetProps = {
   currency: Currency;
   onDismiss: (trx?: Maybe<Partial<Transaction>>) => void;
   transaction?: Maybe<Partial<Transaction>>;
   visible: boolean;
 };
 
-export function UpsertTransactionModal({ currency, onDismiss, transaction }: UpsertTransactionModalProps) {
+export function UpsertTransactionSheet({ currency, onDismiss, transaction }: UpsertTransactionSheetProps) {
   const styles = useStyles();
 
   const {
