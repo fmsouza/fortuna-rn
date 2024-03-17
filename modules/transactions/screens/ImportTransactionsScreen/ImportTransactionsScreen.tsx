@@ -7,7 +7,7 @@ import { useHeaderOptions } from "~/modules/shared/navigation";
 import { TransactionItem } from "~/modules/transactions/components";
 import { Transaction } from "~/modules/transactions/types";
 
-import { UpsertTransactionSheet } from "~/modules/transactions/modals";
+import { UncategorizedTransactionsModal, UpsertTransactionSheet } from "~/modules/transactions/modals";
 
 import { useImportTransactionsScreenState } from "./useImportTransactionsScreenState";
 import { ReviewUncategorizedTransactions } from "./ReviewUncaterorizedTransactions";
@@ -104,6 +104,12 @@ export function ImportTransactionsScreen() {
           onDismiss={state.onDismissUpsertTransactionSheet}
           transaction={state.selectedTransaction}
           visible={state.showUpsertTransactionSheet}
+        />
+      )}
+      {state.showUncategorizedTransactionsModal && (
+        <UncategorizedTransactionsModal
+          onDismiss={state.onDismissReviewUncategorizedTransactions}
+          transactionGroups={state.uncategorizedTransactionGroups}
         />
       )}
     </Container>

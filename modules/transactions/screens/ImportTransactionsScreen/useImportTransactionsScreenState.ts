@@ -75,7 +75,7 @@ export function useImportTransactionsScreenState() {
     dispatch({type: ActionType.SHOW_REVIEW_UNCATEGORIZED_TRANSACTIONS_MODAL});
   }, [dispatch]);
 
-  const onDismissReviewUncategorizedTransactions = useCallback((updates?: Maybe<Record<string, string>>) => {
+  const onDismissReviewUncategorizedTransactions = useCallback((updates?: Maybe<Record<string, number>>) => {
     if (!updates) {
       dispatch({type: ActionType.DISMISS_REVIEW_UNCATEGORIZED_TRANSACTIONS_MODAL});
       return;
