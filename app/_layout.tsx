@@ -18,9 +18,12 @@ import {
   adaptNavigationTheme,
 } from 'react-native-paper';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { en, registerTranslation } from 'react-native-paper-dates'
 
 import { deepMerge } from '~/modules/shared/utils';
 import { SharedBaseTheme } from '~/theme/shared';
+
+registerTranslation('en', en);
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,

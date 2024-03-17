@@ -7,7 +7,7 @@ import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
 import { CURRENCY_SYMBOLS, Currency } from "~/modules/accounts/constants";
 import { Transaction } from "~/modules/transactions/types";
-import { BottomSheet, DropdownInput, TextInput } from "~/modules/shared/components";
+import { BottomSheet, DateSelectInput, DropdownInput, TextInput } from "~/modules/shared/components";
 
 import { TransactionType } from "../constants";
 import { CategorySelectInput } from "../components";
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
     padding: theme.dimensions.padding(),
+    paddingBottom: theme.dimensions.padding(4),
   },
   row: {}
 }));
@@ -72,6 +73,7 @@ export function UpsertTransactionModal({ currency, onDismiss, transaction }: Ups
           name="title"
           label="Title"
           placeholder="Energy bill, groceries, etc."
+          multiline
           required
           errors={errors}
         />
@@ -90,38 +92,43 @@ export function UpsertTransactionModal({ currency, onDismiss, transaction }: Ups
           errors={errors}
         />
       </View>
-      {/* <View style={styles.row}>
+      <View style={styles.row}>
         <CategorySelectInput
           control={control}
+          name="categoryId"
+          label="Category"
           required
           errors={errors}
         />
-      </View> */}
+      </View>
       <View style={styles.row}>
         <TextInput
           control={control}
           name="amount"
           label={`Amount (${CURRENCY_SYMBOLS[currency]})`}
           placeholder="0.00"
+          keyboardType="numeric"
+          inputMode="decimal"
           required
           errors={errors}
         />
       </View>
-      {/* <View style={styles.row}>
-        <TextInput
+      <View style={styles.row}>
+        <DateSelectInput
           control={control}
           name="registeredAt"
           label="Transaction Date"
           required
           errors={errors}
         />
-      </View> */}
+      </View>
       <View style={styles.row}>
         <TextInput
           control={control}
           name="origin"
           label="Origin"
           placeholder="Where did the transaction come from?"
+          multiline
           required
           errors={errors}
         />
@@ -143,6 +150,7 @@ export function UpsertTransactionModal({ currency, onDismiss, transaction }: Ups
           name="externalId"
           label="External ID"
           placeholder="Transaction ID from the bank"
+          multiline
           required
           errors={errors}
         />

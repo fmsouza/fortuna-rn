@@ -4,9 +4,9 @@ import { HelperText } from 'react-native-paper';
 
 import { makeStyles } from "~/theme";
 
-import { CategorySelect, CategorySelectProps } from "./CategorySelect";
+import { DateSelect, DateSelectProps } from "./DateSelect";
 
-type CategorySelectInputProps = Omit<CategorySelectProps, 'onChange'> & {
+type DateSelectInputProps = Omit<DateSelectProps, 'onChange'> & {
   control: Control;
   name: string;
   required?: boolean;
@@ -18,13 +18,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  menu: {
-    marginTop: -68,
-    width: theme.viewport.width - (theme.dimensions.padding() * 2),
-  }
 }));
 
-export function CategorySelectInput({ control, mode = 'outlined', name, required, errors, ...rest }: CategorySelectInputProps) {
+export function DateSelectInput({ control, mode = 'outlined', name, required, errors, ...rest }: DateSelectInputProps) {
   const styles = useStyles();
 
   return (
@@ -32,11 +28,10 @@ export function CategorySelectInput({ control, mode = 'outlined', name, required
       control={control}
       render={({ field: { ...fieldProps } }) => (
         <View style={styles.root}>
-          <CategorySelect
+          <DateSelect
             {...rest}
             {...fieldProps}
             mode={mode}
-            categoryId={fieldProps.value}
           />
           <HelperText type="error" visible={errors?.[name]?.type ?? false}>
             This field is required

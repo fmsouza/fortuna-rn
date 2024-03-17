@@ -13,10 +13,9 @@ export type DropdownProps = Omit<TextInputProps, 'onChangeText'> & {
   options: Option[];
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: -68,
-    width: theme.viewport.width - (theme.dimensions.padding() * 2),
+const useStyles = makeStyles(() => ({
+  menuItem: {
+    width: '100%',
   }
 }));
 
@@ -30,7 +29,7 @@ export function Dropdown({ mode = 'outlined', onChange, options, ...props }: Dro
     <Menu
       visible={visible}
       onDismiss={() => setVisible(false)}
-      style={styles.root}
+      anchorPosition="bottom"
       anchor={
         <TextInput
           {...props}
@@ -43,7 +42,7 @@ export function Dropdown({ mode = 'outlined', onChange, options, ...props }: Dro
         />
       }>
         {options.map((option, index) => (
-          <Menu.Item key={index} onPress={() => { onChange(option.value); setVisible(false); }} title={option.label} />
+          <Menu.Item contentStyle={styles.menuItem} key={index} onPress={() => { onChange(option.value); setVisible(false); }} title={option.label} />
         ))}
     </Menu>
   );

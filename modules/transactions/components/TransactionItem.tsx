@@ -6,7 +6,7 @@ import { CURRENCY_SYMBOLS, Currency } from "~/modules/accounts/constants";
 import { Transaction } from "~/modules/transactions/types";
 import { TransactionType } from "~/modules/transactions/constants";
 
-import { CategorySelectInput } from "./CategorySelectInput";
+import { CategorySelect } from "./CategorySelect";
 
 const useStyles = makeStyles((theme) => ({
   buttonRow: {
@@ -44,7 +44,7 @@ export function TransactionItem({ currency, onEdit, onRemove, onUpdateCategory, 
       >
         <View style={styles.categoryRow}>
           <Text variant="labelLarge">Category</Text>
-          <CategorySelectInput categoryId={transaction.categoryId} onChange={onUpdateCategory} />
+          <CategorySelect categoryId={transaction.categoryId} onChange={onUpdateCategory} />
         </View>
 
         <List.Item
