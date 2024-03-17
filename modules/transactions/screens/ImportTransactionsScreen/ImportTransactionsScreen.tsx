@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: theme.dimensions.padding(2),
   },
   topDividerText: {
     paddingTop: theme.dimensions.padding(2),
