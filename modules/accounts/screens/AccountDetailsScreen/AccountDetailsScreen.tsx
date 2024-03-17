@@ -5,6 +5,7 @@ import { useHeaderOptions } from '~/modules/shared/navigation';
 import { useAccountDetailsScreenState } from './useAccountDetailsScreenState';
 import { NoTransactions } from './NoTransactions';
 import { MonthOverview } from './MonthOverview';
+import { AllTimeInsights } from './AllTimeInsights';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -38,9 +39,9 @@ export function AccountDetailsScreen() {
               <>
                 {state.transactions.length === 0 ?
                   <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />
-                : state.account && state.currentPeriod ? 
-                  <MonthOverview account={state.account} currentPeriod={state.currentPeriod} transactions={state.transactions} />
-                : null
+                : state.currentPeriod ? 
+                  <MonthOverview account={state.account!} currentPeriod={state.currentPeriod} transactions={state.transactions} />
+                : <AllTimeInsights account={state.account!} transactions={state.transactions} />
                 }
               </>
             )}
