@@ -50,7 +50,7 @@ export function ImportTransactionsScreen() {
   useHeaderOptions({
     title: `Import Transactions ${state.transactions.length > 0 ? `(${state.transactions.length})` : ''}`,
     headerRight: () => (
-      <HeaderButton title="Save" icon="content-save" onPress={() => {}} />
+      <HeaderButton title="Save" icon="content-save" onPress={state.onSaveTransactions} />
     ),
   });
 
