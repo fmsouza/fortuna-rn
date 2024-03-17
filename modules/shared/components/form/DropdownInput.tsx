@@ -11,7 +11,7 @@ type Option = {
   value: string;
 };
 
-type DropdownInputProps = DropdownProps & {
+type DropdownInputProps = Omit<DropdownProps, 'onChange'> & {
   control: Control;
   name: string;
   options: Option[];

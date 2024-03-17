@@ -10,6 +10,7 @@ import { Transaction } from "~/modules/transactions/types";
 
 import { useImportTransactionsScreenState } from "./useImportTransactionsScreenState";
 import { ReviewUncategorizedTransactions } from "./ReviewUncaterorizedTransactions";
+import { UpsertTransactionModal } from "../../modals";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -91,8 +92,16 @@ export function ImportTransactionsScreen() {
             </View>
           }
         />
-
       </Container>
+      
+      {state.showUpsertTransactionModal && (
+        <UpsertTransactionModal
+          currency={state.account?.currency!}
+          onDismiss={state.onDismissUpsertTransactionModal}
+          transaction={state.selectedTransaction}
+          visible={state.showUpsertTransactionModal}
+        />
+      )}
     </PaperProvider>
   );
 }

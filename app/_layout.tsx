@@ -5,6 +5,7 @@ import { Slot } from 'expo-router';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   ThemeProvider as NavigationThemeProvider,
   DarkTheme as NavigationDarkTheme,
@@ -16,6 +17,7 @@ import {
   MD3LightTheme,
   adaptNavigationTheme,
 } from 'react-native-paper';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import { deepMerge } from '~/modules/shared/utils';
 import { SharedBaseTheme } from '~/theme/shared';
@@ -38,13 +40,17 @@ export default function Layout() {
   const extendedTheme = deepMerge(theme, SharedBaseTheme);
 
   return (
-    <PaperProvider theme={extendedTheme}>
-      <NavigationThemeProvider value={extendedTheme}>
-        <QueryClientProvider client={queryClient}>
-          <StatusBar style="auto" />
-          <Slot />
-        </QueryClientProvider>
-      </NavigationThemeProvider>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <PaperProvider theme={extendedTheme}>
+          <NavigationThemeProvider value={extendedTheme}>
+            <QueryClientProvider client={queryClient}>
+              <StatusBar style="auto" />
+              <Slot />
+            </QueryClientProvider>
+          </NavigationThemeProvider>
+        </PaperProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }

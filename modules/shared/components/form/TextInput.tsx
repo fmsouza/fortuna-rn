@@ -24,11 +24,12 @@ export function TextInput({ control, mode = 'outlined', name, required, errors, 
   return (
     <Controller
       control={control}
-      render={({ field: { onChange, ...fieldProps } }) => (
+      render={({ field: { onChange, value, ...fieldProps } }) => (
         <View style={styles.root}>
           <BaseTextInput
             mode={mode}
             onChangeText={onChange}
+            value={String(value)}
             {...rest}
             {...fieldProps}
           />
