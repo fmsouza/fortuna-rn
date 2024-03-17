@@ -129,7 +129,6 @@ export function UpsertTransactionModal({ currency, onDismiss, transaction }: Ups
           label="Origin"
           placeholder="Where did the transaction come from?"
           multiline
-          required
           errors={errors}
         />
       </View>
@@ -140,7 +139,6 @@ export function UpsertTransactionModal({ currency, onDismiss, transaction }: Ups
           label="Details"
           placeholder="Any extra details about the transaction"
           multiline
-          required
           errors={errors}
         />
       </View>
