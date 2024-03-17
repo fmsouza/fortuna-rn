@@ -43,8 +43,8 @@ export function MostRecurringExpensesView({ account, limit = 3, period, transact
     <Card>
       <Card.Content>
         <Card.Title title="Most recurring expenses" titleVariant="titleLarge" />
-        {mostRecurrentTransactions.slice(0, limit).map(({id, title, count, amount}) => (
-          <Card.Content key={id} style={styles.trxnItem}>
+        {mostRecurrentTransactions.slice(0, limit).map(({title, count, amount}) => (
+          <Card.Content key={title} style={styles.trxnItem}>
             <Text variant="titleMedium">{title}</Text>
             <Text variant="bodyMedium">Total: {`${CURRENCY_SYMBOLS[account.currency]} ${amount.toFixed(2)}`}</Text>
             <Text variant="bodyMedium">Registered {count} times</Text>
