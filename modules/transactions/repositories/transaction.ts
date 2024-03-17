@@ -95,10 +95,30 @@ export async function updateTransaction(transaction: Transaction): Promise<void>
 }
 
 export async function getTransactionMonths(accountId?: Maybe<number>): Promise<Date[]> {
-  return Transaction.createQueryBuilder('transaction')
-  .select('MIN(strftime("%Y-%m-01", transaction.registeredAt)) as month')
-  .groupBy('strftime("%Y", transaction.registeredAt), strftime("%m", transaction.registeredAt)')
-  .orderBy('month', 'DESC')
-  .where('transaction.accountId = :accountId', { accountId })
-  .getRawMany();
+  const earliestDate = await getOlderTransactionDate(accountId);
+  if (!earliestDate) return [];
+
+  const today = new Date();
+  
+  const periods: Date[] = [];
+  let current = earliestDate;
+  while (current <= today) {
+    periods.push(current);
+    current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+  }
+
+  return periods.reverse();
+}
+
+async function getOlderTransactionDate(accountId?: Maybe<number>): Promise<Maybe<Date>> {
+  const queryBuilder = Transaction.createQueryBuilder('transaction')
+    .select('MIN(transaction.registeredAt)', 'registeredAt');
+
+  if (accountId) {
+    queryBuilder.where('transaction.accountId = :accountId', { accountId });
+  }
+
+  const item = await queryBuilder.getRawOne();
+
+  return item ? new Date(item.registeredAt) : null;
 }
