@@ -36,7 +36,7 @@ export function DropdownInput({ control, mode = 'outlined', name, options, requi
   return (
     <Controller
       control={control}
-      render={({ field: { ...fieldProps } }) => (
+      render={({ field: { ref, ...fieldProps } }) => (
         <View style={styles.root}>
           <Dropdown
             {...rest}
