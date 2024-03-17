@@ -14,7 +14,10 @@ const periodLabel = (period: Date): string => {
 export const useAccountDetailsScreenState = () => {
   const router = useRouter();
   const { accountId } = useLocalSearchParams();
-  const [currentPeriod, setCurrentPeriod] = useState<Maybe<Date>>(null);
+  const [currentPeriod, setCurrentPeriod] = useState<Date>(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
   const {account, loading: accountLoading, error: accountError} = useAccount(Number(accountId));
   const {periods: trxPeriods, loading: periodsLoading, error: periodsError} = useTransactionPeriods(Number(accountId));
   const {transactions, loading: transactionsLoading, error: transactionsError} = useTransactions({
@@ -23,7 +26,8 @@ export const useAccountDetailsScreenState = () => {
   });
 
   const handleChangePeriod = useCallback((period: Maybe<string>) => {
-    setCurrentPeriod(period ? new Date(period) : null);
+    if (!period) return;
+    setCurrentPeriod(new Date(period));
   }, [setCurrentPeriod]);
 
   const handlePressAddTransactions = useCallback(() => {

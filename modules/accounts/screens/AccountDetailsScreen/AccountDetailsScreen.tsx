@@ -1,8 +1,7 @@
-import { useLocalSearchParams } from 'expo-router';
-import { ProgressBar, SegmentedButtons, Snackbar } from 'react-native-paper';
+import { Button, ProgressBar, SegmentedButtons, Snackbar, Text } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
-import { Container, HeaderButton } from '~/modules/shared/components';
+import { Container, HeaderButton, SwiperView } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 
 import { useAccountDetailsScreenState } from './useAccountDetailsScreenState';
@@ -14,8 +13,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-    width: '100%',
-    paddingTop: theme.dimensions.spacing()
   },
 }));
 
@@ -32,20 +29,20 @@ export function AccountDetailsScreen() {
 
   return (
     <Container style={styles.container}>
-      {state.loading && <ProgressBar indeterminate />}
-      <Snackbar visible={state.error !== null} onDismiss={() => {}}>{state.error?.message}</Snackbar>
-      {state.showPeriods && (
-        <SegmentedButtons
-          value={state.currentPeriod?.toISOString() ?? 'all'}
-          onValueChange={state.handleChangePeriod}
-          buttons={state.periods}
-        />
-      )}
-      {state.showList && (
-        <>
-          {state.transactions.length === 0 && <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />}
-        </>
-      )}
+      <SwiperView
+        activeItem={state.currentPeriod.toISOString()}
+        items={state.periods}
+        onChangeActiveItem={state.handleChangePeriod}
+        renderScreen={({ value: currentPeriod }, index) => (
+          <Container key={index} style={styles.container}>
+            {state.showList && (
+              <>
+                {state.transactions.length === 0 && <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />}
+              </>
+            )}
+          </Container>
+        )}
+      />
     </Container>
   );
 }

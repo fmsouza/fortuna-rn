@@ -1,13 +1,10 @@
 import React, { ReactNode } from 'react';
-import { SafeAreaView, View, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
 import { makeStyles } from '~/theme';
 
 const useStyles = makeStyles((theme) => ({
-  safeWrapper: {
-    flex: 1,
-  },
-  container: {
+  root: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
@@ -27,10 +24,8 @@ export const Container = ({ children, style }: ContainerProps) => {
   const styles = useStyles();
 
   return (
-    <SafeAreaView style={styles.safeWrapper}>
-      <View style={StyleSheet.flatten([styles.container, style])}>
-        {children}
-      </View>
+    <SafeAreaView style={StyleSheet.flatten([styles.root, style])}>
+      {children}
     </SafeAreaView>
   );
 };
