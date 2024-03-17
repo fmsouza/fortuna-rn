@@ -1,4 +1,4 @@
-import { TransactionType } from "./constants";
+import { StandardTransactionCategory, TransactionType } from "./constants";
 import { Transaction } from "./types";
 
 export function listDaysInMonth(date: Date): number[] {
@@ -61,7 +61,7 @@ export function countTransactionsByTitle(transactions: Transaction[]): Record<st
 }
 
 export function aggregateUncategorizedTransactionsByTitle(transactions: Transaction[]): Record<string, number> {
-  const uncategorizedTransactions = transactions.filter(trx => trx.categoryId === 'other');
+  const uncategorizedTransactions = transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER);
   return countTransactionsByTitle(uncategorizedTransactions);
 }
 

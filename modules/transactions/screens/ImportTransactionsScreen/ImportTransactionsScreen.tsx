@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
     justifyContent: 'flex-start',
     width: '100%',
-    paddingTop: theme.dimensions.padding(2)
   },
   topButtonRow: {
     display: 'flex',
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.dimensions.padding(2)
   },
   itemRow: {
-    marginBottom: theme.dimensions.padding(1),
+    paddingBottom: theme.dimensions.padding(1),
   },
 }));
 
@@ -59,17 +58,18 @@ export function ImportTransactionsScreen() {
       {state.loading && <ProgressBar indeterminate />}
       <Snackbar visible={state.error !== null} onDismiss={() => {}}>{state.error?.message}</Snackbar>
 
-      {state.uncategorizedTransactionGroupsCount > 0 && (
-        <ReviewUncategorizedTransactions
-          onPressReview={state.onPressReviewUncategorizedTransactions}
-          uncategorizedTransactionGroupsCount={state.uncategorizedTransactionGroupsCount}
-          transactionsCount={state.uncategorizedTransactionsCount}
-        />
-      )}
-
       <FlatList
         data={state.transactions}
         keyExtractor={(item) => item.externalId!}
+        ListHeaderComponent={state.uncategorizedTransactionGroupsCount === 0 ? null : (
+          <View style={styles.itemRow}>
+            <ReviewUncategorizedTransactions
+              onPressReview={state.onPressReviewUncategorizedTransactions}
+              uncategorizedTransactionGroupsCount={state.uncategorizedTransactionGroupsCount}
+              transactionsCount={state.uncategorizedTransactionsCount}
+            />
+          </View>
+        )}
         ListEmptyComponent={
           <View style={styles.topButtonRow}>
             <Button icon="file-download-outline" mode="contained" onPress={state.onPressImport}>

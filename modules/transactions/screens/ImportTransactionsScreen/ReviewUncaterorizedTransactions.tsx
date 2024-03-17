@@ -12,7 +12,7 @@ export function ReviewUncategorizedTransactions({ onPressReview, transactionsCou
       visible
       actions={[
         {
-          label: 'Rewview',
+          label: 'Review',
           onPress: onPressReview,
         },
       ]}
