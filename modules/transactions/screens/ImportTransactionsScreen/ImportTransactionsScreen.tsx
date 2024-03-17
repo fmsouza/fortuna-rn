@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: theme.dimensions.padding(2),
+    paddingTop: theme.dimensions.spacing(2),
   },
   topDividerText: {
-    paddingTop: theme.dimensions.padding(2),
+    paddingTop: theme.dimensions.spacing(2),
     fontSize: theme.fonts.bodyLarge.fontSize,
   },
   bottomButtonRow: {
@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: theme.dimensions.padding(2)
+    marginTop: theme.dimensions.spacing(2)
   },
   itemRow: {
-    paddingBottom: theme.dimensions.padding(1),
+    paddingBottom: theme.dimensions.spacing(1),
   },
 }));
 

@@ -15,8 +15,8 @@ import { CategorySelectInput } from "../components";
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
-    padding: theme.dimensions.padding(),
-    paddingBottom: theme.dimensions.padding(4),
+    padding: theme.dimensions.spacing(),
+    paddingBottom: theme.dimensions.spacing(4),
   },
   row: {}
 }));

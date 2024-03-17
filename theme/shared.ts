@@ -8,10 +8,9 @@ const viewport = {
 };
 
 const dimensions = {
-  padding: (x = 1) => 8 * x,
-  margin: (x = 1) => 8 * x,
-  radius: (x = 1) => 4 * x,
-  border: (x = 1) => 2 * x,
+  spacing: (x = 1) => 8 * x,
+  radius: (x = 1) => 2 * x,
+  border: (x = 1) => 1 * x,
 };
 
 export const SharedBaseTheme = {

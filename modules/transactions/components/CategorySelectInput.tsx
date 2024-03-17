@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menu: {
     marginTop: -68,
-    width: theme.viewport.width - (theme.dimensions.padding() * 2),
+    width: theme.viewport.width - (theme.dimensions.spacing() * 2),
   }
 }));
 

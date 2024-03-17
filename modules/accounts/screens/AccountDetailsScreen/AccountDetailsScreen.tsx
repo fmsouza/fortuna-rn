@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
     justifyContent: 'flex-start',
     width: '100%',
-    marginTop: theme.dimensions.padding(2)
+    paddingTop: theme.dimensions.spacing()
   },
 }));
 

@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: theme.dimensions.padding(1),
+    padding: theme.dimensions.spacing(1),
   },
   categoryRow: {
     display: 'flex',
-    padding: theme.dimensions.padding(),
+    padding: theme.dimensions.spacing(),
   },
 }));
 

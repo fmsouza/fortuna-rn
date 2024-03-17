@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   row: {
-    marginVertical: theme.dimensions.padding(),
+    marginVertical: theme.dimensions.spacing(),
   }
 }));
 

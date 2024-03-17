@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
     justifyContent: 'flex-start',
     backgroundColor: theme.colors.background,
-    margin: theme.dimensions.padding(2),
+    margin: theme.dimensions.spacing(2),
     borderRadius: theme.dimensions.radius(2),
   },
   modalHeader: {
@@ -19,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: theme.dimensions.padding(1),
+    padding: theme.dimensions.spacing(1),
   },
   modalContent: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-    paddingHorizontal: theme.dimensions.padding(2),
+    paddingHorizontal: theme.dimensions.spacing(2),
   },
 }));
 

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     flex: 1,
     backgroundColor: theme.colors.background,
-    paddingHorizontal: theme.dimensions.padding(),
+    paddingHorizontal: theme.dimensions.spacing(),
   },
 }));
 
