@@ -67,7 +67,7 @@ export function useImportTransactionsScreenState() {
     dispatch({type: ActionType.REMOVE_TRANSACTION_AND_DISMISS_MODAL, data: {selectedTransactionIndex: index}});
   }, [dispatch]);
 
-  const onUpdateTransactionCategory = useCallback((index: number, categoryId: string) => {
+  const onUpdateTransactionCategory = useCallback((index: number, categoryId: number) => {
     dispatch({type: ActionType.UPDATE_TRANSACTION_AND_DISMISS_MODAL, data: {selectedTransactionIndex: index, transaction: {categoryId}}});
   }, [dispatch]);
 
@@ -106,6 +106,7 @@ export function useImportTransactionsScreenState() {
   const selectedTransaction = state.selectedTransactionIndex >= 0 ? state.transactions[state.selectedTransactionIndex] : null;
 
   return {
+    account,
     transactions: state.transactions,
     uncategorizedTransactionsCount: state.transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER).length,
     uncategorizedTransactionGroups,

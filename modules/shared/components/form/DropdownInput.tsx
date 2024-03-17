@@ -1,16 +1,17 @@
-import { useRef, useState } from "react";
-import { Control, Controller } from "react-hook-form";
 import { View } from "react-native";
-import { TextInput as BaseTextInput, TextInputProps as BaseTextInputProps, HelperText, Menu, useTheme } from 'react-native-paper';
+import { Control, Controller } from "react-hook-form";
+import { HelperText } from 'react-native-paper';
 
 import { makeStyles } from "~/theme";
+
+import { Dropdown, DropdownProps } from "./Dropdown";
 
 type Option = {
   label: string;
   value: string;
 };
 
-type DropdownInputProps = BaseTextInputProps & {
+type DropdownInputProps = DropdownProps & {
   control: Control;
   name: string;
   options: Option[];
@@ -31,32 +32,18 @@ const useStyles = makeStyles((theme) => ({
 
 export function DropdownInput({ control, mode = 'outlined', name, options, required, errors, ...rest }: DropdownInputProps) {
   const styles = useStyles();
-  const [visible, setVisible] = useState(false);
 
   return (
     <Controller
       control={control}
-      render={({ field: { onChange, ...fieldProps } }) => (
+      render={({ field: { ...fieldProps } }) => (
         <View style={styles.root}>
-          <Menu
-            visible={visible}
-            onDismiss={() => setVisible(false)}
-            style={styles.menu}
-            anchor={
-              <BaseTextInput
-                {...rest}
-                {...fieldProps}
-                mode={mode}
-                onChangeText={onChange}
-                editable={false}
-                onPressIn={() => setVisible(true)}
-                right={<BaseTextInput.Icon icon={visible ? "menu-up" : "menu-down"} onPress={() => setVisible(v => !v)} />}
-              />
-            }>
-              {options.map((option, index) => (
-                <Menu.Item key={index} onPress={() => { onChange(option.value); setVisible(false); }} title={option.label} />
-              ))}
-            </Menu>
+          <Dropdown
+            {...rest}
+            {...fieldProps}
+            mode={mode}
+            options={options}
+          />
           <HelperText type="error" visible={errors?.[name]?.type ?? false}>
             This field is required
           </HelperText>
