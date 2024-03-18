@@ -5,7 +5,7 @@ import { Theme } from "~/theme";
 import { Account } from "~/modules/accounts/types";
 import { Transaction } from "~/modules/transactions/types";
 import { aggregateByMonth } from "~/modules/transactions/utils";
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryLabel, VictoryTheme } from "victory-native";
 
 const MONTHS = Array.from({ length: 12 }, (_, index) => index + 1);
 
@@ -24,16 +24,23 @@ export function MonthlyBarView({ account, transactions }: MonthlyBarViewProps) {
   return (
     <VictoryChart
       theme={VictoryTheme.material}
-      width={theme.viewport.width}
+      width={theme.viewport.width - theme.dimensions.spacing(2)}
       height={theme.viewport.height / 4}
+      padding={{ left: 0, right: 0, bottom: 10 }}
     >
       <VictoryBar
-        style={{ data: { fill: theme.colors.primary } }}
+        style={{
+          data: { fill: theme.colors.primary },
+          labels: { fill: "white", fontSize: 10}
+        }}
         cornerRadius={{ top: 8 }}
         barWidth={20}
+        labels={({ datum }) => `${new Date(0, datum.month - 1).toLocaleString("default", { month: "short" })}`}
+        labelComponent={<VictoryLabel dy={30} dx={10} />}
         data={records}
         x="month"
         y="amount"
+        alignment="start"
       />
       <VictoryAxis
         style={{
@@ -41,7 +48,6 @@ export function MonthlyBarView({ account, transactions }: MonthlyBarViewProps) {
           grid: { stroke: theme.colors.primary, strokeOpacity: 0.4 },
           axisLabel: { display: "none" },
         }}
-        tickFormat={(t) => `${new Date(0, t - 1).toLocaleString("default", { month: "short" })}`}
       />
     </VictoryChart>
   );
