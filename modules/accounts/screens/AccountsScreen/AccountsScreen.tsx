@@ -1,5 +1,5 @@
 import { Link } from 'expo-router';
-import { Pressable } from 'react-native';
+import { FlatList, Pressable } from 'react-native';
 import { ProgressBar, Snackbar } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
@@ -10,6 +10,9 @@ import { useAccounts } from '~/modules/accounts/hooks';
 import { AccountItem } from './AccountItem';
 
 const useStyles = makeStyles((theme) => ({
+  listContainer: {
+    paddingHorizontal: theme.dimensions.spacing(),
+  },
   row: {
     display: 'flex',
     flexDirection: 'column',
@@ -36,17 +39,22 @@ export function AccountsScreen() {
 
   return (
     <Container>
-      {loading && <ProgressBar indeterminate />}
       <Snackbar visible={error !== null} onDismiss={() => {}}>{error?.message}</Snackbar>
-
-      {!loading && accounts.length === 0 && <NoItems message='Nothing to see yet. Start adding new accounts to make this page more interesting!' />}
-      {accounts.map((account) => (
-        <Link key={account.id} href={`/account/${account.id}`} asChild>
-          <Pressable style={styles.row}>
-            <AccountItem account={account} />
-          </Pressable>
-        </Link>
-      ))}
+      {loading ? <ProgressBar indeterminate /> : (
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={accounts}
+          keyExtractor={(item) => String(item.id)}
+          ListEmptyComponent={<NoItems message='Nothing to see yet. Start adding new accounts to make this page more interesting!' />}
+          renderItem={({item}) => (
+            <Link href={`/account/${item.id}`} asChild>
+              <Pressable style={styles.row}>
+                <AccountItem account={item} />
+              </Pressable>
+            </Link>
+          )}
+        />
+      )}
     </Container>
   );
 }
