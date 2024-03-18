@@ -26,7 +26,7 @@ export function DateSelectInput({ control, mode = 'outlined', name, required, er
   return (
     <Controller
       control={control}
-      render={({ field: { ...fieldProps } }) => (
+      render={({ field: { ref, ...fieldProps } }) => (
         <View style={styles.root}>
           <DateSelect
             {...rest}

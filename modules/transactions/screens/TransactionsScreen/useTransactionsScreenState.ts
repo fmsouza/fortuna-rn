@@ -28,7 +28,7 @@ export function useTransactionsScreenState() {
   });
 
   const onChangeTransactionCategory = useCallback(async (transaction: Transaction, newCategoryId: ID) => {
-    await changeTransactionCategory({ transaction, categoryId: newCategoryId });
+    await changeTransactionCategory({ transactions: [transaction], categoryId: newCategoryId });
   }, [changeTransactionCategory]);
 
   const onPressEditTransaction = useCallback((transaction: Transaction) => {
@@ -75,12 +75,12 @@ export function useTransactionsScreenState() {
 
     await Promise.all(
       Object.entries(updates).map(([title, categoryId]) => {
-        const transaction = transactions.find(trx => trx.title === title);
-        if (!transaction) {
+        const trxns = transactions.filter(trx => trx.title === title);
+        if (!transactions) {
           return;
         }
   
-        return changeTransactionCategory({ transaction, categoryId });
+        return changeTransactionCategory({ transactions: trxns, categoryId });
       })
     );
 
@@ -90,7 +90,7 @@ export function useTransactionsScreenState() {
   const error = accountError || transactionsError || removeTransactionError || changeTransactionCategoryError || updateTransactionError;
   const loading = accountLoading || transactionsLoading || removeTransactionLoading || changeTransactionCategoryLoading || updateTransactionLoading;
 
-  const uncategorizedTransactionsCount = transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER).length;
+  const uncategorizedTransactionsCount = useMemo(() => transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER).length, [transactions]);
   const uncategorizedTransactionGroups = useMemo(() => aggregateUncategorizedTransactionsByTitle(transactions as Transaction[]), [transactions]);
 
   return {

@@ -5,6 +5,7 @@ import { makeStyles } from '~/theme';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 import { Container, NoItems } from '~/modules/shared/components';
 import { ReviewUncategorizedTransactions, TransactionItem } from '~/modules/transactions/components';
+import { UncategorizedTransactionsModal, UpsertTransactionSheet } from '~/modules/transactions/modals';
 
 import { useTransactionsScreenState } from './useTransactionsScreenState';
 
@@ -43,6 +44,7 @@ export function TransactionsScreen() {
               <ReviewUncategorizedTransactions
                 onPressReview={state.onPressUncategorizedTransactions}
                 transactionsCount={state.uncategorizedTransactionsCount}
+                uncategorizedTransactionGroupsCount={Object.keys(state.uncategorizedTransactionGroups).length}
               />
             </View>
           )}
@@ -59,6 +61,21 @@ export function TransactionsScreen() {
               />
             </View>
           )}
+        />
+      )}
+      {state.showEditTransactionModal && (
+        <UpsertTransactionSheet
+          currency={state.account?.currency!}
+          onDismiss={state.handleDismissEditTransactionModal}
+          transaction={state.selectedTransaction}
+          visible
+        />
+      )}
+      {state.showUncategorizedTransactionsModal && (
+        <UncategorizedTransactionsModal
+          onDismiss={state.handleDismissUncategorizedTransactionsModal}
+          transactionGroups={state.uncategorizedTransactionGroups}
+          visible
         />
       )}
     </Container>
