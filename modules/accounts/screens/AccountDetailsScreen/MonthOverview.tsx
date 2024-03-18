@@ -1,5 +1,5 @@
 import { Account } from '~/modules/accounts/types';
-import { BalanceView, DailyBarViewBarView, MostRecurringExpensesView } from '~/modules/transactions/components';
+import { BalanceView, DailyBarViewBarView, MostRecurringExpensesView, TopTransactionsView, TransactionsListView } from '~/modules/transactions/components';
 import { Transaction } from '~/modules/transactions/types';
 
 type MonthOverviewProps = {
@@ -16,14 +16,14 @@ export function MonthOverview({account, currentPeriod, transactions}: MonthOverv
       {/*
       <IncomeExpenseBarView transactions={transactions} />
       <CategoryPieView account={account} transactions={transactions} />
-      <TransactionsListView account={account} transactions={transactions} period={currentPeriod} />
       */}
       {transactions.length > 3 && (
         <>
-          {/* <TopTransactionsView account={account} limit={3} transactions={transactions} /> */}
+          <TopTransactionsView account={account} limit={3} transactions={transactions} />
           <MostRecurringExpensesView account={account} transactions={transactions} />
         </>
       )}
+      <TransactionsListView account={account} transactions={transactions} period={currentPeriod} />
     </>
   );
 };
