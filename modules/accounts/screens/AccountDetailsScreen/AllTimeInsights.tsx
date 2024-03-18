@@ -1,6 +1,5 @@
 import { Account } from '~/modules/accounts/types';
 import { MonthlyBarView, MostRecurringExpensesView } from '~/modules/transactions/components';
-// import { CategoryPieView, MonthlyBarView, MostRecurringExpensesView, TopCategoryExpensesView } from '~/modules/transactions/components';
 import { Transaction } from '~/modules/transactions/types';
 
 type AllTimeInsightsProps = {
