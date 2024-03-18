@@ -1,4 +1,5 @@
 export * from './BalanceView';
+export * from './CategoryPieView';
 export * from './DailyBarView';
 export * from './MonthlyBarView';
 export * from './MostRecurringExpensesView';
