@@ -28,8 +28,8 @@ export function aggregateByMonth(transactions: Transaction[]): Record<number, nu
   }, {});
 }
 
-export function aggregateByCategory(transactions: Transaction[]): Record<string, number> {
-  return transactions.filter(trx => trx.type === TransactionType.EXPENSE).reduce<Record<string, number>>((acc, transaction) => {
+export function aggregateByCategory(transactions: Transaction[]): Record<number, number> {
+  return transactions.filter(trx => trx.type === TransactionType.EXPENSE).reduce<Record<number, number>>((acc, transaction) => {
     const category = transaction.categoryId;
     acc[category] = (acc[category] || 0) + transaction.amount;
     return acc;

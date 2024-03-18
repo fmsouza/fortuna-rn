@@ -1,5 +1,5 @@
 import { Account } from '~/modules/accounts/types';
-import { MonthlyBarView, MostRecurringExpensesView } from '~/modules/transactions/components';
+import { MonthlyBarView, MostRecurringExpensesView, TopCategoryExpensesView } from '~/modules/transactions/components';
 import { Transaction } from '~/modules/transactions/types';
 
 type AllTimeInsightsProps = {
@@ -13,8 +13,8 @@ export function AllTimeInsights({account, transactions}: AllTimeInsightsProps) {
       <MonthlyBarView account={account} transactions={transactions} />
       {/* 
       <CategoryPieView account={account} transactions={transactions} />
-      <TopCategoryExpensesView account={account} transactions={transactions} />
       */}
+      <TopCategoryExpensesView transactions={transactions} />
       <MostRecurringExpensesView account={account} transactions={transactions} />
     </>
   );
