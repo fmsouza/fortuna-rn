@@ -25,7 +25,7 @@ type TopTransactionsViewProps = {
 export function TopTransactionsView({ account, limit = 3, period, transactions }: TopTransactionsViewProps) {
   const styles = useStyles();
 
-  const viewMoreLink = `/accounts/${account.id}/recurring-transactions${period ? `?period=${period.toISOString()}` : ''}`;
+  const viewMoreLink = `/account/${account.id}/transactions${period ? `?period=${period.toISOString()}` : ''}`;
 
   const mostExpensiveTransactions = useMemo(() => {
     const expenseTransactions = transactions.filter((trx) => trx.type === TransactionType.EXPENSE);

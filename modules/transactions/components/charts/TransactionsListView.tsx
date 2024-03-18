@@ -24,7 +24,7 @@ type TransactionsListViewProps = {
 export function TransactionsListView({ account, period, transactions }: TransactionsListViewProps) {
   const styles = useStyles();
 
-  const viewMoreLink = `/accounts/${account.id}/recurring-transactions${period ? `?period=${period.toISOString()}` : ''}`;
+  const viewMoreLink = `/account/${account.id}/transactions${period ? `?period=${period.toISOString()}` : ''}`;
   
   return (
     <Card>

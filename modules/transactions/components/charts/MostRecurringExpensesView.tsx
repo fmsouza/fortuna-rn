@@ -26,7 +26,7 @@ type MostRecurringExpensesViewProps = {
 export function MostRecurringExpensesView({ account, limit = 3, period, transactions }: MostRecurringExpensesViewProps) {
   const styles = useStyles();
 
-  const viewMoreLink = `/accounts/${account.id}/recurring-transactions${period ? `?period=${period.toISOString()}` : ''}`;
+  const viewMoreLink = `/account/${account.id}/transactions${period ? `?period=${period.toISOString()}` : ''}`;
   
   const mostRecurrentTransactions: Array<{ title: string, count: number, amount: number }> = useMemo(() => {
     const expenseTransactions = transactions.filter((trx) => trx.type === TransactionType.EXPENSE);

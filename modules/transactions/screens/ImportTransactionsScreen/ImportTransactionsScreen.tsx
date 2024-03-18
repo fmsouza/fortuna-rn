@@ -4,13 +4,11 @@ import { Button, ProgressBar, Snackbar, Text } from "react-native-paper";
 import { makeStyles } from "~/theme";
 import { Container, HeaderButton } from "~/modules/shared/components";
 import { useHeaderOptions } from "~/modules/shared/navigation";
-import { TransactionItem } from "~/modules/transactions/components";
+import { TransactionItem, ReviewUncategorizedTransactions } from "~/modules/transactions/components";
 import { Transaction } from "~/modules/transactions/types";
-
 import { UncategorizedTransactionsModal, UpsertTransactionSheet } from "~/modules/transactions/modals";
 
 import { useImportTransactionsScreenState } from "./useImportTransactionsScreenState";
-import { ReviewUncategorizedTransactions } from "./ReviewUncaterorizedTransactions";
 
 const useStyles = makeStyles((theme) => ({
   container: {

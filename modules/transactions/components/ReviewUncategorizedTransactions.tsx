@@ -3,7 +3,7 @@ import { Banner, Icon } from "react-native-paper";
 type ReviewUncategorizedTransactionsProps = {
   onPressReview: () => void;
   transactionsCount: number;
-  uncategorizedTransactionGroupsCount: number;
+  uncategorizedTransactionGroupsCount?: number;
 };
 
 export function ReviewUncategorizedTransactions({ onPressReview, transactionsCount, uncategorizedTransactionGroupsCount }: ReviewUncategorizedTransactionsProps) {
@@ -19,7 +19,7 @@ export function ReviewUncategorizedTransactions({ onPressReview, transactionsCou
       icon={({size}) => (
         <Icon source="alert-circle-outline" size={size} />
       )}>
-      We've identified {transactionsCount} transactions in {uncategorizedTransactionGroupsCount} different groups which still doesn't have a category.
+      We've identified {transactionsCount} transactions{uncategorizedTransactionGroupsCount ? ` in ${uncategorizedTransactionGroupsCount} different groups ` : ' '}which still doesn't have a category.
     </Banner>
   );
 }
