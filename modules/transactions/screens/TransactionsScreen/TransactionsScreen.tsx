@@ -1,5 +1,5 @@
 import { FlatList, View } from 'react-native';
-import { ProgressBar, Snackbar } from 'react-native-paper';
+import { Button, Dialog, ProgressBar, Snackbar, Text } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
 import { useHeaderOptions } from '~/modules/shared/navigation';
@@ -62,6 +62,18 @@ export function TransactionsScreen() {
             </View>
           )}
         />
+      )}
+      {state.showRemoveAlert && (
+          <Dialog visible onDismiss={state.handleDismissRemoveAlert}>
+            <Dialog.Title>Delete transaction</Dialog.Title>
+            <Dialog.Content>
+              <Text variant="bodyMedium">Are you sure you want to remove this transaction? This operation cannot be undone.</Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={state.handleDismissRemoveAlert}>Cancel</Button>
+              <Button onPress={state.handleRemoveSelectedTransaction}>Ok</Button>
+            </Dialog.Actions>
+          </Dialog>
       )}
       {state.showEditTransactionModal && (
         <UpsertTransactionSheet
