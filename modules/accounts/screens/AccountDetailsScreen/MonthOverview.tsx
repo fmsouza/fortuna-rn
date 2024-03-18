@@ -1,5 +1,5 @@
 import { Account } from '~/modules/accounts/types';
-import { BalanceView, DailyBarViewBarView, MostRecurringExpensesView } from '~/modules/transactions/components';
+import { BalanceView, MostRecurringExpensesView } from '~/modules/transactions/components';
 import { Transaction } from '~/modules/transactions/types';
 
 type MonthOverviewProps = {
@@ -11,9 +11,9 @@ type MonthOverviewProps = {
 export function MonthOverview({account, currentPeriod, transactions}: MonthOverviewProps) {
   return (
     <>
-      <DailyBarViewBarView transactions={transactions} />
       <BalanceView account={account} transactions={transactions} />
       {/*
+      <DailyBarViewBarView transactions={transactions} />
       <IncomeExpenseBarView transactions={transactions} />
       <CategoryPieView account={account} transactions={transactions} />
       <TransactionsListView account={account} transactions={transactions} period={currentPeriod} />
