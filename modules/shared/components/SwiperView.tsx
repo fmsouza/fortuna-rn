@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
   screenContainer: {
     display: 'flex',
-    flex: 1,
     width: theme.viewport.width,
   },
 }));
@@ -82,7 +81,7 @@ export function SwiperView({ activeItem, items, onChangeActiveItem, renderScreen
         autoplay={false}
         data={items}
         onChangeIndex={onChangeIndex}
-        renderItem={({ item, index }) => (
+        renderItem={({ item, index }: any) => (
           <ScrollView key={index} contentContainerStyle={styles.screenContainer}>
             {renderScreen(item, index)}
           </ScrollView>
