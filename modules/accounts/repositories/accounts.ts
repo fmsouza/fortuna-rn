@@ -13,9 +13,7 @@ export async function getAccountById(accountId: number): Promise<Maybe<Account>>
   return Account.findOneByOrFail({ id: accountId });
 }
 
-type UpdateAccountInput = AccountInput & { id: number };
-type NewAccountInput = AccountInput & { id: never };
-type SaveAccountInput = UpdateAccountInput | NewAccountInput;
+export type SaveAccountInput = AccountInput & { id?: number };
 export async function saveAccount(input: SaveAccountInput): Promise<void> {
   await dbWaitForReady();
   const account = input.id ? await Account.findOneByOrFail({ id: input.id }) : new Account();

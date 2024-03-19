@@ -1,12 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { saveAccount } from "../repositories";
-import { Account } from "../types";
+import { SaveAccountInput, saveAccount } from "../repositories";
 
 export const useSaveAccount = () => {
   const client = useQueryClient();
   const {mutate, error, isPending} = useMutation({
-    mutationFn: async (account: Partial<Account>) => {
+    mutationFn: async (account: SaveAccountInput) => {
       await saveAccount(account);
       await client.invalidateQueries({ queryKey: ['accounts'] });
     }
