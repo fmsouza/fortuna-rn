@@ -26,7 +26,7 @@ export function AccountDetailsScreen() {
   useHeaderOptions({
     title: state.account?.title ?? '',
     headerRight: () => (
-      <HeaderButton title="Add" icon="plus" link="/import-transactions" />
+      <HeaderButton title="Add" icon="plus" link={`/import-transactions/${state.account?.id}`} />
     ),
   });
 
