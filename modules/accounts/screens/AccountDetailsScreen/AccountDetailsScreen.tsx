@@ -34,29 +34,23 @@ export function AccountDetailsScreen() {
     <Container style={styles.container}>
       {state.loading && <ProgressBar indeterminate />}
       <Snackbar visible={state.error !== null} onDismiss={() => {}}>{state.error?.message}</Snackbar>
-      {!state.showList ?
-        null
-        : state.transactions.length === 0 ?
-          <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />
-        : (
-          <SwiperView
-            activeItem={state.currentPeriod?.toISOString() ?? 'all'}
-            items={state.periods}
-            onChangeActiveItem={state.handleChangePeriod}
-            renderScreen={(_item, index) => (
-              <Container key={index} style={styles.container}>
-                  <>
-                    {state.transactions.length === 0 ?
-                      <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />
-                    : state.currentPeriod ? 
-                      <MonthOverview account={state.account!} currentPeriod={state.currentPeriod} transactions={state.transactions} />
-                    : <AllTimeInsights account={state.account!} transactions={state.transactions} />
-                    }
-                  </>
-              </Container>
+      {state.periods.length === 0 && !state.loading && <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />}
+      <SwiperView
+        activeItem={state.currentPeriod?.toISOString() ?? 'all'}
+        items={state.periods}
+        onChangeActiveItem={state.handleChangePeriod}
+        renderScreen={(_item, index) => (
+          <Container key={index} style={styles.container}>
+            {state.transactions.length === 0 ?
+              <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />
+            : (
+              state.currentPeriod ? 
+                <MonthOverview account={state.account!} currentPeriod={state.currentPeriod} transactions={state.transactions} />
+              : <AllTimeInsights account={state.account!} transactions={state.transactions} />
             )}
-          />
-      )}
+          </Container>
+        )}
+      />
     </Container>
   );
 }

@@ -36,7 +36,6 @@ export const useAccountDetailsScreenState = () => {
   const error = accountError || transactionsError || periodsError;
   const loading = accountLoading || transactionsLoading || periodsLoading;
   const canShowPeriods = account && trxPeriods?.length > 0;
-  const canShowList = account && !loading && !error;
 
   const datePeriods = trxPeriods?.map((period: Date) => ({
     label: periodLabel(period),
@@ -50,7 +49,6 @@ export const useAccountDetailsScreenState = () => {
     error,
     loading,
     periods,
-    showList: canShowList,
     showPeriods: canShowPeriods,
     transactions,
     currentPeriod,
