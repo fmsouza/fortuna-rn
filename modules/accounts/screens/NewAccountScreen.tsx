@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
+    marginHorizontal: 8,
   },
   row: {
     marginVertical: theme.dimensions.spacing(),
@@ -27,8 +28,9 @@ const useStyles = makeStyles((theme) => ({
 export function NewAccountScreen() {
   const router = useRouter();
   const styles = useStyles();
-  const {accountId} = useLocalSearchParams();
-  const { account } = useAccount(Number(accountId));
+  const params = useLocalSearchParams();
+  const accountId = params.account ? Number(params.account) : undefined;
+  const { account } = useAccount(accountId);
   const {saveAccount, loading, error} = useSaveAccount();
   const theme = useTheme();
   
