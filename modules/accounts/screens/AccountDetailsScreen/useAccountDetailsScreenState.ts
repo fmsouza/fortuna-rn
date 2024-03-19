@@ -13,10 +13,11 @@ const periodLabel = (period: Date): string => {
 
 export const useAccountDetailsScreenState = () => {
   const router = useRouter();
-  const { accountId } = useLocalSearchParams();
+  const params = useLocalSearchParams();
+  const accountId = Number(params.accountId);
   const [currentPeriod, setCurrentPeriod] = useState<Maybe<Date>>(null);
-  const {account, loading: accountLoading, error: accountError} = useAccount(Number(accountId));
-  const {periods: trxPeriods, loading: periodsLoading, error: periodsError} = useTransactionPeriods(Number(accountId));
+  const {account, loading: accountLoading, error: accountError} = useAccount(accountId);
+  const {periods: trxPeriods, loading: periodsLoading, error: periodsError} = useTransactionPeriods(accountId);
   const {transactions, loading: transactionsLoading, error: transactionsError} = useTransactions({
     accountId: Number(accountId),
     dates: currentPeriod ? periodToDateInterval(currentPeriod) : undefined,
@@ -42,7 +43,7 @@ export const useAccountDetailsScreenState = () => {
     value: period.toISOString(),
   })) ?? [];
 
-  const periods = [{label: 'All', value: 'all'}, ...datePeriods];
+  const periods = datePeriods.length > 0 ? [{label: 'All', value: 'all'}, ...datePeriods] : [];
 
   return {
     account,
