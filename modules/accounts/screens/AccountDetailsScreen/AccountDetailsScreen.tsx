@@ -35,8 +35,8 @@ export function AccountDetailsScreen() {
       {state.account && (
         <Overview
           account={state.account!}
-          canMovePeriodBack={state.canMovePeriodBack}
-          canMovePeriodForward={state.canMovePeriodForward}
+          canGoToNextMonth={state.canGoToNextMonth}
+          canGoToPreviousMonth={state.canGoToPreviousMonth}
           period={state.currentPeriod}
           onChangePeriod={state.handleChangePeriod}
         />
