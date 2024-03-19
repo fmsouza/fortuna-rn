@@ -66,7 +66,7 @@ export async function statementsTransformer(account: Account, columns: string[])
           categoryId = StandardTransactionCategory.INCOME;
           break;
       default:
-        categoryId = StandardTransactionCategory.OTHER;
+        categoryId = StandardTransactionCategory.UNKNOWN;
         break;
     }
   };
@@ -118,7 +118,7 @@ export async function transactionHistoryTransformer(account: Account, columns: s
       amount: Number(targetAmount.replace(/,/g, '.') ?? 0),
       origin: sourceName,
       details: '',
-      categoryId: StandardTransactionCategory.OTHER,
+      categoryId: StandardTransactionCategory.UNKNOWN,
       registeredAt: dayjs(finishedOn, "YYYY-MM-DD HH:mm:ss").toDate(), // Finished On  \"2023-09-28 19:09:32\"
   };
 }

@@ -19,6 +19,7 @@ export class InitialSeed1710609100868 implements MigrationInterface {
       {id: 14, removable: false, parentId: null, type: 'income',  title: 'Cashback'},
       {id: 15, removable: false, parentId: null, type: 'income',  title: 'Refunds'},
       {id: 16, removable: false, parentId: null, type: 'expense', title: 'Other'},
+      {id: 17, removable: false, parentId: null, type: 'expense', title: 'Unknown'},
     ];
 
     await queryRunner.query(`

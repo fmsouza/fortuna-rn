@@ -28,7 +28,7 @@ export async function transformer(account: Account, columns: string[]): Promise<
       amount: Math.abs(amount),
       origin,
       details,
-      categoryId: isIncome ? StandardTransactionCategory.INCOME : StandardTransactionCategory.OTHER,
+      categoryId: isIncome ? StandardTransactionCategory.INCOME : StandardTransactionCategory.UNKNOWN,
       registeredAt: dayjs(registeredAt, "YYYY-MM-DD").toDate(),
   };
 }

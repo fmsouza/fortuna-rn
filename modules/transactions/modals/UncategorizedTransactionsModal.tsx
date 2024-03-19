@@ -69,7 +69,7 @@ export function UncategorizedTransactionsModal({ onDismiss, transactionGroups, v
               <CategorySelect
                 label="Category"
                 placeholder="Category"
-                categoryId={values[item] ?? StandardTransactionCategory.OTHER}
+                categoryId={values[item] ?? StandardTransactionCategory.UNKNOWN}
                 onChange={(categoryId) => {
                   setValues((prev) => ({ ...prev, [item]: categoryId }));
                 }}

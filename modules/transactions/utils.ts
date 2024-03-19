@@ -61,7 +61,7 @@ export function countTransactionsByTitle(transactions: Transaction[]): Record<st
 }
 
 export function aggregateUncategorizedTransactionsByTitle(transactions: Transaction[]): Record<string, number> {
-  const uncategorizedTransactions = transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER);
+  const uncategorizedTransactions = transactions.filter(trx => trx.categoryId === StandardTransactionCategory.UNKNOWN);
   return countTransactionsByTitle(uncategorizedTransactions);
 }
 

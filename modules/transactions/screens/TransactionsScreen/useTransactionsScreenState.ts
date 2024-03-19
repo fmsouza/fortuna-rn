@@ -90,7 +90,7 @@ export function useTransactionsScreenState() {
   const error = accountError || transactionsError || removeTransactionError || changeTransactionCategoryError || updateTransactionError;
   const loading = accountLoading || transactionsLoading || removeTransactionLoading || changeTransactionCategoryLoading || updateTransactionLoading;
 
-  const uncategorizedTransactionsCount = useMemo(() => transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER).length, [transactions]);
+  const uncategorizedTransactionsCount = useMemo(() => transactions.filter(trx => trx.categoryId === StandardTransactionCategory.UNKNOWN).length, [transactions]);
   const uncategorizedTransactionGroups = useMemo(() => aggregateUncategorizedTransactionsByTitle(transactions as Transaction[]), [transactions]);
 
   return {

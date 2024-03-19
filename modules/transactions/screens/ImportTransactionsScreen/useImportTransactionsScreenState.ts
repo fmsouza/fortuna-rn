@@ -108,7 +108,7 @@ export function useImportTransactionsScreenState() {
   return {
     account,
     transactions: state.transactions,
-    uncategorizedTransactionsCount: state.transactions.filter(trx => trx.categoryId === StandardTransactionCategory.OTHER).length,
+    uncategorizedTransactionsCount: state.transactions.filter(trx => trx.categoryId === StandardTransactionCategory.UNKNOWN).length,
     uncategorizedTransactionGroups,
     uncategorizedTransactionGroupsCount: Object.keys(uncategorizedTransactionGroups).length,
     loading,

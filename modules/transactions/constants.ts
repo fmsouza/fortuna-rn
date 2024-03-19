@@ -20,4 +20,5 @@ export enum StandardTransactionCategory {
   CASHBACK = 14,
   REFUNDS = 15,
   OTHER = 16,
+  UNKNOWN = 17,
 }

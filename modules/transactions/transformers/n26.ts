@@ -39,7 +39,7 @@ export async function transformer(account: Account, columns: string[]): Promise<
           categoryId = StandardTransactionCategory.INCOME;
           break;
       default:
-        categoryId = StandardTransactionCategory.OTHER;
+        categoryId = StandardTransactionCategory.UNKNOWN;
         break;
     }
   };

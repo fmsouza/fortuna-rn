@@ -34,7 +34,7 @@ export async function debitTransformer(account: Account, columns: string[]): Pro
     amount: Math.abs(amount),
     origin: '',
     details: [operation, ...others].join(' - '),
-    categoryId: isIncome ? StandardTransactionCategory.INCOME : StandardTransactionCategory.OTHER,
+    categoryId: isIncome ? StandardTransactionCategory.INCOME : StandardTransactionCategory.UNKNOWN,
     registeredAt: dayjs(registeredAt, "DD/MM/YYYY").toDate(),
   };
 }
@@ -59,7 +59,7 @@ export async function creditTransformer(account: Account, columns: string[]): Pr
     amount: Number(value) ?? 0,
     origin: '',
     details: '',
-    categoryId: TRANSACTION_CATGEGORY_MAP[category.toLowerCase()] ?? 'other',
+    categoryId: TRANSACTION_CATGEGORY_MAP[category.toLowerCase()] ?? StandardTransactionCategory.UNKNOWN,
     registeredAt: dayjs(registeredAt, "YYYY-MM-DD").toDate(),
   };
 }
