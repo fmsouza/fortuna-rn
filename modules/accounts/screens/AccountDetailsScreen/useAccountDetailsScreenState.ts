@@ -19,8 +19,18 @@ export const useAccountDetailsScreenState = () => {
   const lastMonth = dayjs(periods[periods.length - 1]).startOf('month');
   const hasPeriods = periods.length > 0;
 
-  const handleChangePeriod = useCallback((direction: 'back' | 'next') => {
+  const handleChangePeriod = useCallback((input: {direction?: 'back' | 'next', newPeriod?: Date | 'all' }) => {
+    const {direction, newPeriod} = input;
     switch (true) {
+
+      case Boolean(newPeriod === 'all'): {
+        return setCurrentPeriod(null);
+      }
+
+      case Boolean(newPeriod): {
+        const newSelectedPeriod = dayjs(newPeriod).startOf('month').toDate();
+        return setCurrentPeriod(newSelectedPeriod);
+      }
 
       case Boolean(direction === 'next' && selectedMonth?.isSame(thisMonth)): {
         return setCurrentPeriod(null);
@@ -57,8 +67,16 @@ export const useAccountDetailsScreenState = () => {
     (hasPeriods && selectedMonth && selectedMonth.isAfter(lastMonth))
   );
 
+  const periodOptionsList = periods.map((period) => ({
+    label: dayjs(period).format('MMM YYYY'),
+    value: period.toISOString(),
+  }));
+
+  const periodOptions = [{label: 'All', value: 'all'}, ...periodOptionsList];
+
   return {
     account,
+    periods: periodOptions,
     canGoToPreviousMonth,
     canGoToNextMonth,
     error,

@@ -8,6 +8,7 @@ import { Account } from "~/modules/accounts/types";
 
 import { MonthOverview } from "./MonthOverview";
 import { AllTimeInsights } from "./AllTimeInsights";
+import { Dropdown } from "~/modules/shared/components";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,25 +28,35 @@ const useStyles = makeStyles((theme) => ({
   headerButton: {
     width: 40,
   },
+  dateSelectDropdown: {
+    height: 40,
+    backgroundColor: 'transparent',
+  },
   content: {
     flex: 1,
     padding: theme.dimensions.spacing(),
   }
 }));
 
+type PeriodOption = {
+  label: string;
+  value: string;
+};
+
 type OverviewProps = {
   account: Account;
+  periods: PeriodOption[];
   canGoToPreviousMonth: boolean;
   canGoToNextMonth: boolean;
-  onChangePeriod: (direction: 'back' | 'next') => void;
+  onChangePeriod: (input: { direction?: "back" | "next", newPeriod?: Date | "all" }) => void;
   period: Maybe<Date>;
 };
 
-export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onChangePeriod, period}: OverviewProps) {
+export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onChangePeriod, period, periods}: OverviewProps) {
   const styles = useStyles();
 
   const handleChangePeriod = (direction: 'back' | 'next') => {
-    return onChangePeriod(direction);
+    return onChangePeriod({ direction });
   };
 
   const BodyComponent = period ? MonthOverview : AllTimeInsights;
@@ -62,7 +73,14 @@ export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onCha
           )}
         </View>
         <View>
-          <Text variant="titleMedium">{!period ? 'All' : dayjs(period).format('MMM YYYY')}</Text>
+          <Dropdown
+            style={styles.dateSelectDropdown}
+            mode="flat"
+            underlineColor="transparent"
+            options={periods}
+            value={period?.toISOString() ?? 'all'}
+            onChange={(value) => onChangePeriod({ newPeriod: value === 'all' ? 'all' : new Date(value as string) })}
+          />
         </View>
         <View style={styles.headerButton}>
           {canGoToPreviousMonth && (

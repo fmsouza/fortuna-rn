@@ -38,6 +38,7 @@ export function AccountDetailsScreen() {
           canGoToNextMonth={state.canGoToNextMonth}
           canGoToPreviousMonth={state.canGoToPreviousMonth}
           period={state.currentPeriod}
+          periods={state.periods}
           onChangePeriod={state.handleChangePeriod}
         />
       )}
