@@ -8,7 +8,7 @@ export function listDaysInMonth(date: Date): number[] {
 
 export function aggregateByDayOfMonth(transactions: Transaction[]): Record<number, number> {
   return transactions.filter(trx => trx.type === TransactionType.EXPENSE).reduce<Record<number, number>>((acc, transaction) => {
-    const dayOfMonth = new Date(transaction.registeredAt).getDate();
+    const dayOfMonth = transaction.registeredAt.getDate();
     if (!acc[dayOfMonth]) {
       acc[dayOfMonth] = 0;
     }
@@ -19,7 +19,7 @@ export function aggregateByDayOfMonth(transactions: Transaction[]): Record<numbe
 
 export function aggregateByMonth(transactions: Transaction[]): Record<number, number> {
   return transactions.filter(trx => trx.type === TransactionType.EXPENSE).reduce<Record<number, number>>((acc, transaction) => {
-    const month = new Date(transaction.registeredAt).getMonth();
+    const month = transaction.registeredAt.getMonth();
     if (!acc[month]) {
       acc[month] = 0;
     }

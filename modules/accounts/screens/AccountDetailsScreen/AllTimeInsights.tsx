@@ -1,9 +1,11 @@
 import { View } from 'react-native';
+import { ProgressBar, Snackbar } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
+import { Maybe } from '~/modules/shared/types';
 import { Account } from '~/modules/accounts/types';
 import { CategoryPieView, MonthlyBarView, MostRecurringExpensesView, TopCategoryExpensesView } from '~/modules/transactions/components';
-import { Transaction } from '~/modules/transactions/types';
+import { useTransactions } from '~/modules/transactions/hooks';
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -13,25 +15,31 @@ const useStyles = makeStyles((theme) => ({
 
 type AllTimeInsightsProps = {
   account: Account;
-  transactions: Transaction[];
+  currentPeriod?: Maybe<Date>;
 };
 
-export function AllTimeInsights({account, transactions}: AllTimeInsightsProps) {
+export function AllTimeInsights({account}: AllTimeInsightsProps) {
   const styles = useStyles();
+  const {transactions, loading, error} = useTransactions({
+    accountId: account.id,
+  });
+
   return (
     <>
-    <View style={styles.row}>
-      <MonthlyBarView account={account} transactions={transactions} />
-    </View>
-    <View style={styles.row}>
-      <CategoryPieView transactions={transactions} />
-    </View>
-    <View style={styles.row}>
-      <TopCategoryExpensesView transactions={transactions} />
-    </View>
-    <View style={styles.row}>
-      <MostRecurringExpensesView account={account} transactions={transactions} />
-    </View>
+      {loading && <ProgressBar indeterminate />}
+      <Snackbar visible={error !== null} onDismiss={() => {}}>{error?.message}</Snackbar>
+      <View style={styles.row}>
+        <MonthlyBarView account={account} transactions={transactions} />
+      </View>
+      <View style={styles.row}>
+        <CategoryPieView transactions={transactions} />
+      </View>
+      <View style={styles.row}>
+        <TopCategoryExpensesView transactions={transactions} />
+      </View>
+      <View style={styles.row}>
+        <MostRecurringExpensesView account={account} transactions={transactions} />
+      </View>
     </>
   );
 };

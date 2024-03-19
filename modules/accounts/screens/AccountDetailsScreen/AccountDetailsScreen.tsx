@@ -1,13 +1,11 @@
 import { ProgressBar, Snackbar } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
-import { Container, HeaderButton, SwiperView } from '~/modules/shared/components';
+import { Container, HeaderButton } from '~/modules/shared/components';
 import { useHeaderOptions } from '~/modules/shared/navigation';
 
 import { useAccountDetailsScreenState } from './useAccountDetailsScreenState';
-import { NoTransactions } from './NoTransactions';
-import { MonthOverview } from './MonthOverview';
-import { AllTimeInsights } from './AllTimeInsights';
+import { Overview } from './Overview';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -34,23 +32,15 @@ export function AccountDetailsScreen() {
     <Container style={styles.container}>
       {state.loading && <ProgressBar indeterminate />}
       <Snackbar visible={state.error !== null} onDismiss={() => {}}>{state.error?.message}</Snackbar>
-      {state.periods.length === 0 && !state.loading && <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />}
-      <SwiperView
-        activeItem={state.currentPeriod?.toISOString() ?? 'all'}
-        items={state.periods}
-        onChangeActiveItem={state.handleChangePeriod}
-        renderScreen={(_item, index) => (
-          <Container key={index} style={styles.container}>
-            {state.transactions.length === 0 ?
-              <NoTransactions onPressAddTransactions={state.handlePressAddTransactions} />
-            : (
-              state.currentPeriod ? 
-                <MonthOverview account={state.account!} currentPeriod={state.currentPeriod} transactions={state.transactions} />
-              : <AllTimeInsights account={state.account!} transactions={state.transactions} />
-            )}
-          </Container>
-        )}
-      />
+      {state.account && (
+        <Overview
+          account={state.account!}
+          canMovePeriodBack={state.canMovePeriodBack}
+          canMovePeriodForward={state.canMovePeriodForward}
+          period={state.currentPeriod}
+          onChangePeriod={state.handleChangePeriod}
+        />
+      )}
     </Container>
   );
 }
