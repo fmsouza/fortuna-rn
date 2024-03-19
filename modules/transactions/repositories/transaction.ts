@@ -112,6 +112,13 @@ export async function getTransactionMonths(accountId?: Maybe<number>): Promise<D
 
 async function getOlderTransactionDate(accountId?: Maybe<number>): Promise<Maybe<Date>> {
   await dbWaitForReady();
+
+  // If there are no transactions, new query will hang forever
+  const trxCount = await Transaction.countBy({
+    accountId: accountId ?? undefined,
+  });
+  if (trxCount === 0) return null;
+
   const queryBuilder = Transaction.createQueryBuilder('transaction')
     .select('MIN(transaction.registeredAt)', 'registeredAt');
 
@@ -119,7 +126,7 @@ async function getOlderTransactionDate(accountId?: Maybe<number>): Promise<Maybe
     queryBuilder.where('transaction.accountId = :accountId', { accountId });
   }
 
-  const item = await queryBuilder.getOne();
+  const item = await queryBuilder.getRawOne();
 
   return item ? new Date(item.registeredAt) : null;
 }
