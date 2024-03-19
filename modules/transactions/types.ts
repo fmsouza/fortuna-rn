@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  Index,
 } from 'typeorm';
 
 import { Maybe } from '~/modules/shared/types';
@@ -12,6 +13,9 @@ import { Maybe } from '~/modules/shared/types';
 import { TransactionType } from "./constants";
 
 @Entity('transaction')
+@Index(['accountId', 'registeredAt'])
+@Index(['accountId'])
+@Index(['categoryId'])
 export class Transaction extends BaseEntity {
   @PrimaryGeneratedColumn()           id: number;
   @Column('int')                      accountId: number;
@@ -40,6 +44,7 @@ export type TransactionInput = {
 }
 
 @Entity('transaction_category')
+@Index(['parentId'])
 export class TransactionCategory extends BaseEntity {
   @PrimaryGeneratedColumn()             id: number;
   @Column('int', { nullable: true })    parentId?: Maybe<number>;

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class InitialSeed1710609100867 implements MigrationInterface {
+export class InitialSeed1710609100868 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<void> {
     const transactionCategories = [
       {id: 1,  removable: false, parentId: null, type: 'expense', title: 'Home'},
