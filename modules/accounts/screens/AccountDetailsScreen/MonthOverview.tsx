@@ -6,6 +6,7 @@ import { Account } from '~/modules/accounts/types';
 import { periodToDateInterval } from '~/modules/accounts/utils';
 import { useTransactions } from '~/modules/transactions/hooks';
 import { BalanceView, CategoryPieView, DailyBarViewBarView, IncomeExpenseView, MostRecurringExpensesView, TopTransactionsView, TransactionsListView } from '~/modules/transactions/components';
+import { NoTransactions } from './NoTransactions';
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -16,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
 type MonthOverviewProps = {
   account: Account;
   currentPeriod: Date;
+  onPressAddTransactions: () => void;
 };
 
-export function MonthOverview({account, currentPeriod}: MonthOverviewProps) {
+export function MonthOverview({account, currentPeriod, onPressAddTransactions}: MonthOverviewProps) {
   const styles = useStyles();
 
   const {transactions, loading, error} = useTransactions({
@@ -30,6 +32,8 @@ export function MonthOverview({account, currentPeriod}: MonthOverviewProps) {
     <>
       {loading && <ProgressBar indeterminate />}
       <Snackbar visible={error !== null} onDismiss={() => {}}>{error?.message}</Snackbar>
+
+      {!loading && !error && transactions.length === 0 && <NoTransactions onPressAddTransactions={onPressAddTransactions} />}
 
       {transactions.length > 0 && (
         <>

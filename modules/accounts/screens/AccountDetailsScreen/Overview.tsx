@@ -49,10 +49,11 @@ type OverviewProps = {
   canGoToPreviousMonth: boolean;
   canGoToNextMonth: boolean;
   onChangePeriod: (input: { direction?: "back" | "next", newPeriod?: Date | "all" }) => void;
+  onPressAddTransactions: () => void;
   period: Maybe<Date>;
 };
 
-export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onChangePeriod, period, periods}: OverviewProps) {
+export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onChangePeriod, onPressAddTransactions, period, periods}: OverviewProps) {
   const styles = useStyles();
 
   const handleChangePeriod = (direction: 'back' | 'next') => {
@@ -92,7 +93,7 @@ export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onCha
         </View>
       </Surface>
       <ScrollView style={styles.content}>
-        <BodyComponent account={account} currentPeriod={period!} />
+        <BodyComponent account={account} currentPeriod={period!} onPressAddTransactions={onPressAddTransactions} />
       </ScrollView>
     </View>
   );

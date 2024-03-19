@@ -40,6 +40,7 @@ export function AccountDetailsScreen() {
           period={state.currentPeriod}
           periods={state.periods}
           onChangePeriod={state.handleChangePeriod}
+          onPressAddTransactions={state.handlePressAddTransactions}
         />
       )}
     </Container>
