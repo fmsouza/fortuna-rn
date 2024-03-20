@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { ReactNode } from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { makeStyles } from '~/theme';
 
@@ -24,8 +24,10 @@ export const Container = ({ children, style }: ContainerProps) => {
   const styles = useStyles();
 
   return (
-    <SafeAreaView style={StyleSheet.flatten([styles.root, style])}>
-      {children}
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={StyleSheet.flatten([styles.root, style])}>
+        {children}
+      </View>
     </SafeAreaView>
   );
 };
