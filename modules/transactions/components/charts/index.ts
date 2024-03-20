@@ -1,5 +1,5 @@
 export * from './BalanceView';
-export * from './CategoryPieView';
+export * from './CategoryBreakdownView';
 export * from './DailyBarView';
 export * from './IncomeExpenseView';
 export * from './MonthlyBarView';

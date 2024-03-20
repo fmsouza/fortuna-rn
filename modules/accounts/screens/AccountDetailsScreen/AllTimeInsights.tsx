@@ -4,7 +4,7 @@ import { ProgressBar, Snackbar } from 'react-native-paper';
 import { makeStyles } from '~/theme';
 import { Maybe } from '~/modules/shared/types';
 import { Account } from '~/modules/accounts/types';
-import { CategoryPieView, MonthlyBarView, MostRecurringExpensesView, TopCategoryExpensesView } from '~/modules/transactions/components';
+import { CategoryBreakdownView, MonthlyBarView, MostRecurringExpensesView, TopCategoryExpensesView } from '~/modules/transactions/components';
 import { useTransactions } from '~/modules/transactions/hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,10 +32,10 @@ export function AllTimeInsights({account}: AllTimeInsightsProps) {
         <MonthlyBarView account={account} transactions={transactions} />
       </View>
       <View style={styles.row}>
-        <CategoryPieView transactions={transactions} />
+        <TopCategoryExpensesView transactions={transactions} />
       </View>
       <View style={styles.row}>
-        <TopCategoryExpensesView transactions={transactions} />
+        <CategoryBreakdownView transactions={transactions} />
       </View>
       <View style={styles.row}>
         <MostRecurringExpensesView account={account} transactions={transactions} />
