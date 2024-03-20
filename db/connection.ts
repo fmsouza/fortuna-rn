@@ -2,10 +2,11 @@ import { DataSource } from 'typeorm';
 
 import { Account } from '~/modules/accounts/types';
 import { Transaction, TransactionCategory } from '~/modules/transactions/types';
+import { AppPreference } from '~/modules/settings/types';
 
 import * as migrations from './migrations';
 
-const ENTITIES = [Account, Transaction, TransactionCategory];
+const ENTITIES = [Account, AppPreference, Transaction, TransactionCategory];
 
 const MIGRATIONS = Object.values(migrations);
 

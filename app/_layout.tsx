@@ -1,58 +1,29 @@
-import 'reflect-metadata';
-import { useColorScheme } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Slot } from 'expo-router';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {
-  ThemeProvider as NavigationThemeProvider,
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-} from '@react-navigation/native';
-import {
-  PaperProvider,
-  MD3DarkTheme,
-  MD3LightTheme,
-  adaptNavigationTheme,
-} from 'react-native-paper';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { en, registerTranslation } from 'react-native-paper-dates'
+import "reflect-metadata";
+import { Slot } from "expo-router";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { en, registerTranslation } from "react-native-paper-dates";
 
-import { deepMerge } from '~/modules/shared/utils';
-import { SharedBaseTheme } from '~/theme/shared';
+import { ThemeProvider } from "~/theme/provider";
 
-registerTranslation('en', en);
-
-const { LightTheme, DarkTheme } = adaptNavigationTheme({
-  reactNavigationLight: NavigationDefaultTheme,
-  reactNavigationDark: NavigationDarkTheme,
-});
-
-const CombinedDefaultTheme = deepMerge(MD3LightTheme, LightTheme);
-const CombinedDarkTheme = deepMerge(MD3DarkTheme, DarkTheme);
+registerTranslation("en", en);
 
 dayjs.extend(customParseFormat);
 
 export const queryClient = new QueryClient();
 
 export default function Layout() {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
-  const extendedTheme = deepMerge(theme, SharedBaseTheme);
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
-        <PaperProvider theme={extendedTheme}>
-          <NavigationThemeProvider value={extendedTheme}>
-            <QueryClientProvider client={queryClient}>
-              <StatusBar style="auto" />
-              <Slot />
-            </QueryClientProvider>
-          </NavigationThemeProvider>
-        </PaperProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <Slot />
+          </ThemeProvider>
+        </QueryClientProvider>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );

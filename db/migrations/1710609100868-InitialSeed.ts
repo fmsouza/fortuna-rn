@@ -29,6 +29,6 @@ export class InitialSeed1710609100868 implements MigrationInterface {
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DELETE FROM "transaction_category" WHERE "id" IN ('1', '2', '3')`)
+    await queryRunner.query(`DELETE FROM "transaction_category" WHERE "id" IN ('1', '2', '3')`);
   }
 }
