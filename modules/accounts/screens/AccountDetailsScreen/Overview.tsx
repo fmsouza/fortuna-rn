@@ -4,11 +4,12 @@ import { ScrollView, View } from "react-native";
 
 import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
+import { Dropdown } from "~/modules/shared/components";
 import { Account } from "~/modules/accounts/types";
 
 import { MonthOverview } from "./MonthOverview";
 import { AllTimeInsights } from "./AllTimeInsights";
-import { Dropdown } from "~/modules/shared/components";
+import { NoTransactions } from "./NoTransactions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,37 +65,41 @@ export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onCha
 
   return (
     <View style={styles.container}>
-      <Surface mode="flat" elevation={4} style={styles.header}>
-        <View style={styles.headerButton}>
-          {canGoToNextMonth && (
-            <IconButton
-              icon="chevron-left"
-              onPress={() => handleChangePeriod('next')}
-            />
-          )}
-        </View>
-        <View>
-          <Dropdown
-            style={styles.dateSelectDropdown}
-            mode="flat"
-            underlineColor="transparent"
-            options={periods}
-            value={period?.toISOString() ?? 'all'}
-            onChange={(value) => onChangePeriod({ newPeriod: value === 'all' ? 'all' : new Date(value as string) })}
-          />
-        </View>
-        <View style={styles.headerButton}>
-          {canGoToPreviousMonth && (
-            <IconButton
-              icon="chevron-right"
-              onPress={() => handleChangePeriod('back')}
-            />
-          )}
-        </View>
-      </Surface>
-      <ScrollView style={styles.content}>
-        <BodyComponent account={account} currentPeriod={period!} onPressAddTransactions={onPressAddTransactions} />
-      </ScrollView>
+      {periods.length === 0 ? <NoTransactions onPressAddTransactions={onPressAddTransactions} /> : (
+        <>
+          <Surface mode="flat" elevation={4} style={styles.header}>
+            <View style={styles.headerButton}>
+              {canGoToNextMonth && (
+                <IconButton
+                  icon="chevron-left"
+                  onPress={() => handleChangePeriod('next')}
+                />
+              )}
+            </View>
+            <View>
+              <Dropdown
+                style={styles.dateSelectDropdown}
+                mode="flat"
+                underlineColor="transparent"
+                options={periods}
+                value={period?.toISOString() ?? 'all'}
+                onChange={(value) => onChangePeriod({ newPeriod: value === 'all' ? 'all' : new Date(value as string) })}
+              />
+            </View>
+            <View style={styles.headerButton}>
+              {canGoToPreviousMonth && (
+                <IconButton
+                  icon="chevron-right"
+                  onPress={() => handleChangePeriod('back')}
+                />
+              )}
+            </View>
+          </Surface>
+          <ScrollView style={styles.content}>
+            <BodyComponent account={account} currentPeriod={period!} onPressAddTransactions={onPressAddTransactions} />
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 }

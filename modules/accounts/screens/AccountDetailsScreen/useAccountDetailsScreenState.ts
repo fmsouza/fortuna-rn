@@ -72,7 +72,7 @@ export const useAccountDetailsScreenState = () => {
     value: period.toISOString(),
   }));
 
-  const periodOptions = [{label: 'All', value: 'all'}, ...periodOptionsList];
+  const periodOptions = periodOptionsList.length > 0 ? [{label: 'All', value: 'all'}, ...periodOptionsList] : [];
 
   return {
     account,
