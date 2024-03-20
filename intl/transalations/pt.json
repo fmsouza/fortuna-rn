@@ -4,7 +4,8 @@
       "title": "Contas",
       "actions": {
         "settings": "Configurações"
-      }
+      },
+      "noAccounts": "Nada por aqui ainda. Comece adicionando uma nova conta para deixar essa tela mais interessante."
     },
     "newAccount": {
       "title": "Nova conta",
@@ -12,10 +13,13 @@
         "accountTitle": "Título da conta",
         "bankType": "Tipo de banco",
         "accountCurrency": "Moeda"
+      },
+      "actions": {
+        "saveAccount": "Salvar conta"
       }
     },
     "accountDetails": {
-      "all-time": "Período completo",
+      "allTime": "Período completo",
       "topCategoryExpenses": "Categorias com mais gastos",
       "expensesByCategory": "Gastos por categoria",
       "mostRecurringExpenses": "Gastos mais recorrentes",
@@ -27,6 +31,7 @@
     "transactions": {
       "title": "Transações",
       "hasUncategorizedTransactions": "Identificamos {transactionsCount} transações em {uncategorizedTransactionGroupsCount} diferentes grupos que ainda não possuem categoria.",
+      "noTransactions": "Ainda não há transações aqui. Comece adicionando uma nova transação para deixar essa tela mais interessante.",
       "fields": {
         "title": "Título",
         "type": "Tipo",
@@ -41,6 +46,7 @@
         "saveTransaction": "Salvar transação",
         "deleteTransaction": "Remover transação",
         "importTransactions": "Importar transações",
+        "addTransactions": "Adicionar transações",
         "addAnotherTransaction": "Adicionar transação"
       },
       "reviewCategories": "Revisar categories",
@@ -56,37 +62,29 @@
         "general": {
           "title": "Geral",
           "fields": {
-            "languageSettings": {
-              "title": "Configurações de idioma"
-            },
-            "enableDarkMode": {
-              "title": "Modo escuro"
-            }
+            "languageSettings": "Idioma",
+            "enableDarkMode": "Modo escuro"
           }
         },
         "storage": {
           "title": "Dados & Armazenamento",
           "fields": {
-            "backupRestore": {
-              "title": "Backup/Restaurar seus dados"
-            },
-            "resetApp": {
-              "title": "Limpar dados da aplicação"
-            }
+            "backupRestore": "Backup/Restaurar seus dados",
+            "resetApp": "Limpar dados da aplicação"
           }
         },
         "about": {
           "title": "Sobre",
           "fields": {
-            "useTerms": {
-              "title": "Termos de uso"
-            },
-            "privacyPolicy": {
-              "title": "Política de privacidade"
-            }
+            "useTerms": "Termos de uso",
+            "privacyPolicy": "Política de privacidade"
           }
         },
         "appVersion": "Versão: {version}"
+      },
+      "resetAllDataDialog": {
+        "title": "Limpar todos os dados",
+        "content": "Tem certeza que deseja limpar todos os dados? Essa operação não pode ser desfeita."
       }
     }
   },

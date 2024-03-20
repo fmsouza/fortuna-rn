@@ -1,26 +1,33 @@
-import dayjs from 'dayjs';
-import { FlatList, View } from 'react-native';
-import { Button, Modal, ProgressBar, Snackbar, Surface } from 'react-native-paper';
+import dayjs from "dayjs";
+import { FlatList, View } from "react-native";
+import {
+  Button,
+  Modal,
+  ProgressBar,
+  Snackbar,
+  Surface,
+} from "react-native-paper";
 
-import { makeStyles } from '~/theme';
-import { Container, HeaderButton } from '~/modules/shared/components';
-import { useHeaderOptions } from '~/modules/shared/navigation';
+import { useText } from "~/intl";
+import { makeStyles } from "~/theme";
+import { Maybe } from "~/modules/shared/types";
+import { Container, HeaderButton } from "~/modules/shared/components";
+import { useHeaderOptions } from "~/modules/shared/navigation";
 
-import { useAccountDetailsScreenState } from './useAccountDetailsScreenState';
-import { Overview } from './Overview';
-import { Maybe } from '~/modules/shared/types';
+import { useAccountDetailsScreenState } from "./useAccountDetailsScreenState";
+import { Overview } from "./Overview";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-    flex: 1
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+    flex: 1,
   },
   modalContainer: {
     paddingHorizontal: theme.dimensions.spacing(4),
-    maxHeight: '75%',
+    maxHeight: "75%",
   },
   surface: {
     borderRadius: theme.dimensions.radius(2),
@@ -33,17 +40,22 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: theme.dimensions.spacing(2),
-  }
+  },
 }));
 
 export function AccountDetailsScreen() {
   const styles = useStyles();
   const state = useAccountDetailsScreenState();
+  const t = useText();
 
   useHeaderOptions({
-    title: state.account?.title ?? '',
+    title: state.account?.title ?? "",
     headerRight: () => (
-      <HeaderButton title="Add" icon="plus" link={`/import-transactions/${state.account?.id}`} />
+      <HeaderButton
+        title={t("common.actions.add")}
+        icon="plus"
+        link={`/import-transactions/${state.account?.id}`}
+      />
     ),
   });
 
@@ -51,12 +63,14 @@ export function AccountDetailsScreen() {
     if (!date && !state.currentPeriod) return true;
     if (!date && state.currentPeriod) return false;
     return dayjs(date).isSame(state.currentPeriod);
-  }
+  };
 
   return (
     <Container style={styles.container}>
       {state.loading && <ProgressBar indeterminate />}
-      <Snackbar visible={state.error !== null} onDismiss={() => {}}>{state.error?.message}</Snackbar>
+      <Snackbar visible={state.error !== null} onDismiss={() => {}}>
+        {state.error?.message}
+      </Snackbar>
       {state.account && (
         <Overview
           account={state.account!}
@@ -70,17 +84,31 @@ export function AccountDetailsScreen() {
         />
       )}
       {state.showChangePeriodModal && (
-        <Modal visible contentContainerStyle={styles.modalContainer} onDismiss={state.dismissChangePeriodModal}>
+        <Modal
+          visible
+          contentContainerStyle={styles.modalContainer}
+          onDismiss={state.dismissChangePeriodModal}
+        >
           <Surface style={styles.surface}>
             <FlatList
               contentContainerStyle={styles.modalScrollContainer}
               data={state.periods}
               numColumns={3}
-              keyExtractor={(item) => item?.toISOString() ?? 'all-time'}
+              keyExtractor={(item) => item?.toISOString() ?? "all-time"}
               renderItem={({ item }) => (
                 <View style={styles.modalItem}>
-                  <Button mode={isDateSelected(item) ? "contained" : "contained-tonal"} compact onPress={() => state.handleChangePeriod({ newPeriod: item })}>
-                    {item ? dayjs(item).format('MMM YYYY') : 'All time'}
+                  <Button
+                    mode={
+                      isDateSelected(item) ? "contained" : "contained-tonal"
+                    }
+                    compact
+                    onPress={() =>
+                      state.handleChangePeriod({ newPeriod: item })
+                    }
+                  >
+                    {item
+                      ? dayjs(item).format("MMM YYYY")
+                      : t("screens.accountDetails.allTime")}
                   </Button>
                 </View>
               )}

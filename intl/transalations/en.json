@@ -4,7 +4,8 @@
       "title": "Accounts",
       "actions": {
         "settings": "Settings"
-      }
+      },
+      "noAccounts": "Nothing to see yet. Start adding new accounts to make this page more interesting!"
     },
     "newAccount": {
       "title": "New Account",
@@ -12,10 +13,13 @@
         "accountTitle": "Account title",
         "bankType": "Bank Type",
         "accountCurrency": "Account currency"
+      },
+      "actions": {
+        "saveAccount": "Save account"
       }
     },
     "accountDetails": {
-      "all-time": "All time",
+      "allTime": "All time",
       "topCategoryExpenses": "Top category expenses",
       "expensesByCategory": "Expenses by category",
       "mostRecurringExpenses": "Most recurring expenses",
@@ -27,6 +31,7 @@
     "transactions": {
       "title": "Transactions",
       "hasUncategorizedTransactions": "We've identified {transactionsCount} transactions in {uncategorizedTransactionGroupsCount} different groups which still doesn't have a category.",
+      "noTransactions": "No transactions here yet. Start adding new transactions to make this page more interesting!",
       "fields": {
         "title": "Title",
         "type": "Type",
@@ -41,6 +46,7 @@
         "saveTransaction": "Save transaction",
         "deleteTransaction": "Delete transaction",
         "importTransactions": "Import transactions",
+        "addTransactions": "Add transactions",
         "addAnotherTransaction": "Add another transaction"
       },
       "reviewCategories": "Review categories",
@@ -56,37 +62,29 @@
         "general": {
           "title": "General",
           "fields": {
-            "languageSettings": {
-              "title": "Language settings"
-            },
-            "enableDarkMode": {
-              "title": "Enable dark mode"
-            }
+            "languageSettings": "Language settings",
+            "enableDarkMode": "Enable dark mode"
           }
         },
         "storage": {
           "title": "Data & Storage",
           "fields": {
-            "backupRestore": {
-              "title": "Backup/Restore your data"
-            },
-            "resetApp": {
-              "title": "Reset app data"
-            }
+            "backupRestore": "Backup/Restore your data",
+            "resetApp": "Reset app data"
           }
         },
         "about": {
           "title": "About",
           "fields": {
-            "useTerms": {
-              "title": "Terms of use"
-            },
-            "privacyPolicy": {
-              "title": "Privacy Policy"
-            }
+            "useTerms": "Terms of use",
+            "privacyPolicy": "Privacy Policy"
           }
         },
         "appVersion": "Version: {version}"
+      },
+      "resetAllDataDialog": {
+        "title": "Reset all data",
+        "content": "Are you sure you want to reset all data? This operation cannot be undone."
       }
     }
   },
