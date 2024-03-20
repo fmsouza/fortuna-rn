@@ -1,3 +1,105 @@
 {
-  "hello": "hello"
+  "screens": {
+    "accounts": {
+      "title": "Accounts",
+      "actions": {
+        "settings": "Settings"
+      }
+    },
+    "newAccount": {
+      "title": "New Account",
+      "fields": {
+        "accountTitle": "Account title",
+        "bankType": "Bank Type",
+        "accountCurrency": "Account currency"
+      }
+    },
+    "accountDetails": {
+      "all-time": "All time",
+      "topCategoryExpenses": "Top category expenses",
+      "expensesByCategory": "Expenses by category",
+      "mostRecurringExpenses": "Most recurring expenses",
+      "balance": "Balance",
+      "incomeExpense": "Income & Expense",
+      "mostExpensiveTransactions": "Most expensive transactions",
+      "transactions": "Transactions ({count})"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "hasUncategorizedTransactions": "We've identified {transactionsCount} transactions in {uncategorizedTransactionGroupsCount} different groups which still doesn't have a category.",
+      "fields": {
+        "title": "Title",
+        "type": "Type",
+        "category": "Category",
+        "amount": "Amount ({currency})",
+        "date": "Transaction Date",
+        "origin": "Origin",
+        "details": "Details",
+        "externalId": "External ID"
+      },
+      "actions": {
+        "saveTransaction": "Save transaction",
+        "deleteTransaction": "Delete transaction",
+        "importTransactions": "Import transactions",
+        "addAnotherTransaction": "Add another transaction"
+      },
+      "reviewCategories": "Review categories",
+      "deleteTransactionConfirmation": "Are you sure you want to remove this transaction? This operation cannot be undone.",
+      "transactionsWithThisTitle": "{count} transactions with this title",
+      "or": "or",
+      "registeredTimes": "Registered {count} times",
+      "total": "Total: {currency} {amount}"
+    },
+    "settings": {
+      "title": "Settings",
+      "sections": {
+        "general": {
+          "title": "General",
+          "fields": {
+            "languageSettings": {
+              "title": "Language settings"
+            },
+            "enableDarkMode": {
+              "title": "Enable dark mode"
+            }
+          }
+        },
+        "storage": {
+          "title": "Data & Storage",
+          "fields": {
+            "backupRestore": {
+              "title": "Backup/Restore your data"
+            },
+            "resetApp": {
+              "title": "Reset app data"
+            }
+          }
+        },
+        "about": {
+          "title": "About",
+          "fields": {
+            "useTerms": {
+              "title": "Terms of use"
+            },
+            "privacyPolicy": {
+              "title": "Privacy Policy"
+            }
+          }
+        },
+        "appVersion": "Version: {version}"
+      }
+    }
+  },
+  "common": {
+    "actions": {
+      "add": "Add",
+      "save": "Save",
+      "cancel": "Cancel",
+      "close": "Close",
+      "ok": "Ok",
+      "viewMore": "View more",
+      "review": "Review",
+      "remove": "Remove"
+    }
+  }
 }

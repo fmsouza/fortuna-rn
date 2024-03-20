@@ -1,3 +1,105 @@
 {
-  "hello": "Olá"
+  "screens": {
+    "accounts": {
+      "title": "Contas",
+      "actions": {
+        "settings": "Configurações"
+      }
+    },
+    "newAccount": {
+      "title": "Nova conta",
+      "fields": {
+        "accountTitle": "Título da conta",
+        "bankType": "Tipo de banco",
+        "accountCurrency": "Moeda"
+      }
+    },
+    "accountDetails": {
+      "all-time": "Período completo",
+      "topCategoryExpenses": "Categorias com mais gastos",
+      "expensesByCategory": "Gastos por categoria",
+      "mostRecurringExpenses": "Gastos mais recorrentes",
+      "balance": "Saldo",
+      "incomeExpense": "Entrada e saída",
+      "mostExpensiveTransactions": "Transações com mais gastos",
+      "transactions": "Transações ({count})"
+    },
+    "transactions": {
+      "title": "Transações",
+      "hasUncategorizedTransactions": "Identificamos {transactionsCount} transações em {uncategorizedTransactionGroupsCount} diferentes grupos que ainda não possuem categoria.",
+      "fields": {
+        "title": "Título",
+        "type": "Tipo",
+        "category": "Categoria",
+        "amount": "Valor ({currency})",
+        "date": "Data da transação",
+        "origin": "Origem",
+        "details": "Detalhes",
+        "externalId": "ID externo"
+      },
+      "actions": {
+        "saveTransaction": "Salvar transação",
+        "deleteTransaction": "Remover transação",
+        "importTransactions": "Importar transações",
+        "addAnotherTransaction": "Adicionar transação"
+      },
+      "reviewCategories": "Revisar categories",
+      "deleteTransactionConfirmation": "Tem certeza que deseja remover essa transação? Essa operação não pode ser desfeita.",
+      "transactionsWithThisTitle": "{count} transações com este título",
+      "or": "or",
+      "registeredTimes": "Registrado {count} vezes",
+      "total": "Total: {currency} {amount}"
+    },
+    "settings": {
+      "title": "Configurações",
+      "sections": {
+        "general": {
+          "title": "Geral",
+          "fields": {
+            "languageSettings": {
+              "title": "Configurações de idioma"
+            },
+            "enableDarkMode": {
+              "title": "Modo escuro"
+            }
+          }
+        },
+        "storage": {
+          "title": "Dados & Armazenamento",
+          "fields": {
+            "backupRestore": {
+              "title": "Backup/Restaurar seus dados"
+            },
+            "resetApp": {
+              "title": "Limpar dados da aplicação"
+            }
+          }
+        },
+        "about": {
+          "title": "Sobre",
+          "fields": {
+            "useTerms": {
+              "title": "Termos de uso"
+            },
+            "privacyPolicy": {
+              "title": "Política de privacidade"
+            }
+          }
+        },
+        "appVersion": "Versão: {version}"
+      }
+    }
+  },
+  "common": {
+    "actions": {
+      "add": "Adicionar",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "close": "Fechar",
+      "ok": "Ok",
+      "viewMore": "Ver mais",
+      "review": "Revisar",
+      "remove": "Remover"
+    }
+  }
 }
