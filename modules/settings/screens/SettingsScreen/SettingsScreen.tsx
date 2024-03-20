@@ -43,6 +43,10 @@ export function SettingsScreen() {
       <List.Section>
         <List.Subheader>General</List.Subheader>
         <List.Item
+          title="Language settings"
+          left={() => <List.Icon icon="comment-text-multiple-outline" />}
+        />
+        <List.Item
           title="Enable dark mode"
           left={() => <List.Icon icon="brightness-4" />}
           right={(props) => (
@@ -58,6 +62,10 @@ export function SettingsScreen() {
       <List.Section>
         <List.Subheader>Data & Storage</List.Subheader>
         <List.Item
+          title="Backup/Restore your data"
+          left={() => <List.Icon icon="database-sync-outline" />}
+        />
+        <List.Item
           title="Reset app data"
           left={() => <List.Icon icon="delete-forever-outline" />}
           onPress={state.handleShowResetAllDataDialog}
@@ -65,6 +73,14 @@ export function SettingsScreen() {
       </List.Section>
       <List.Section>
         <List.Subheader>About</List.Subheader>
+        <List.Item
+          title="Terms of use"
+          left={() => <List.Icon icon="file-document-multiple-outline" />}
+        />
+        <List.Item
+          title="Privacy Policy"
+          left={() => <List.Icon icon="security" />}
+        />
         <List.Item
           titleStyle={{ fontSize: 12 }}
           title={`Fortuna © ${new Date().getFullYear()}`}
