@@ -1,15 +1,14 @@
-import dayjs from "dayjs";
-import { IconButton, Surface, Text } from "react-native-paper";
+import { Button, IconButton, Surface } from "react-native-paper";
 import { ScrollView, View } from "react-native";
 
 import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
-import { Dropdown } from "~/modules/shared/components";
 import { Account } from "~/modules/accounts/types";
 
 import { MonthOverview } from "./MonthOverview";
 import { AllTimeInsights } from "./AllTimeInsights";
 import { NoTransactions } from "./NoTransactions";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,22 +38,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-type PeriodOption = {
-  label: string;
-  value: string;
-};
-
 type OverviewProps = {
   account: Account;
-  periods: PeriodOption[];
+  periods: Array<Maybe<Date>>;
   canGoToPreviousMonth: boolean;
   canGoToNextMonth: boolean;
-  onChangePeriod: (input: { direction?: "back" | "next", newPeriod?: Date | "all" }) => void;
+  onChangePeriod: (input: { direction?: "back" | "next", newPeriod?: Maybe<Date> }) => void;
   onPressAddTransactions: () => void;
+  onPressChangePeriod: () => void;
   period: Maybe<Date>;
 };
 
-export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onChangePeriod, onPressAddTransactions, period, periods}: OverviewProps) {
+export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onChangePeriod, onPressAddTransactions, onPressChangePeriod, period, periods}: OverviewProps) {
   const styles = useStyles();
 
   const handleChangePeriod = (direction: 'back' | 'next') => {
@@ -77,14 +72,9 @@ export function Overview({account, canGoToPreviousMonth, canGoToNextMonth, onCha
               )}
             </View>
             <View>
-              <Dropdown
-                style={styles.dateSelectDropdown}
-                mode="flat"
-                underlineColor="transparent"
-                options={periods}
-                value={period?.toISOString() ?? 'all'}
-                onChange={(value) => onChangePeriod({ newPeriod: value === 'all' ? 'all' : new Date(value as string) })}
-              />
+              <Button contentStyle={{flexDirection: 'row-reverse'}} icon="menu-down" mode="text" compact onPress={onPressChangePeriod}>
+                {period ? dayjs(period).format('MMM YYYY') : 'All Time'}
+              </Button>
             </View>
             <View style={styles.headerButton}>
               {canGoToPreviousMonth && (

@@ -11,6 +11,7 @@ export const useAccountDetailsScreenState = () => {
   const params = useLocalSearchParams();
   const accountId = Number(params.accountId);
   const [currentPeriod, setCurrentPeriod] = useState<Maybe<Date>>(null);
+  const [showChangePeriodModal, setShowChangePeriodModal] = useState(false);
   const {account, loading: accountLoading, error: accountError} = useAccount(accountId);
   const {periods, loading: loadingPeriods, error: errorPeriods} = useTransactionPeriods(accountId);
 
@@ -19,11 +20,26 @@ export const useAccountDetailsScreenState = () => {
   const lastMonth = dayjs(periods[periods.length - 1]).startOf('month');
   const hasPeriods = periods.length > 0;
 
-  const handleChangePeriod = useCallback((input: {direction?: 'back' | 'next', newPeriod?: Date | 'all' }) => {
+  const handlePressAddTransactions = useCallback(() => {
+    router.push(`/import-transactions/${accountId}`);
+  }, [router]);
+
+  const handlePressChangePeriod = useCallback(() => {
+    setShowChangePeriodModal(true);
+  }
+  , [setShowChangePeriodModal]);
+
+  const dismissChangePeriodModal = useCallback(() => {
+    setShowChangePeriodModal(false);
+  }, [setShowChangePeriodModal]);
+
+  const handleChangePeriod = useCallback((input: {direction?: 'back' | 'next', newPeriod?: Maybe<Date> }) => {
     const {direction, newPeriod} = input;
+    dismissChangePeriodModal();
+    
     switch (true) {
 
-      case Boolean(newPeriod === 'all'): {
+      case Boolean(!newPeriod): {
         return setCurrentPeriod(null);
       }
 
@@ -51,11 +67,7 @@ export const useAccountDetailsScreenState = () => {
         return setCurrentPeriod(newPeriod);
       }
     }
-  }, [setCurrentPeriod, thisMonth, selectedMonth, lastMonth]);
-
-  const handlePressAddTransactions = useCallback(() => {
-    router.push(`/import-transactions/${accountId}`);
-  }, [router]);
+  }, [setCurrentPeriod, dismissChangePeriodModal, thisMonth, selectedMonth, lastMonth]);
 
   const loading = accountLoading || loadingPeriods;
   const error = accountError || errorPeriods;
@@ -67,16 +79,9 @@ export const useAccountDetailsScreenState = () => {
     (hasPeriods && selectedMonth && selectedMonth.isAfter(lastMonth))
   );
 
-  const periodOptionsList = periods.map((period) => ({
-    label: dayjs(period).format('MMM YYYY'),
-    value: period.toISOString(),
-  }));
-
-  const periodOptions = periodOptionsList.length > 0 ? [{label: 'All', value: 'all'}, ...periodOptionsList] : [];
-
   return {
     account,
-    periods: periodOptions,
+    periods: periods.length > 0 ? [null, ...periods] : [],
     canGoToPreviousMonth,
     canGoToNextMonth,
     error,
@@ -84,5 +89,8 @@ export const useAccountDetailsScreenState = () => {
     currentPeriod,
     handleChangePeriod,
     handlePressAddTransactions,
+    handlePressChangePeriod,
+    showChangePeriodModal,
+    dismissChangePeriodModal,
   };
 };

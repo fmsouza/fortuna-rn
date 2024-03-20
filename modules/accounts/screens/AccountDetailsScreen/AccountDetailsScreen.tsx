@@ -1,4 +1,6 @@
-import { ProgressBar, Snackbar } from 'react-native-paper';
+import dayjs from 'dayjs';
+import { FlatList, View } from 'react-native';
+import { Button, Modal, ProgressBar, Snackbar, Surface } from 'react-native-paper';
 
 import { makeStyles } from '~/theme';
 import { Container, HeaderButton } from '~/modules/shared/components';
@@ -6,8 +8,9 @@ import { useHeaderOptions } from '~/modules/shared/navigation';
 
 import { useAccountDetailsScreenState } from './useAccountDetailsScreenState';
 import { Overview } from './Overview';
+import { Maybe } from '~/modules/shared/types';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,6 +18,22 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'flex-start',
     flex: 1
   },
+  modalContainer: {
+    paddingHorizontal: theme.dimensions.spacing(4),
+    maxHeight: '75%',
+  },
+  surface: {
+    borderRadius: theme.dimensions.radius(2),
+  },
+  modalScrollContainer: {
+    padding: theme.dimensions.spacing(),
+  },
+  modalItem: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: theme.dimensions.spacing(2),
+  }
 }));
 
 export function AccountDetailsScreen() {
@@ -27,6 +46,12 @@ export function AccountDetailsScreen() {
       <HeaderButton title="Add" icon="plus" link={`/import-transactions/${state.account?.id}`} />
     ),
   });
+
+  const isDateSelected = (date: Maybe<Date>) => {
+    if (!date && !state.currentPeriod) return true;
+    if (!date && state.currentPeriod) return false;
+    return dayjs(date).isSame(state.currentPeriod);
+  }
 
   return (
     <Container style={styles.container}>
@@ -41,7 +66,27 @@ export function AccountDetailsScreen() {
           periods={state.periods}
           onChangePeriod={state.handleChangePeriod}
           onPressAddTransactions={state.handlePressAddTransactions}
+          onPressChangePeriod={state.handlePressChangePeriod}
         />
+      )}
+      {state.showChangePeriodModal && (
+        <Modal visible contentContainerStyle={styles.modalContainer} onDismiss={state.dismissChangePeriodModal}>
+          <Surface style={styles.surface}>
+            <FlatList
+              contentContainerStyle={styles.modalScrollContainer}
+              data={state.periods}
+              numColumns={3}
+              keyExtractor={(item) => item?.toISOString() ?? 'all-time'}
+              renderItem={({ item }) => (
+                <View style={styles.modalItem}>
+                  <Button mode={isDateSelected(item) ? "contained" : "contained-tonal"} compact onPress={() => state.handleChangePeriod({ newPeriod: item })}>
+                    {item ? dayjs(item).format('MMM YYYY') : 'All time'}
+                  </Button>
+                </View>
+              )}
+            />
+          </Surface>
+        </Modal>
       )}
     </Container>
   );
