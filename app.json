@@ -34,7 +34,8 @@
         {
           "iCloudContainerEnvironment": "Production"
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }

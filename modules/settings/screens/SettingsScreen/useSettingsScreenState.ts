@@ -1,11 +1,13 @@
 import { useCallback, useState } from "react";
 import { useRouter } from "expo-router";
 
+import { LANGUAGE_LABELS, Language, useLocale } from "~/intl";
 import { AppPreferences } from "~/modules/settings/constants";
 import { useAppPreference, useClearAllData, useSaveAppPreference } from "~/modules/settings/hooks";
 
 export function useSettingsScreenState() {
   const router = useRouter();
+  const {selectedLanguage, changeLanguage} = useLocale();
   const { appPreference: darkModePreference } = useAppPreference(AppPreferences.DARK_MODE);
   const { saveAppPreference, error, loading } = useSaveAppPreference();
   const [showResetAllDataDialog, setShowResetAllDataDialog] = useState(false);
@@ -36,9 +38,17 @@ export function useSettingsScreenState() {
   }
   , [setShowResetAllDataDialog]);
 
+  const languages = Object.values(Language).map((language) => ({
+    label: LANGUAGE_LABELS[language],
+    value: language,
+  }));
+
   return {
     error,
     loading,
+    languages,
+    changeLanguage,
+    selectedLanguage,
     isDarkModeEnabled,
     handleDarkModeChange,
     handleResetAllData,

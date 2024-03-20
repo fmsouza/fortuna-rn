@@ -7,11 +7,12 @@ import {
 } from "react-native-paper";
 
 import { makeStyles } from "~/theme";
-import { Container, Dialog } from "~/modules/shared/components";
+import { Container, Dialog, Dropdown } from "~/modules/shared/components";
 import { useHeaderOptions } from "~/modules/shared/navigation";
 
 import pkg from "../../../../package.json";
 import { useSettingsScreenState } from "./useSettingsScreenState";
+import { useText } from "~/intl";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,6 +29,7 @@ export function SettingsScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const state = useSettingsScreenState();
+  const t = useText();
 
   useHeaderOptions({
     title: "Settings",
@@ -45,7 +47,19 @@ export function SettingsScreen() {
         <List.Item
           title="Language settings"
           left={() => <List.Icon icon="comment-text-multiple-outline" />}
+          right={() => (
+            <Dropdown
+              mode="flat"
+              underlineColor="transparent"
+              outlineColor="transparent"
+              style={{ height: 40, backgroundColor: theme.colors.surface }}
+              value={state.selectedLanguage}
+              options={state.languages}
+              onChange={state.changeLanguage}
+            />
+          )}
         />
+        <List.Subheader>{t("hello")}</List.Subheader>
         <List.Item
           title="Enable dark mode"
           left={() => <List.Icon icon="brightness-4" />}
