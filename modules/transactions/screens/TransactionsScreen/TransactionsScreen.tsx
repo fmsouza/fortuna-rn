@@ -1,25 +1,31 @@
-import { FlatList, View } from 'react-native';
-import { Button, Dialog, ProgressBar, Snackbar, Text } from 'react-native-paper';
+import { FlatList, View } from "react-native";
+import { Button, ProgressBar, Snackbar, Text } from "react-native-paper";
 
-import { makeStyles } from '~/theme';
-import { useHeaderOptions } from '~/modules/shared/navigation';
-import { Container, NoItems } from '~/modules/shared/components';
-import { ReviewUncategorizedTransactions, TransactionItem } from '~/modules/transactions/components';
-import { UncategorizedTransactionsModal, UpsertTransactionSheet } from '~/modules/transactions/modals';
+import { makeStyles } from "~/theme";
+import { useHeaderOptions } from "~/modules/shared/navigation";
+import { Container, Dialog, NoItems } from "~/modules/shared/components";
+import {
+  ReviewUncategorizedTransactions,
+  TransactionItem,
+} from "~/modules/transactions/components";
+import {
+  UncategorizedTransactionsModal,
+  UpsertTransactionSheet,
+} from "~/modules/transactions/modals";
 
-import { useTransactionsScreenState } from './useTransactionsScreenState';
+import { useTransactionsScreenState } from "./useTransactionsScreenState";
 
 const useStyles = makeStyles((theme) => ({
   listContainer: {
     paddingHorizontal: theme.dimensions.spacing(),
   },
   row: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-    width: '100%',
-    marginTop: theme.dimensions.spacing(2)
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+    width: "100%",
+    marginTop: theme.dimensions.spacing(2),
   },
 }));
 
@@ -28,35 +34,47 @@ export function TransactionsScreen() {
   const state = useTransactionsScreenState();
 
   useHeaderOptions({
-    title: 'Transactions',
+    title: "Transactions",
   });
 
   return (
     <Container>
-      <Snackbar visible={state.error !== null} onDismiss={() => {}}>{state.error?.message}</Snackbar>
-      {state.loading ? <ProgressBar indeterminate /> : (
+      <Snackbar visible={state.error !== null} onDismiss={() => {}}>
+        {state.error?.message}
+      </Snackbar>
+      {state.loading ? (
+        <ProgressBar indeterminate />
+      ) : (
         <FlatList
           contentContainerStyle={styles.listContainer}
           data={state.transactions}
           keyExtractor={(item) => String(item.id)}
-          ListHeaderComponent={state.uncategorizedTransactionsCount === 0 ? null : (
-            <View style={styles.row}>
-              <ReviewUncategorizedTransactions
-                onPressReview={state.onPressUncategorizedTransactions}
-                transactionsCount={state.uncategorizedTransactionsCount}
-                uncategorizedTransactionGroupsCount={Object.keys(state.uncategorizedTransactionGroups).length}
-              />
-            </View>
-          )}
-          ListEmptyComponent={<NoItems message='Nothing to see yet. Start adding new transactions to make this page more interesting!' />}
-          renderItem={({item}) => (
+          ListHeaderComponent={
+            state.uncategorizedTransactionsCount === 0 ? null : (
+              <View style={styles.row}>
+                <ReviewUncategorizedTransactions
+                  onPressReview={state.onPressUncategorizedTransactions}
+                  transactionsCount={state.uncategorizedTransactionsCount}
+                  uncategorizedTransactionGroupsCount={
+                    Object.keys(state.uncategorizedTransactionGroups).length
+                  }
+                />
+              </View>
+            )
+          }
+          ListEmptyComponent={
+            <NoItems message="Nothing to see yet. Start adding new transactions to make this page more interesting!" />
+          }
+          renderItem={({ item }) => (
             <View style={styles.row}>
               <TransactionItem
                 key={item.id}
                 currency={state.account!.currency}
                 onEdit={() => state.onPressEditTransaction(item)}
                 onRemove={() => state.onPressRemoveTransaction(item)}
-                onUpdateCategory={(categoryId) => state.onChangeTransactionCategory(item, categoryId)}
+                onUpdateCategory={(categoryId) =>
+                  state.onChangeTransactionCategory(item, categoryId)
+                }
                 transaction={item}
               />
             </View>
@@ -64,16 +82,13 @@ export function TransactionsScreen() {
         />
       )}
       {state.showRemoveAlert && (
-          <Dialog visible onDismiss={state.handleDismissRemoveAlert}>
-            <Dialog.Title>Delete transaction</Dialog.Title>
-            <Dialog.Content>
-              <Text variant="bodyMedium">Are you sure you want to remove this transaction? This operation cannot be undone.</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={state.handleDismissRemoveAlert}>Cancel</Button>
-              <Button onPress={state.handleRemoveSelectedTransaction}>Ok</Button>
-            </Dialog.Actions>
-          </Dialog>
+        <Dialog
+          visible
+          title="Delete transaction"
+          description="Are you sure you want to remove this transaction? This operation cannot be undone."
+          onConfirm={state.handleRemoveSelectedTransaction}
+          onDismiss={state.handleDismissRemoveAlert}
+        />
       )}
       {state.showEditTransactionModal && (
         <UpsertTransactionSheet

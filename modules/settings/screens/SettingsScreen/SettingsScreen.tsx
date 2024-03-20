@@ -7,13 +7,11 @@ import {
 } from "react-native-paper";
 
 import { makeStyles } from "~/theme";
-import { Container } from "~/modules/shared/components";
+import { Container, Dialog } from "~/modules/shared/components";
 import { useHeaderOptions } from "~/modules/shared/navigation";
 
-import pkg from "../../../package.json";
-import { useAppPreference, useSaveAppPreference } from "../hooks";
-import { AppPreferences } from "../constants";
-import { useCallback } from "react";
+import pkg from "../../../../package.json";
+import { useSettingsScreenState } from "./useSettingsScreenState";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,19 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export function SettingsScreen() {
   const styles = useStyles();
   const theme = useTheme();
-  const { appPreference: darkModePreference } = useAppPreference(
-    AppPreferences.DARK_MODE
-  );
-  const { saveAppPreference, error, loading } = useSaveAppPreference();
-
-  const isDarkModeEnabled = Boolean(darkModePreference?.value);
-
-  const handleDarkModeChange = useCallback(() => {
-    saveAppPreference({
-      id: AppPreferences.DARK_MODE,
-      value: isDarkModeEnabled ? null : "true",
-    });
-  }, [isDarkModeEnabled, saveAppPreference]);
+  const state = useSettingsScreenState();
 
   useHeaderOptions({
     title: "Settings",
@@ -49,10 +35,10 @@ export function SettingsScreen() {
 
   return (
     <Container style={styles.container}>
-      <Snackbar visible={error !== null} onDismiss={() => {}}>
-        {error?.message}
+      <Snackbar visible={state.error !== null} onDismiss={() => {}}>
+        {state.error?.message}
       </Snackbar>
-      {loading && <ProgressBar indeterminate />}
+      {state.loading && <ProgressBar indeterminate />}
 
       <List.Section>
         <List.Subheader>General</List.Subheader>
@@ -63,10 +49,18 @@ export function SettingsScreen() {
             <Switch
               {...props}
               color={theme.colors.primary}
-              value={isDarkModeEnabled}
-              onChange={handleDarkModeChange}
+              value={state.isDarkModeEnabled}
+              onChange={state.handleDarkModeChange}
             />
           )}
+        />
+      </List.Section>
+      <List.Section>
+        <List.Subheader>Data & Storage</List.Subheader>
+        <List.Item
+          title="Reset app data"
+          left={() => <List.Icon icon="delete-forever-outline" />}
+          onPress={state.handleShowResetAllDataDialog}
         />
       </List.Section>
       <List.Section>
@@ -80,6 +74,15 @@ export function SettingsScreen() {
           title={`Version: ${pkg.version}`}
         />
       </List.Section>
+      {state.showResetAllDataDialog && (
+        <Dialog
+          visible
+          title="Reset all data"
+          description="Are you sure you want to reset all data? This action cannot be undone."
+          onConfirm={state.handleResetAllData}
+          onDismiss={state.handleDismissResetAllDataDialog}
+        />
+      )}
     </Container>
   );
 }

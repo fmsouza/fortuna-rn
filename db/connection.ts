@@ -33,5 +33,5 @@ export async function dbWaitForReady(): Promise<void> {
 export async function clearDatabase(): Promise<void> {
   await dbWaitForReady();
   await dataSource.dropDatabase();
-  await dbWaitForReady();
+  await dataSource.destroy();
 }
