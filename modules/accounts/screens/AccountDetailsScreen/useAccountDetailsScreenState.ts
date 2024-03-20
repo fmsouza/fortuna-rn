@@ -39,11 +39,11 @@ export const useAccountDetailsScreenState = () => {
     
     switch (true) {
 
-      case Boolean(!newPeriod): {
+      case Boolean(!direction && !newPeriod): {
         return setCurrentPeriod(null);
       }
 
-      case Boolean(newPeriod): {
+      case Boolean(!direction && newPeriod): {
         const newSelectedPeriod = dayjs(newPeriod).startOf('month').toDate();
         return setCurrentPeriod(newSelectedPeriod);
       }
@@ -78,6 +78,10 @@ export const useAccountDetailsScreenState = () => {
     (hasPeriods && !selectedMonth) ||
     (hasPeriods && selectedMonth && selectedMonth.isAfter(lastMonth))
   );
+
+  console.log('canGoToNextMonth', canGoToNextMonth);
+  console.log('canGoToPreviousMonth', canGoToPreviousMonth);
+  console.log('');
 
   return {
     account,
