@@ -79,10 +79,6 @@ export const useAccountDetailsScreenState = () => {
     (hasPeriods && selectedMonth && selectedMonth.isAfter(lastMonth))
   );
 
-  console.log('canGoToNextMonth', canGoToNextMonth);
-  console.log('canGoToPreviousMonth', canGoToPreviousMonth);
-  console.log('');
-
   return {
     account,
     periods: periods.length > 0 ? [null, ...periods] : [],
