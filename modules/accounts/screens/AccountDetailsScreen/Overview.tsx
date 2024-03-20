@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme) => ({
     height: 48,
   },
   headerButton: {
-    width: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 48,
   },
   dateSelectDropdown: {
     height: 40,
