@@ -96,7 +96,20 @@
       }
     },
     "backupRestore": {
-      "title": "Backup e Restauração"
+      "title": "Backup e Restauração",
+      "actions": {
+        "backup": "Backup",
+        "restore": "Restaurar"
+      },
+      "providers": {
+        "local": "Local"
+      },
+      "operationConfirmationDialog": {
+        "title": "{operation} {provider}",
+        "content": "Confirme para iniciar a operação agora."
+      },
+      "lastBackupAt": "Último backup em",
+      "never": "Nunca"
     }
   },
   "common": {

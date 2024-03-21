@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "strict": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "moduleSuffixes": [".ios", ".android", ""],
