@@ -105,8 +105,14 @@
         "local": "Local storage"
       },
       "operationConfirmationDialog": {
-        "title": "{operation} {provider}",
-        "content": "Confirm to start right now."
+        "backup": {
+          "title": "Backup to {provider}",
+          "content": "Confirm to start the backup now."
+        },
+        "restore": {
+          "title": "Restore from {provider}",
+          "content": "Are you sure you want to restore your data from this provider? All current data will be replaced."
+        }
       },
       "lastBackupAt": "Last backup at",
       "never": "Never"

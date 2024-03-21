@@ -108,14 +108,14 @@ export function BackupRestoreScreen() {
       {state.showOperationConfirmationDialog && (
         <Dialog
           visible
-          title={t("screens.backupRestore.operationConfirmationDialog.title", {
-            operation: t(
-              `screens.backupRestore.actions.${state.activeOperation}`
-            ),
-            provider: state.selectedProvider!.title,
-          })}
+          title={t(
+            `screens.backupRestore.operationConfirmationDialog.${state.activeOperation}.title`,
+            {
+              provider: state.selectedProvider!.title,
+            }
+          )}
           description={t(
-            "screens.backupRestore.operationConfirmationDialog.content"
+            `screens.backupRestore.operationConfirmationDialog.${state.activeOperation}.content`
           )}
           onConfirm={state.handleOperationConfirm}
           onDismiss={state.handleOperationDismiss}

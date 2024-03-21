@@ -105,8 +105,14 @@
         "local": "Local"
       },
       "operationConfirmationDialog": {
-        "title": "{operation} {provider}",
-        "content": "Confirme para iniciar a operação agora."
+        "backup": {
+          "title": "Backup para {provider}",
+          "content": "Confirme para iniciar o backup dos seus dados para este provedor."
+        },
+        "restore": {
+          "title": "Restaurar de {provider}",
+          "content": "Tem certeza que reseja restaurar seus dados deste provedor? Isso irá substituir todos os dados atuais."
+        }
       },
       "lastBackupAt": "Último backup em",
       "never": "Nunca"
