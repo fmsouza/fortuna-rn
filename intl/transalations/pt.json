@@ -25,6 +25,8 @@
       "mostRecurringExpenses": "Gastos mais recorrentes",
       "balance": "Saldo",
       "incomeExpense": "Entrada e saída",
+      "income": "Recebimento",
+      "expense": "Gasto",
       "mostExpensiveTransactions": "Transações com mais gastos",
       "transactions": "Transações ({count})"
     },
@@ -44,17 +46,23 @@
       },
       "actions": {
         "saveTransaction": "Salvar transação",
-        "deleteTransaction": "Remover transação",
         "importTransactions": "Importar transações",
         "addTransactions": "Adicionar transações",
-        "addAnotherTransaction": "Adicionar transação"
+        "addAnotherTransaction": "Adicionar transação",
+        "reviewCategories": "Revisar categories"
       },
-      "reviewCategories": "Revisar categories",
-      "deleteTransactionConfirmation": "Tem certeza que deseja remover essa transação? Essa operação não pode ser desfeita.",
+      "deleteTransactionDialog": {
+        "title": "Remover transação",
+        "content": "Tem certeza que deseja remover essa transação? Essa operação não pode ser desfeita."
+      },
       "transactionsWithThisTitle": "{count} transações com este título",
-      "or": "or",
+      "whereDidYouGetThisFrom": "De onde você recebeu?",
+      "transactionExternalIdInfo": "ID de transação na fonte ",
+      "or": "ou",
       "registeredTimes": "Registrado {count} vezes",
-      "total": "Total: {currency} {amount}"
+      "total": "Total: {currency} {amount}",
+      "importTransactionsCount": "Importar Transações ({count})",
+      "importFrom": "Importar de {source}"
     },
     "settings": {
       "title": "Configurações",
@@ -94,10 +102,14 @@
       "save": "Salvar",
       "cancel": "Cancelar",
       "close": "Fechar",
+      "edit": "Editar",
       "ok": "Ok",
       "viewMore": "Ver mais",
       "review": "Revisar",
       "remove": "Remover"
+    },
+    "validation": {
+      "required": "Este campo é obrigatório"
     }
   }
 }

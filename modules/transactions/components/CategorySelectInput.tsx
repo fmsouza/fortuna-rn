@@ -1,12 +1,13 @@
 import { View } from "react-native";
+import { HelperText } from "react-native-paper";
 import { Control, Controller } from "react-hook-form";
-import { HelperText } from 'react-native-paper';
 
+import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
 
 import { CategorySelect, CategorySelectProps } from "./CategorySelect";
 
-type CategorySelectInputProps = Omit<CategorySelectProps, 'onChange'> & {
+type CategorySelectInputProps = Omit<CategorySelectProps, "onChange"> & {
   control: Control;
   name: string;
   required?: boolean;
@@ -20,12 +21,20 @@ const useStyles = makeStyles((theme) => ({
   },
   menu: {
     marginTop: -68,
-    width: theme.viewport.width - (theme.dimensions.spacing() * 2),
-  }
+    width: theme.viewport.width - theme.dimensions.spacing() * 2,
+  },
 }));
 
-export function CategorySelectInput({ control, mode = 'outlined', name, required, errors, ...rest }: CategorySelectInputProps) {
+export function CategorySelectInput({
+  control,
+  mode = "outlined",
+  name,
+  required,
+  errors,
+  ...rest
+}: CategorySelectInputProps) {
   const styles = useStyles();
+  const t = useText();
 
   return (
     <Controller
@@ -39,7 +48,7 @@ export function CategorySelectInput({ control, mode = 'outlined', name, required
             categoryId={fieldProps.value}
           />
           <HelperText type="error" visible={errors?.[name]?.type ?? false}>
-            This field is required
+            {t("common.validation.required")}
           </HelperText>
         </View>
       )}

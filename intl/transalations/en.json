@@ -25,6 +25,8 @@
       "mostRecurringExpenses": "Most recurring expenses",
       "balance": "Balance",
       "incomeExpense": "Income & Expense",
+      "income": "Income",
+      "expense": "Expense",
       "mostExpensiveTransactions": "Most expensive transactions",
       "transactions": "Transactions ({count})"
     },
@@ -44,17 +46,23 @@
       },
       "actions": {
         "saveTransaction": "Save transaction",
-        "deleteTransaction": "Delete transaction",
         "importTransactions": "Import transactions",
         "addTransactions": "Add transactions",
-        "addAnotherTransaction": "Add another transaction"
+        "addAnotherTransaction": "Add another transaction",
+        "reviewCategories": "Review categories"
       },
-      "reviewCategories": "Review categories",
-      "deleteTransactionConfirmation": "Are you sure you want to remove this transaction? This operation cannot be undone.",
+      "deleteTransactionDialog": {
+        "title": "Delete transaction",
+        "content": "Are you sure you want to remove this transaction? This operation cannot be undone."
+      },
       "transactionsWithThisTitle": "{count} transactions with this title",
+      "whereDidYouGetThisFrom": "Where did you get this transaction from?",
+      "transactionExternalIdInfo": "Transaction ID from the source",
       "or": "or",
       "registeredTimes": "Registered {count} times",
-      "total": "Total: {currency} {amount}"
+      "total": "Total: {currency} {amount}",
+      "importTransactionsCount": "Import Transactions ({count})",
+      "importFrom": "Import from {source}"
     },
     "settings": {
       "title": "Settings",
@@ -94,10 +102,14 @@
       "save": "Save",
       "cancel": "Cancel",
       "close": "Close",
+      "edit": "Edit",
       "ok": "Ok",
       "viewMore": "View more",
       "review": "Review",
       "remove": "Remove"
+    },
+    "validation": {
+      "required": "This field is required"
     }
   }
 }

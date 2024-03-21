@@ -3,11 +3,17 @@ import { useForm } from "react-hook-form";
 import { Button } from "react-native-paper";
 import { View } from "react-native";
 
+import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
 import { Maybe } from "~/modules/shared/types";
 import { CURRENCY_SYMBOLS, Currency } from "~/modules/accounts/constants";
 import { Transaction } from "~/modules/transactions/types";
-import { BottomSheet, DateSelectInput, DropdownInput, TextInput } from "~/modules/shared/components";
+import {
+  BottomSheet,
+  DateSelectInput,
+  DropdownInput,
+  TextInput,
+} from "~/modules/shared/components";
 
 import { TransactionType } from "../constants";
 import { CategorySelectInput } from "../components";
@@ -18,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.dimensions.spacing(),
     paddingBottom: theme.dimensions.spacing(4),
   },
-  row: {}
+  row: {},
 }));
 
 type UpsertTransactionSheetProps = {
@@ -28,8 +34,13 @@ type UpsertTransactionSheetProps = {
   visible: boolean;
 };
 
-export function UpsertTransactionSheet({ currency, onDismiss, transaction }: UpsertTransactionSheetProps) {
+export function UpsertTransactionSheet({
+  currency,
+  onDismiss,
+  transaction,
+}: UpsertTransactionSheetProps) {
   const styles = useStyles();
+  const t = useText();
 
   const {
     handleSubmit,
@@ -46,7 +57,7 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
       details: undefined,
       categoryId: undefined,
       registeredAt: new Date(),
-    }
+    },
   });
 
   useEffect(() => {
@@ -64,14 +75,14 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
       visible
       enableScroll
       onClose={onDismiss}
-      snapPoints={['90%']}
+      snapPoints={["90%"]}
       style={styles.root}
     >
       <View style={styles.row}>
         <TextInput
           control={control}
           name="title"
-          label="Title"
+          label={t("screens.transactions.fields.title")}
           placeholder="Energy bill, groceries, etc."
           multiline
           required
@@ -82,11 +93,17 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <DropdownInput
           control={control}
           name="type"
-          label="Type"
-          placeholder="Income or Expense"
+          label={t("screens.transactions.fields.type")}
+          placeholder={t("screens.transactions.fields.title")}
           options={[
-            { label: 'Income', value: TransactionType.INCOME },
-            { label: 'Expense', value: TransactionType.EXPENSE },
+            {
+              label: t("screens.accountDetails.income"),
+              value: TransactionType.INCOME,
+            },
+            {
+              label: t("screens.accountDetails.expense"),
+              value: TransactionType.EXPENSE,
+            },
           ]}
           required
           errors={errors}
@@ -96,7 +113,7 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <CategorySelectInput
           control={control}
           name="categoryId"
-          label="Category"
+          label={t("screens.transactions.fields.category")}
           required
           errors={errors}
         />
@@ -105,7 +122,9 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <TextInput
           control={control}
           name="amount"
-          label={`Amount (${CURRENCY_SYMBOLS[currency]})`}
+          label={t("screens.transactions.fields.amount", {
+            currency: CURRENCY_SYMBOLS[currency],
+          })}
           placeholder="0.00"
           keyboardType="numeric"
           inputMode="decimal"
@@ -117,7 +136,7 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <DateSelectInput
           control={control}
           name="registeredAt"
-          label="Transaction Date"
+          label={t("screens.transactions.fields.date")}
           required
           errors={errors}
         />
@@ -126,8 +145,8 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <TextInput
           control={control}
           name="origin"
-          label="Origin"
-          placeholder="Where did the transaction come from?"
+          label={t("screens.transactions.fields.origin")}
+          placeholder={t("screens.transactions.whereDidYouGetThisFrom")}
           multiline
           errors={errors}
         />
@@ -136,8 +155,7 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <TextInput
           control={control}
           name="details"
-          label="Details"
-          placeholder="Any extra details about the transaction"
+          label={t("screens.transactions.fields.details")}
           multiline
           errors={errors}
         />
@@ -146,18 +164,22 @@ export function UpsertTransactionSheet({ currency, onDismiss, transaction }: Ups
         <TextInput
           control={control}
           name="externalId"
-          label="External ID"
-          placeholder="Transaction ID from the bank"
+          label={t("screens.transactions.fields.externalId")}
+          placeholder={t("screens.transactions.transactionExternalIdInfo")}
           multiline
           required
           errors={errors}
         />
       </View>
       <View style={styles.row}>
-        <Button mode="contained" onPress={handleSubmit(onSubmit)}>Save Transaction</Button>
+        <Button mode="contained" onPress={handleSubmit(onSubmit)}>
+          {t("screens.transactions.actions.saveTransaction")}
+        </Button>
       </View>
       <View style={styles.row}>
-        <Button mode="text" onPress={() => onDismiss()}>Cancel</Button>
+        <Button mode="text" onPress={() => onDismiss()}>
+          {t("common.actions.cancel")}
+        </Button>
       </View>
     </BottomSheet>
   );

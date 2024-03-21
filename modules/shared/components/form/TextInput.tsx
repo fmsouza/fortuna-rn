@@ -1,7 +1,12 @@
-import { Control, Controller } from "react-hook-form";
 import { View } from "react-native";
-import { TextInput as BaseTextInput, TextInputProps as BaseTextInputProps, HelperText } from 'react-native-paper';
+import { Control, Controller } from "react-hook-form";
+import {
+  TextInput as BaseTextInput,
+  TextInputProps as BaseTextInputProps,
+  HelperText,
+} from "react-native-paper";
 
+import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
 
 type TextInputProps = BaseTextInputProps & {
@@ -18,8 +23,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function TextInput({ control, mode = 'outlined', name, required, errors, ...rest }: TextInputProps) {
+export function TextInput({
+  control,
+  mode = "outlined",
+  name,
+  required,
+  errors,
+  ...rest
+}: TextInputProps) {
   const styles = useStyles();
+  const t = useText();
 
   return (
     <Controller
@@ -34,7 +47,7 @@ export function TextInput({ control, mode = 'outlined', name, required, errors, 
             {...fieldProps}
           />
           <HelperText type="error" visible={errors?.[name]?.type ?? false}>
-            This field is required
+            {t("common.validation.required")}
           </HelperText>
         </View>
       )}

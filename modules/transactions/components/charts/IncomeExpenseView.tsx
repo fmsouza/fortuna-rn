@@ -1,7 +1,13 @@
 import { useMemo } from "react";
 import { Card, useTheme } from "react-native-paper";
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTheme,
+} from "victory-native";
 
+import { useText } from "~/intl";
 import { Theme } from "~/theme";
 import { Transaction } from "~/modules/transactions/types";
 import { aggregateByType } from "~/modules/transactions/utils";
@@ -12,18 +18,26 @@ type IncomeExpenseViewProps = {
 
 export function IncomeExpenseView({ transactions }: IncomeExpenseViewProps) {
   const theme = useTheme() as Theme;
-  const { income: incomeAmount, expense: expenseAmount } = useMemo(() => aggregateByType(transactions), [transactions]);
+  const t = useText();
+
+  const { income: incomeAmount, expense: expenseAmount } = useMemo(
+    () => aggregateByType(transactions),
+    [transactions]
+  );
 
   const records = [
-    { title: "Income", amount: incomeAmount },
-    { title: "Expense", amount: expenseAmount },
+    { title: t("screens.accountDetails.income"), amount: incomeAmount },
+    { title: t("screens.accountDetails.expense"), amount: expenseAmount },
   ];
-  
+
   return (
     <Card>
       <Card.Content>
-        <Card.Title title="Income & expenses" titleVariant="titleLarge" />
-        
+        <Card.Title
+          title={t("screens.accountDetails.incomeExpense")}
+          titleVariant="titleLarge"
+        />
+
         <VictoryChart
           horizontal
           width={theme.viewport.width * 0.9}
@@ -31,7 +45,12 @@ export function IncomeExpenseView({ transactions }: IncomeExpenseViewProps) {
           theme={VictoryTheme.material}
         >
           <VictoryBar
-            style={{ data: { fill: ({ index }) => index === 0 ? theme.colors.primary : theme.colors.error } }}
+            style={{
+              data: {
+                fill: ({ index }) =>
+                  index === 0 ? theme.colors.primary : theme.colors.error,
+              },
+            }}
             cornerRadius={{ top: 10 }}
             barWidth={20}
             data={records}
@@ -49,4 +68,4 @@ export function IncomeExpenseView({ transactions }: IncomeExpenseViewProps) {
       </Card.Content>
     </Card>
   );
-};
+}

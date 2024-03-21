@@ -1,6 +1,7 @@
 import { FlatList, View } from "react-native";
-import { Button, ProgressBar, Snackbar, Text } from "react-native-paper";
+import { ProgressBar, Snackbar } from "react-native-paper";
 
+import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
 import { useHeaderOptions } from "~/modules/shared/navigation";
 import { Container, Dialog, NoItems } from "~/modules/shared/components";
@@ -31,10 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 export function TransactionsScreen() {
   const styles = useStyles();
+  const t = useText();
   const state = useTransactionsScreenState();
 
   useHeaderOptions({
-    title: "Transactions",
+    title: t("screens.transactions.title"),
   });
 
   return (
@@ -63,7 +65,7 @@ export function TransactionsScreen() {
             )
           }
           ListEmptyComponent={
-            <NoItems message="Nothing to see yet. Start adding new transactions to make this page more interesting!" />
+            <NoItems message={t("screens.transactions.noTransactions")} />
           }
           renderItem={({ item }) => (
             <View style={styles.row}>
@@ -84,8 +86,10 @@ export function TransactionsScreen() {
       {state.showRemoveAlert && (
         <Dialog
           visible
-          title="Delete transaction"
-          description="Are you sure you want to remove this transaction? This operation cannot be undone."
+          title={t("screens.transactions.deleteTransactionDialog.title")}
+          description={t(
+            "screens.transactions.deleteTransactionDialog.content"
+          )}
           onConfirm={state.handleRemoveSelectedTransaction}
           onDismiss={state.handleDismissRemoveAlert}
         />

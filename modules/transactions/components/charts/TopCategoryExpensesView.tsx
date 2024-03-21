@@ -1,7 +1,13 @@
 import { useMemo } from "react";
 import { Card, useTheme } from "react-native-paper";
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTheme,
+} from "victory-native";
 
+import { useText } from "~/intl";
 import { Theme } from "~/theme";
 import { TransactionType } from "~/modules/transactions/constants";
 import { useTransactionCategories } from "~/modules/transactions/hooks";
@@ -13,25 +19,38 @@ type TopCategoryExpensesViewProps = {
   transactions: Transaction[];
 };
 
-export function TopCategoryExpensesView({ limit = 3, transactions }: TopCategoryExpensesViewProps) {
+export function TopCategoryExpensesView({
+  limit = 3,
+  transactions,
+}: TopCategoryExpensesViewProps) {
   const theme = useTheme() as Theme;
+  const t = useText();
   const { transactionCategories } = useTransactionCategories();
 
-  const mostExpensiveCategories: Array<{ title: string, amount: number }> = useMemo(() => {
-    const expenseTransactions = transactions.filter((trx) => trx.type === TransactionType.EXPENSE);
-    const byCategory = aggregateByCategory(expenseTransactions);
-    const categories = Object.keys(byCategory).map(category => ({
-      title: transactionCategories.find(transactionCategory => transactionCategory.id === Number(category))?.title ?? '?',
-      amount: byCategory[Number(category)],
-    }));
-    return categories.sort((a, b) => a.amount - b.amount).slice(0, limit);
-  }, [transactionCategories, transactions]);
-  
+  const mostExpensiveCategories: Array<{ title: string; amount: number }> =
+    useMemo(() => {
+      const expenseTransactions = transactions.filter(
+        (trx) => trx.type === TransactionType.EXPENSE
+      );
+      const byCategory = aggregateByCategory(expenseTransactions);
+      const categories = Object.keys(byCategory).map((category) => ({
+        title:
+          transactionCategories.find(
+            (transactionCategory) => transactionCategory.id === Number(category)
+          )?.title ?? "?",
+        amount: byCategory[Number(category)],
+      }));
+      return categories.sort((a, b) => a.amount - b.amount).slice(0, limit);
+    }, [transactionCategories, transactions]);
+
   return (
     <Card>
       <Card.Content>
-        <Card.Title title="Top category expenses" titleVariant="titleLarge" />
-        
+        <Card.Title
+          title={t("screens.accountDetails.topCategoryExpenses")}
+          titleVariant="titleLarge"
+        />
+
         <VictoryChart
           horizontal
           width={theme.viewport.width * 0.9}
@@ -57,4 +76,4 @@ export function TopCategoryExpensesView({ limit = 3, transactions }: TopCategory
       </Card.Content>
     </Card>
   );
-};
+}

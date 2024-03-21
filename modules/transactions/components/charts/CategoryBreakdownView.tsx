@@ -1,8 +1,14 @@
 import { useMemo } from "react";
 import { View } from "react-native";
 import { Card, useTheme } from "react-native-paper";
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTheme,
+} from "victory-native";
 
+import { useText } from "~/intl";
 import { Theme, makeStyles } from "~/theme";
 import { TransactionType } from "~/modules/transactions/constants";
 import { useTransactionCategories } from "~/modules/transactions/hooks";
@@ -11,9 +17,9 @@ import { aggregateByCategory } from "~/modules/transactions/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   chartContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
@@ -21,30 +27,40 @@ type CategoryBreakdownViewProps = {
   transactions: Transaction[];
 };
 
-export function CategoryBreakdownView({ transactions }: CategoryBreakdownViewProps) {
+export function CategoryBreakdownView({
+  transactions,
+}: CategoryBreakdownViewProps) {
   const styles = useStyles();
+  const t = useText();
   const theme = useTheme() as Theme;
   const { transactionCategories } = useTransactionCategories();
 
-  const categories: Array<{ title: string, amount: number }> = useMemo(() => {
-    const expenseTransactions = transactions.filter((trx) => trx.type === TransactionType.EXPENSE);
+  const categories: Array<{ title: string; amount: number }> = useMemo(() => {
+    const expenseTransactions = transactions.filter(
+      (trx) => trx.type === TransactionType.EXPENSE
+    );
     const byCategory = aggregateByCategory(expenseTransactions);
-    const categories = Object.keys(byCategory).map(category => ({
-      title: transactionCategories.find(transactionCategory => transactionCategory.id === Number(category))?.title ?? '?',
+    const categories = Object.keys(byCategory).map((category) => ({
+      title:
+        transactionCategories.find(
+          (transactionCategory) => transactionCategory.id === Number(category)
+        )?.title ?? "?",
       amount: byCategory[Number(category)],
     }));
     return categories.sort((a, b) => a.amount - b.amount);
   }, [transactionCategories, transactions]);
 
   const height = categories.length * (60 + theme.dimensions.spacing(2));
-  
+
   return (
     <Card>
       <Card.Content>
-        <Card.Title title="Expenses by category" titleVariant="titleLarge" />
-        
+        <Card.Title
+          title={t("screens.accountDetails.expensesByCategory")}
+          titleVariant="titleLarge"
+        />
+
         <View style={styles.chartContainer}>
-        
           <VictoryChart
             horizontal
             width={theme.viewport.width * 0.9}
@@ -71,4 +87,4 @@ export function CategoryBreakdownView({ transactions }: CategoryBreakdownViewPro
       </Card.Content>
     </Card>
   );
-};
+}
