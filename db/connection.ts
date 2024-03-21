@@ -10,8 +10,10 @@ const ENTITIES = [Account, AppPreference, Transaction, TransactionCategory];
 
 const MIGRATIONS = Object.values(migrations);
 
+export const DB_NAME = 'fortuna.db';
+
 export const dataSource = new DataSource({
-  database: 'fortuna.db',
+  database: DB_NAME,
   type: 'expo',
   driver: require('expo-sqlite'),
   entities: ENTITIES,

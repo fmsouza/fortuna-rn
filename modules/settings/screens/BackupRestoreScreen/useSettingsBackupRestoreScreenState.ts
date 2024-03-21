@@ -4,7 +4,7 @@ import { useText } from "~/intl";
 import { Maybe } from "~/modules/shared/types";
 import { useAppPreference, useSaveAppPreference } from "~/modules/settings/hooks";
 import { AppPreferences } from "~/modules/settings/constants";
-import { set } from "lodash";
+import { backupToLocal, restoreFromLocal } from "~/modules/settings/utils";
 
 export enum Operation {
   BACKUP = "backup",
@@ -69,29 +69,29 @@ export function useSettingsBackupRestoreScreenState() {
     setOperationLoading(true);
     setOperationError(null);
 
-    switch (true) {
-
-      default:
-      case activeOperation === Operation.RESTORE && !selectedProvider?.lastBackupAt: {
-        break;
+    try {
+      switch (true) {
+  
+        case activeOperation === Operation.BACKUP && selectedProvider?.id === Provider.LOCAL: {
+          await backupToLocal();
+          await saveAppPreference({
+            id: AppPreferences.LAST_BACKUP_LOCAL,
+            value: new Date().toISOString(),
+          });
+          break;
+        }
+  
+        case activeOperation === Operation.RESTORE && selectedProvider?.id === Provider.LOCAL: {
+          await restoreFromLocal();
+          break;
+        }
       }
-
-      case activeOperation === Operation.BACKUP && selectedProvider?.id === Provider.LOCAL: {
-        // TODO: Implement backup logic
-        // saveAppPreference({
-        //   id: AppPreferences.LAST_BACKUP_LOCAL,
-        //   value: new Date().toISOString(),
-        // });
-        break;
-      }
-
-      case activeOperation === Operation.RESTORE && selectedProvider?.id === Provider.LOCAL: {
-        // TODO: Implement restore logic
-        break;
-      }
-
+    } catch (e) {
+      const _error = e as Error;
+      setOperationError(_error);
+    } finally {
+      setOperationLoading(false);
     }
-    setOperationLoading(false);
     
   }, [activeOperation, saveAppPreference, selectedProviderId, setShowOperationConfirmationDialog]);
 
