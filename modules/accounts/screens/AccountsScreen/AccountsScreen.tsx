@@ -40,7 +40,7 @@ export function AccountsScreen() {
     ),
     headerRight: () => (
       <HeaderButton
-        title={t("common.actions.add")}
+        title={t("common.actions.new")}
         icon="plus"
         link="/new-account"
       />

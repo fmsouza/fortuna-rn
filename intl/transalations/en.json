@@ -99,6 +99,7 @@
   "common": {
     "actions": {
       "add": "Add",
+      "new": "New",
       "save": "Save",
       "cancel": "Cancel",
       "close": "Close",

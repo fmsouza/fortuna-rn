@@ -99,6 +99,7 @@
   "common": {
     "actions": {
       "add": "Adicionar",
+      "new": "Novo",
       "save": "Salvar",
       "cancel": "Cancelar",
       "close": "Fechar",
