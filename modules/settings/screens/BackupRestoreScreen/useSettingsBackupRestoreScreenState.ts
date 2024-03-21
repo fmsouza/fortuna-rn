@@ -4,6 +4,7 @@ import { useText } from "~/intl";
 import { Maybe } from "~/modules/shared/types";
 import { useAppPreference, useSaveAppPreference } from "~/modules/settings/hooks";
 import { AppPreferences } from "~/modules/settings/constants";
+import { set } from "lodash";
 
 export enum Operation {
   BACKUP = "backup",
@@ -26,10 +27,27 @@ export type BackupProvider = {
 export function useSettingsBackupRestoreScreenState() {
   const t = useText();
   const [activeOperation, setActiveOperation] = useState<Operation>(Operation.BACKUP);
+  const [operationLoading, setOperationLoading] = useState(false);
+  const [operationError, setOperationError] = useState<Maybe<Error>>(null);
   const [selectedProviderId, setSelectedProviderId] = useState<Maybe<Provider>>(null);
   const [showOperationConfirmationDialog, setShowOperationConfirmationDialog] = useState(false);
   const { appPreference: lastBackupLocalPreference } = useAppPreference(AppPreferences.LAST_BACKUP_LOCAL);
-  const { saveAppPreference, error, loading } = useSaveAppPreference();
+  const { saveAppPreference, error: saveError, loading: saveLoading } = useSaveAppPreference();
+
+  const error = operationError || saveError;
+  const loading = operationLoading || saveLoading;
+
+  const providers: Maybe<BackupProvider>[] = [
+    {
+      id: Provider.LOCAL,
+      title: t('screens.backupRestore.providers.local'),
+      icon: "file-download-outline",
+      lastBackupAt: lastBackupLocalPreference?.value ? new Date(lastBackupLocalPreference?.value) : null,
+    },
+    null,
+  ];
+
+  const selectedProvider = providers.find(provider => provider?.id === selectedProviderId);
 
   const handleOperationChange = useCallback((operation: Operation) => {
     setActiveOperation(operation);
@@ -46,30 +64,40 @@ export function useSettingsBackupRestoreScreenState() {
   }
   , [setSelectedProviderId, setShowOperationConfirmationDialog]);
 
-  const handleOperationConfirm = useCallback(() => {
+  const handleOperationConfirm = useCallback(async () => {
     setShowOperationConfirmationDialog(false);
+    setOperationLoading(true);
+    setOperationError(null);
 
-    // TODO: Implement backup logic
-    // activeOperation: Operation;
-    // selectedProviderId: Provider;
+    switch (true) {
+
+      default:
+      case activeOperation === Operation.RESTORE && !selectedProvider?.lastBackupAt: {
+        break;
+      }
+
+      case activeOperation === Operation.BACKUP && selectedProvider?.id === Provider.LOCAL: {
+        // TODO: Implement backup logic
+        // saveAppPreference({
+        //   id: AppPreferences.LAST_BACKUP_LOCAL,
+        //   value: new Date().toISOString(),
+        // });
+        break;
+      }
+
+      case activeOperation === Operation.RESTORE && selectedProvider?.id === Provider.LOCAL: {
+        // TODO: Implement restore logic
+        break;
+      }
+
+    }
+    setOperationLoading(false);
     
-  }, [selectedProviderId, setShowOperationConfirmationDialog]);
-
-  const providers: Maybe<BackupProvider>[] = [
-    {
-      id: Provider.LOCAL,
-      title: t('screens.backupRestore.providers.local'),
-      icon: "file-download-outline",
-      lastBackupAt: lastBackupLocalPreference?.value ? new Date(lastBackupLocalPreference?.value) : null,
-    },
-    null,
-  ];
-
-  const selectedProvider = providers.find(provider => provider?.id === selectedProviderId);
+  }, [activeOperation, saveAppPreference, selectedProviderId, setShowOperationConfirmationDialog]);
 
   return {
-    error: null,
-    loading: false,
+    error,
+    loading,
     activeOperation,
     providers,
     selectedProvider,
