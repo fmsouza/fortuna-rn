@@ -81,6 +81,7 @@ export function SettingsScreen() {
         <List.Item
           title={t("screens.settings.sections.storage.fields.backupRestore")}
           left={() => <List.Icon icon="database-sync-outline" />}
+          onPress={state.handleShowBackupRestoreScreen}
         />
         <List.Item
           title={t("screens.settings.sections.storage.fields.resetApp")}

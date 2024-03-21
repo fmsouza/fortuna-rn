@@ -38,6 +38,11 @@ export function useSettingsScreenState() {
   }
   , [setShowResetAllDataDialog]);
 
+  const handleShowBackupRestoreScreen = useCallback(() => {
+    router.push("/settings/backup-restore");
+  }
+  , [router]);
+
   const languages = Object.values(Language).map((language) => ({
     label: LANGUAGE_LABELS[language],
     value: language,
@@ -55,5 +60,6 @@ export function useSettingsScreenState() {
     showResetAllDataDialog,
     handleDismissResetAllDataDialog,
     handleShowResetAllDataDialog,
+    handleShowBackupRestoreScreen,
   };
 }

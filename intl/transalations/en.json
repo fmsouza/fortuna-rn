@@ -94,6 +94,9 @@
         "title": "Reset all data",
         "content": "Are you sure you want to reset all data? This operation cannot be undone."
       }
+    },
+    "backupRestore": {
+      "title": "Backup & Restore"
     }
   },
   "common": {

@@ -94,6 +94,9 @@
         "title": "Limpar todos os dados",
         "content": "Tem certeza que deseja limpar todos os dados? Essa operação não pode ser desfeita."
       }
+    },
+    "backupRestore": {
+      "title": "Backup e Restauração"
     }
   },
   "common": {
