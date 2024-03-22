@@ -38,6 +38,15 @@
         }
       ],
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "aa70e44f-42ae-492c-9238-c43cffe4292c"
+      }
+    },
+    "owner": "fredamsouza"
   }
 }
