@@ -3,10 +3,20 @@
     "dev": {
       "channel": "dev",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "image": "latest"
       },
-      "ios": {}
+      "ios": {
+        "image": "latest"
+      }
     },
-    "production": {}
+    "production": {
+      "android": {
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      }
+    }
   }
 }
