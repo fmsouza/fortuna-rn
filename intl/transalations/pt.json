@@ -5,6 +5,10 @@
       "actions": {
         "settings": "Configurações"
       },
+      "deleteAccountDialog": {
+        "title": "Apagar conta",
+        "content": "Tem certeza que deseja remover essa conta? Essa operação não pode ser desfeita."
+      },
       "noAccounts": "Nada por aqui ainda. Comece adicionando uma nova conta para deixar essa tela mais interessante."
     },
     "newAccount": {

@@ -1,18 +1,24 @@
 import { Link } from "expo-router";
-import { FlatList, Pressable } from "react-native";
-import { ProgressBar, Snackbar } from "react-native-paper";
+import { FlatList, Pressable, View } from "react-native";
+import { IconButton, ProgressBar, Snackbar } from "react-native-paper";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
-import { Container, HeaderButton, NoItems } from "~/modules/shared/components";
+import {
+  Container,
+  Dialog,
+  HeaderButton,
+  NoItems,
+} from "~/modules/shared/components";
 import { useHeaderOptions } from "~/modules/shared/navigation";
-import { useAccounts } from "~/modules/accounts/hooks";
 
 import { AccountItem } from "./AccountItem";
+import { useAccountsScreen } from "./useAccountsScreen";
 
 const useStyles = makeStyles((theme) => ({
   listContainer: {
-    paddingHorizontal: theme.dimensions.spacing(),
+    padding: theme.dimensions.spacing(),
   },
   row: {
     display: "flex",
@@ -20,14 +26,28 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
     justifyContent: "flex-start",
     width: "100%",
-    marginTop: theme.dimensions.spacing(2),
+    marginVertical: theme.dimensions.spacing(),
+  },
+  swipeDeleteActionView: {
+    width: 64,
+    backgroundColor: "red",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  swipeEditActionView: {
+    width: 64,
+    backgroundColor: theme.colors.surface,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 }));
 
 export function AccountsScreen() {
   const styles = useStyles();
   const t = useText();
-  const { accounts, loading, error } = useAccounts();
+  const state = useAccountsScreen();
 
   useHeaderOptions({
     title: t("screens.accounts.title"),
@@ -49,26 +69,58 @@ export function AccountsScreen() {
 
   return (
     <Container>
-      <Snackbar visible={error !== null} onDismiss={() => {}}>
-        {error?.message}
+      <Snackbar visible={state.error !== null} onDismiss={() => {}}>
+        {state.error?.message}
       </Snackbar>
-      {loading ? (
+      {state.loading ? (
         <ProgressBar indeterminate />
       ) : (
         <FlatList
           contentContainerStyle={styles.listContainer}
-          data={accounts}
+          data={state.accounts}
           keyExtractor={(item) => String(item.id)}
           ListEmptyComponent={
             <NoItems message={t("screens.accounts.noAccounts")} />
           }
           renderItem={({ item }) => (
-            <Link href={`/account/${item.id}`} asChild>
-              <Pressable style={styles.row}>
-                <AccountItem account={item} />
-              </Pressable>
-            </Link>
+            <Swipeable
+              containerStyle={styles.row}
+              renderLeftActions={() => (
+                <View style={styles.swipeEditActionView}>
+                  <IconButton
+                    icon="pencil"
+                    size={32}
+                    onPress={() => state.handleEditPress(item)}
+                  />
+                </View>
+              )}
+              renderRightActions={() => (
+                <View style={styles.swipeDeleteActionView}>
+                  <IconButton
+                    icon="delete"
+                    size={32}
+                    iconColor="white"
+                    onPress={() => state.handleDeletePress(item)}
+                  />
+                </View>
+              )}
+            >
+              <Link href={`/account/${item.id}`} asChild>
+                <Pressable>
+                  <AccountItem account={item} />
+                </Pressable>
+              </Link>
+            </Swipeable>
           )}
+        />
+      )}
+      {state.showDeleteConfirmation && (
+        <Dialog
+          visible
+          title={t("screens.accounts.deleteAccountDialog.title")}
+          description={t("screens.accounts.deleteAccountDialog.content")}
+          onConfirm={state.handleConfirmDelete}
+          onDismiss={state.handleDismissDeleteConfirmation}
         />
       )}
     </Container>

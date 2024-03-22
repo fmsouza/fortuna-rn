@@ -1,4 +1,4 @@
-import { DataSource } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
 
 import { Account } from '~/modules/accounts/types';
 import { Transaction, TransactionCategory } from '~/modules/transactions/types';
@@ -36,4 +36,9 @@ export async function clearDatabase(): Promise<void> {
   await dbWaitForReady();
   await dataSource.dropDatabase();
   await dataSource.destroy();
+}
+
+export async function transaction(fn: (entityManager: EntityManager) => Promise<void>): Promise<void> {
+  await dbWaitForReady();
+  await dataSource.transaction(fn);
 }

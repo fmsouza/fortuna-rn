@@ -5,6 +5,10 @@
       "actions": {
         "settings": "Settings"
       },
+      "deleteAccountDialog": {
+        "title": "Remove account",
+        "content": "Are you sure you want to remove this account? This operation cannot be undone."
+      },
       "noAccounts": "Nothing to see yet. Start adding new accounts to make this page more interesting!"
     },
     "newAccount": {

@@ -1,5 +1,6 @@
+import { dbWaitForReady, transaction } from "~/db";
 import { Maybe } from "~/modules/shared/types";
-import { dbWaitForReady } from "~/db";
+import { Transaction } from "~/modules/transactions/types";
 
 import { Account, AccountInput } from "../types";
 
@@ -25,5 +26,8 @@ export async function saveAccount(input: SaveAccountInput): Promise<void> {
 
 export async function removeAccount(accountId: number): Promise<void> {
   await dbWaitForReady();
-  await Account.delete(accountId);
+  await transaction(async (entityManager) => {
+    await entityManager.delete(Transaction, { accountId });
+    await entityManager.delete(Account, { id: accountId });
+  });
 }

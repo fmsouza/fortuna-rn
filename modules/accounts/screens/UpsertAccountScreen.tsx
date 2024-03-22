@@ -2,12 +2,7 @@ import { useEffect } from "react";
 import { Button, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
-import {
-  PaperProvider,
-  ProgressBar,
-  Snackbar,
-  useTheme,
-} from "react-native-paper";
+import { ProgressBar, Snackbar } from "react-native-paper";
 
 import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
@@ -18,7 +13,7 @@ import {
   HeaderButton,
   TextInput,
 } from "~/modules/shared/components";
-import { IS_ANDROID, IS_IOS } from "~/modules/shared/constants";
+import { IS_ANDROID } from "~/modules/shared/constants";
 
 import { AccountInput } from "../types";
 import {
@@ -40,19 +35,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function NewAccountScreen() {
+export function UpsertAccountScreen() {
   const router = useRouter();
   const styles = useStyles();
   const t = useText();
   const params = useLocalSearchParams();
-  const accountId = params.account ? Number(params.account) : undefined;
+  const accountId = params.accountId ? Number(params.accountId) : undefined;
   const { account } = useAccount(accountId);
   const { saveAccount, loading, error } = useSaveAccount();
-  const theme = useTheme();
 
   useHeaderOptions({
     title: t("screens.newAccount.title"),
-    presentation: IS_IOS && "modal",
     headerLeft: () => (
       <HeaderButton
         title={t("common.actions.close")}
@@ -107,55 +100,53 @@ export function NewAccountScreen() {
   }));
 
   return (
-    <PaperProvider theme={theme}>
+    <Container style={styles.root}>
       {loading && <ProgressBar indeterminate />}
       <Snackbar visible={error !== null} onDismiss={() => {}}>
         {error?.message}
       </Snackbar>
-      <Container style={styles.root}>
-        <View style={styles.row}>
-          <TextInput
-            control={control}
-            name="title"
-            label={t("screens.newAccount.fields.accountTitle")}
-            required
-            errors={errors}
-          />
-        </View>
-        <View style={styles.row}>
-          <DropdownInput
-            control={control}
-            name="accountBankType"
-            label={t("screens.newAccount.fields.bankType")}
-            placeholder="Wise, N26, Revolut, etc"
-            options={accountBankTypeOptions}
-            required
-            errors={errors}
-          />
-        </View>
-        <View style={styles.row}>
-          <DropdownInput
-            control={control}
-            name="currency"
-            label={t("screens.newAccount.fields.accountCurrency")}
-            placeholder="USD, EUR, etc"
-            options={currencyOptions}
-            required
-            errors={errors}
-          />
-        </View>
-        {IS_ANDROID && (
-          <>
-            <View style={styles.row}>
-              <Button
-                onPress={handleSubmit(onSubmit)}
-                title={t("screens.newAccount.actions.saveAccount")}
-                disabled={loading}
-              />
-            </View>
-          </>
-        )}
-      </Container>
-    </PaperProvider>
+      <View style={styles.row}>
+        <TextInput
+          control={control}
+          name="title"
+          label={t("screens.newAccount.fields.accountTitle")}
+          required
+          errors={errors}
+        />
+      </View>
+      <View style={styles.row}>
+        <DropdownInput
+          control={control}
+          name="accountBankType"
+          label={t("screens.newAccount.fields.bankType")}
+          placeholder="Wise, N26, Revolut, etc"
+          options={accountBankTypeOptions}
+          required
+          errors={errors}
+        />
+      </View>
+      <View style={styles.row}>
+        <DropdownInput
+          control={control}
+          name="currency"
+          label={t("screens.newAccount.fields.accountCurrency")}
+          placeholder="USD, EUR, etc"
+          options={currencyOptions}
+          required
+          errors={errors}
+        />
+      </View>
+      {IS_ANDROID && (
+        <>
+          <View style={styles.row}>
+            <Button
+              onPress={handleSubmit(onSubmit)}
+              title={t("screens.newAccount.actions.saveAccount")}
+              disabled={loading}
+            />
+          </View>
+        </>
+      )}
+    </Container>
   );
 }

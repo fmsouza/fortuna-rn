@@ -7,7 +7,7 @@ export const useRemoveAccount = () => {
   const client = useQueryClient();
   const {mutate, error, isPending} = useMutation({
     mutationFn: async (account: Account) => {
-      await removeAccount(account);
+      await removeAccount(account.id);
       await client.invalidateQueries({ queryKey: ['accounts'] });
     }
   });
