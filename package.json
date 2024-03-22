@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.1",
-    "@react-native-picker/picker": "^2.6.1",
     "@tanstack/react-query": "^5.28.6",
     "color": "^4.2.3",
     "dayjs": "^1.11.10",
