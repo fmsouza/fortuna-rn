@@ -5,6 +5,8 @@ import { LANGUAGE_LABELS, Language, useLocale } from "~/intl";
 import { AppPreferences } from "~/modules/settings/constants";
 import { useAppPreference, useClearAllData, useSaveAppPreference } from "~/modules/settings/hooks";
 
+import pkg from "../../../../package.json";
+
 export function useSettingsScreenState() {
   const router = useRouter();
   const {selectedLanguage, changeLanguage} = useLocale();
@@ -61,5 +63,7 @@ export function useSettingsScreenState() {
     handleDismissResetAllDataDialog,
     handleShowResetAllDataDialog,
     handleShowBackupRestoreScreen,
+    appVersion: pkg.version,
+    buildHash: String(process.env.EXPO_PUBLIC_GIT_COMMIT_HASH).substring(0, 7)
   };
 }

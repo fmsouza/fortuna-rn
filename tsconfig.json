@@ -5,6 +5,7 @@
     "strict": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "moduleSuffixes": [".ios", ".android", ""],

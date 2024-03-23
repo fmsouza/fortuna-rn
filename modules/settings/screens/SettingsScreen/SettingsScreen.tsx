@@ -11,7 +11,6 @@ import { makeStyles } from "~/theme";
 import { useHeaderOptions } from "~/modules/shared/navigation";
 import { Container, Dialog, Dropdown } from "~/modules/shared/components";
 
-import pkg from "../../../../package.json";
 import { useSettingsScreenState } from "./useSettingsScreenState";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +33,13 @@ export function SettingsScreen() {
   useHeaderOptions({
     title: t("screens.settings.title"),
   });
+
+  let appVersionLabel = t("screens.settings.sections.appVersion", {
+    version: state.appVersion,
+  });
+  if (state.buildHash) {
+    appVersionLabel += ` (${state.buildHash})`;
+  }
 
   return (
     <Container style={styles.container}>
@@ -105,12 +111,7 @@ export function SettingsScreen() {
           title={`Fortuna © ${new Date().getFullYear()}`}
           titleStyle={{ fontSize: 12 }}
         />
-        <List.Item
-          title={t("screens.settings.sections.appVersion", {
-            version: pkg.version,
-          })}
-          titleStyle={{ fontSize: 12 }}
-        />
+        <List.Item title={appVersionLabel} titleStyle={{ fontSize: 12 }} />
       </List.Section>
       {state.showResetAllDataDialog && (
         <Dialog
