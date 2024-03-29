@@ -24,6 +24,7 @@
     },
     "accountDetails": {
       "allTime": "Período completo",
+      "averageBalance": "Média dos útimos {months} meses",
       "topCategoryExpenses": "Categorias com mais gastos",
       "expensesByCategory": "Gastos por categoria",
       "mostRecurringExpenses": "Gastos mais recorrentes",

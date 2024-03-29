@@ -24,6 +24,7 @@
     },
     "accountDetails": {
       "allTime": "All time",
+      "averageBalance": "Last {months} months average",
       "topCategoryExpenses": "Top category expenses",
       "expensesByCategory": "Expenses by category",
       "mostRecurringExpenses": "Most recurring expenses",

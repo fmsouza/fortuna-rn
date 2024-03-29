@@ -1,3 +1,4 @@
+export * from './AverageBalanceView';
 export * from './BalanceView';
 export * from './CategoryBreakdownView';
 export * from './DailyBarView';
