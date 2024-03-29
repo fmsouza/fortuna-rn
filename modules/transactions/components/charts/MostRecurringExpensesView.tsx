@@ -78,7 +78,7 @@ export function MostRecurringExpensesView({
                 })}
               </Text>
               <Text variant="bodyMedium">
-                {t("screens.transactions.registeredTimez", {
+                {t("screens.transactions.registeredTimes", {
                   count: String(count),
                 })}
               </Text>
