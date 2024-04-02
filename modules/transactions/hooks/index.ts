@@ -1,4 +1,5 @@
 export * from './useChangeTransactionCategory';
+export * from './useClassifyTransactions';
 export * from './useRemoveAllTransactions';
 export * from './useRemoveTransaction';
 export * from './useSaveTransactions';

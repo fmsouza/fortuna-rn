@@ -67,7 +67,8 @@
       "registeredTimes": "Registered {count} times",
       "total": "Total: {currency} {amount}",
       "importTransactionsCount": "Import Transactions ({count})",
-      "importFrom": "Import from {source}"
+      "importFrom": "Import from {source}",
+      "autoCategorize": "Categorize with AI"
     },
     "settings": {
       "title": "Settings",

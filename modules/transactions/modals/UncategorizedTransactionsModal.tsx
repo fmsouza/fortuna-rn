@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FlatList } from "react-native";
-import { Card } from "react-native-paper";
+import { useEffect, useState } from "react";
+import { FlatList, View } from "react-native";
+import { Button, Card, ProgressBar, Snackbar } from "react-native-paper";
 
 import { useText } from "~/intl";
 import { makeStyles } from "~/theme";
@@ -9,6 +9,7 @@ import { Modal } from "~/modules/shared/components";
 
 import { StandardTransactionCategory } from "../constants";
 import { CategorySelect } from "../components";
+import { useClassifyTransactions } from "../hooks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     paddingHorizontal: theme.dimensions.spacing(2),
   },
+  topButtonRow: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: theme.dimensions.spacing(1),
+  },
   listItem: {
     marginVertical: theme.dimensions.spacing(),
   },
@@ -53,10 +61,27 @@ export function UncategorizedTransactionsModal({
   const styles = useStyles();
   const t = useText();
   const [values, setValues] = useState<Record<string, number>>({});
+  const {
+    classifyTransactions,
+    data: classificationResponse,
+    loading: classificationLoading,
+    error: classificationError,
+  } = useClassifyTransactions();
 
   const groups = Object.keys(transactionGroups).sort(
     (a, b) => transactionGroups[b] - transactionGroups[a]
   );
+
+  const onAutoCategorizeTransactions = async () => {
+    const descriptions = Object.keys(transactionGroups);
+    await classifyTransactions(descriptions);
+  };
+
+  useEffect(() => {
+    if (classificationResponse) {
+      setValues(classificationResponse);
+    }
+  }, [classificationResponse]);
 
   return (
     <Modal visible={visible} onDismiss={onDismiss} style={styles.root}>
@@ -77,10 +102,25 @@ export function UncategorizedTransactionsModal({
           />
         }
       />
+      <Snackbar visible={classificationError !== null} onDismiss={() => {}}>
+        {classificationError?.message}
+      </Snackbar>
+      {classificationLoading && <ProgressBar indeterminate />}
       <FlatList
         contentContainerStyle={styles.modalContent}
         data={groups}
         keyExtractor={(_item, index) => String(index)}
+        ListHeaderComponent={
+          <View style={styles.topButtonRow}>
+            <Button
+              icon="lightning-bolt"
+              mode="contained"
+              onPress={onAutoCategorizeTransactions}
+            >
+              {t("screens.transactions.autoCategorize")}
+            </Button>
+          </View>
+        }
         renderItem={({ item }) => (
           <Card style={styles.listItem}>
             <Card.Title

@@ -1,5 +1,5 @@
 import { StandardTransactionCategory, TransactionType } from "./constants";
-import { Transaction } from "./types";
+import { Transaction, TransactionCategory } from "./types";
 
 export function listDaysInMonth(date: Date): number[] {
   const daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
