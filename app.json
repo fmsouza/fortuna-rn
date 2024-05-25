@@ -17,14 +17,14 @@
     "scheme": "fortuna",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.fortuna.app"
+      "bundleIdentifier": "io.github.fmsouza.fortuna"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.fortuna.app"
+      "package": "io.github.fmsouza.fortuna"
     },
     "plugins": [
       "expo-router",
